@@ -21,12 +21,15 @@ public class PlayerTeleportation : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        Debug.Log("Collision detected");
-        if (collision.CompareTag("Door") && currentRoom != null)
-        {
-            Debug.Log("Door detected");
+    private void TeleportToSpawn(){
+        Debug.Log("Final door detected");
+        Debug.Log("Level complete");
+        transform.position = new Vector3(0,0,0);
+        Camera.main.transform.position = new Vector3(0,0,Camera.main.transform.position.z);
+    }
+
+    private void TeleportFromDoor(Collider2D collision){
+        Debug.Log("Door detected");
             Vector2Int direction = Vector2Int.zero;
 
             if (collision.gameObject == currentRoom.topDoor)
@@ -51,6 +54,17 @@ public class PlayerTeleportation : MonoBehaviour
                 Debug.Log("Teleporting to room in direction: " + direction);
                 TeleportToRoomInDirection(direction);
             }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("Collision detected");
+        if (collision.CompareTag("Door") && currentRoom != null)
+        {
+            TeleportFromDoor(collision);
+        }
+        else if (collision.CompareTag("FinalDoor") && currentRoom!=null){
+            TeleportToSpawn();
+            roomManager.SetLevelComplete(true);
         }
         else if (currentRoom == null && collision.CompareTag("Door"))
         {

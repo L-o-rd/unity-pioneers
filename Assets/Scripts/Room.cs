@@ -51,6 +51,21 @@ public class Room : MonoBehaviour
             rightDoor.SetActive(false);
         }
     }
+
+    public void ColorDoor(Vector2Int direction, Color color){
+        if (direction==Vector2Int.up){
+            topDoor.GetComponent<SpriteRenderer>().color = color;
+        }
+        else if (direction==Vector2Int.down){
+            bottomDoor.GetComponent<SpriteRenderer>().color = color;
+        }
+        else if (direction==Vector2Int.left){
+            leftDoor.GetComponent<SpriteRenderer>().color = color;
+        }
+        else if (direction==Vector2Int.right){
+            rightDoor.GetComponent<SpriteRenderer>().color = color;
+        }
+    }
     
     void Start()
     {

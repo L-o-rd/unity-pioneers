@@ -12,6 +12,23 @@ public class PlayerMovement : MonoBehaviour
     {
         
     }
+    public void SlowPlayerBy(float percentage)
+    {
+        if (percentage < 0 || percentage > 1){
+            Debug.LogWarning("Invalid percentage value");
+            return;
+        }
+        moveSpeed *= percentage;
+    }
+
+    public void SpeedUpPlayerBy(float percentage)
+    {
+        if (percentage < 0 || percentage > 1){
+            Debug.LogWarning("Invalid percentage value");
+            return;
+        }
+        moveSpeed /= percentage;
+    }
 
     // Update is called once per frame
     void Update()

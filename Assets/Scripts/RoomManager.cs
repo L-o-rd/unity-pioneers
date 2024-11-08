@@ -1,13 +1,18 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RoomManager : MonoBehaviour
 {
     [SerializeField] GameObject roomPrefab;
-    [SerializeField] private int maxRooms=15;
-    [SerializeField] private int minRooms=10;
+    [SerializeField] GameObject bossRoomPrefab;
 
+    [SerializeField] GameObject treasureRoomPrefab;
+    [SerializeField] private int totalRooms=15;
+    //[SerializeField] private int minRooms=10;
+    private bool levelComplete = false;
     int roomWidth=28;
     int roomHeight=17;
 
@@ -24,18 +29,18 @@ public class RoomManager : MonoBehaviour
 
     private int roomCount;
 
-
-    // Start is called before the first frame update
     void Start()
     {
         roomGrid=new int[gridSizeX,gridSizeY];
         roomQueue = new Queue<Vector2Int>();
         Vector2Int initialRoomIndex = new Vector2Int(gridSizeX/2,gridSizeY/2);
         StartRoomGeneration(initialRoomIndex);
-        //OpenDoors(initialRoom, x, y);
     }
 
-    // Update is called once per frame
+    public void SetLevelComplete(bool value)
+    {
+        levelComplete=value;
+    }
 
     private Vector3 GetPositionFromGridIndex(Vector2Int gridIndex)
     {
@@ -61,35 +66,78 @@ public class RoomManager : MonoBehaviour
         roomQueue.Enqueue(roomIndex);
         int x = roomIndex.x;
         int y = roomIndex.y;
-        //Debug.Log("Starting room index: "+roomIndex);
         roomGrid[x,y]=1;
         roomCount++;
+
         var initialRoom = Instantiate(roomPrefab, GetPositionFromGridIndex(roomIndex),Quaternion.identity);
         initialRoom.name = $"Room-{roomCount}";
         initialRoom.GetComponent<Room>().RoomIndex=roomIndex;
         rooms.Add(initialRoom);
     }
 
+    private bool checkRequirements(Vector2Int roomIndex)
+    {
+        int x = roomIndex.x;
+        int y = roomIndex.y;
+
+        if (x>=gridSizeX || y>=gridSizeY || x<0 || y<0 || roomCount>=totalRooms)
+        {
+            return false;
+        }
+
+        if (roomCount>=totalRooms)
+        {
+            return false;
+        }
+
+        if (UnityEngine.Random.value < 0.5f && roomIndex !=new Vector2Int(gridSizeX/2,gridSizeY/2))
+        {
+            return false;
+        }
+        if (CountAdjacentRooms(roomIndex)>1)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    private bool TryMakeBossRoom(Vector2Int roomIndex, int x, int y)
+    {
+        if (roomCount==totalRooms)
+        {
+            var bossRoom = Instantiate(bossRoomPrefab, GetPositionFromGridIndex(roomIndex),Quaternion.identity);
+            bossRoom.name = $"Boss Room-{roomCount}";
+            bossRoom.GetComponent<BossRoom>().RoomIndex=roomIndex;
+            rooms.Add(bossRoom);
+            OpenDoors(bossRoom,x,y);
+            return true;
+        }
+        return false;
+    }
+
+    private bool TryMakeTreasureRoom(Vector2Int roomIndex, int x, int y)
+    {
+        if (UnityEngine.Random.value<0.1f && roomIndex!=new Vector2Int(gridSizeX/2,gridSizeY/2))
+        {
+            var treasureRoom = Instantiate(treasureRoomPrefab, GetPositionFromGridIndex(roomIndex),Quaternion.identity);
+            treasureRoom.name = $"Treasure Room-{roomCount}";
+            treasureRoom.GetComponent<TreasureRoom>().RoomIndex=roomIndex;
+            rooms.Add(treasureRoom);
+            OpenDoors(treasureRoom,x,y);
+            return true;
+        }
+        return false;
+    }
+    private bool TryMakeSpecialRoom(Vector2Int roomIndex, int x, int y)
+    {
+        return TryMakeBossRoom(roomIndex,x,y) || TryMakeTreasureRoom(roomIndex,x,y);
+    }
     private bool TryGenerateRoom(Vector2Int roomIndex)
     {
         int x = roomIndex.x;
         int y = roomIndex.y;
 
-        if (x>=gridSizeX || y>=gridSizeY || x<0 || y<0)
-        {
-            return false;
-        }
-
-        if (roomCount>=maxRooms)
-        {
-            return false;
-        }
-
-        if (Random.value < 0.5f && roomIndex !=Vector2Int.zero)
-        {
-            return false;
-        }
-        if (CountAdjacentRooms(roomIndex)>1)
+        if (!checkRequirements(roomIndex))
         {
             return false;
         }
@@ -98,6 +146,11 @@ public class RoomManager : MonoBehaviour
         roomGrid[x,y] = 1;
         roomCount++;
 
+        if (TryMakeSpecialRoom(roomIndex,x,y))
+        {
+            return true;
+        }
+
         var newRoom = Instantiate(roomPrefab, GetPositionFromGridIndex(roomIndex),Quaternion.identity);
         newRoom.GetComponent<Room>().RoomIndex=roomIndex;
         newRoom.name=$"Room-{roomCount}";
@@ -105,7 +158,6 @@ public class RoomManager : MonoBehaviour
         OpenDoors(newRoom,x,y);
         return true;
 
-        
     }
 
     private void RegenerateRooms()
@@ -146,6 +198,35 @@ public class RoomManager : MonoBehaviour
         return count;
     }
 
+    private void validateBossRoom(Room room, Room adjacentRoom, Vector2Int direction)
+    {
+        if (room is Room && adjacentRoom is BossRoom)
+        {
+            room.ColorDoor(-direction, Color.red);
+        }
+        if (room is BossRoom)
+        {
+            adjacentRoom.ColorDoor(direction, Color.red);
+        }
+    }
+
+    private void validateTreasureRoom(Room room, Room adjacentRoom, Vector2Int direction)
+    {
+        if (room is Room && adjacentRoom is TreasureRoom)
+        {
+            room.ColorDoor(-direction, Color.yellow);
+        }
+        if (room is TreasureRoom)
+        {
+            adjacentRoom.ColorDoor(direction, Color.yellow);
+        }
+    }
+    private void validateRoomType(Room room, Room adjacentRoom, Vector2Int direction)
+    {
+        validateBossRoom(room,adjacentRoom,direction);
+        validateTreasureRoom(room,adjacentRoom,direction);
+    }
+
     void OpenDoors(GameObject room, int x, int y)
     {
         Room roomScript = room.GetComponent<Room>();
@@ -153,28 +234,31 @@ public class RoomManager : MonoBehaviour
         Room rightRoom = GetRoomScriptAt(new Vector2Int(x+1,y));
         Room topRoom = GetRoomScriptAt(new Vector2Int(x,y+1));
         Room bottomRoom = GetRoomScriptAt(new Vector2Int(x,y-1));
-        //Debug.Log(roomScript + " with its top room: " +topRoom);
-        //Debug.Log(roomScript+ " with its bottom room: "+ bottomRoom);  
+
 
         if (x>0 && roomGrid[x-1,y]!=0 && leftRoom!=null)
         {
             roomScript.OpenDoor(Vector2Int.left);
             leftRoom.OpenDoor(Vector2Int.right);
+            validateRoomType(roomScript,leftRoom,Vector2Int.right);
         }
         if (x<gridSizeX-1 && roomGrid[x+1,y]!=0 && rightRoom!=null)
         {
             roomScript.OpenDoor(Vector2Int.right);
             rightRoom.OpenDoor(Vector2Int.left);
+            validateRoomType(roomScript,rightRoom,Vector2Int.left);
         }
         if (y>0 && roomGrid[x,y-1]!=0 && bottomRoom!=null)
         {
             roomScript.OpenDoor(Vector2Int.down);
             bottomRoom.OpenDoor(Vector2Int.up);
+            validateRoomType(roomScript,bottomRoom,Vector2Int.up);
         }
         if (y<gridSizeY-1 && roomGrid[x,y+1]!=0 && topRoom!=null)
         {
             roomScript.OpenDoor(Vector2Int.up);
             topRoom.OpenDoor(Vector2Int.down);
+            validateRoomType(roomScript,topRoom,Vector2Int.down);
         }
     }
 
@@ -188,9 +272,11 @@ public class RoomManager : MonoBehaviour
         }
         return null;
     }
+    
+
     void Update()
     {
-        if (roomQueue.Count>0 && roomCount<maxRooms && !generationComplete)
+        if (roomQueue.Count>0 && roomCount<totalRooms && !generationComplete)
         {
             Vector2Int roomIndex=roomQueue.Dequeue();
             int gridX=roomIndex.x;
@@ -201,9 +287,11 @@ public class RoomManager : MonoBehaviour
             TryGenerateRoom(new Vector2Int(gridX,gridY+1));
             TryGenerateRoom(new Vector2Int(gridX,gridY-1));
         }
-        else if (roomCount<minRooms)
+        else if (roomCount<totalRooms || levelComplete==true)
         {
-            Debug.Log("Generation Failed, Regenerating Rooms");
+            levelComplete=false;
+            Debug.Log("Regenerating Rooms because Level Complete");
+            
             RegenerateRooms();
         }
         else if (!generationComplete)
