@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Door
   - Room
+  - FinalDoor
   layers:
   - Default
   - TransparentFX

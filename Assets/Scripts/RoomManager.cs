@@ -10,6 +10,7 @@ public class RoomManager : MonoBehaviour
     [SerializeField] GameObject bossRoomPrefab;
 
     [SerializeField] GameObject treasureRoomPrefab;
+    [SerializeField] GameObject challengeRoomPrefab;
     [SerializeField] private int totalRooms=15;
     //[SerializeField] private int minRooms=10;
     private bool levelComplete = false;
@@ -128,9 +129,35 @@ public class RoomManager : MonoBehaviour
         }
         return false;
     }
+
+    private bool TryMakeChallengeRoom(Vector2Int roomIndex, int x, int y)
+    {
+        if (UnityEngine.Random.value<0.35f && roomIndex!=new Vector2Int(gridSizeX/2,gridSizeY/2))
+        {
+            var challengeRoom = Instantiate(challengeRoomPrefab, GetPositionFromGridIndex(roomIndex),Quaternion.identity);
+            challengeRoom.name = $"Challenge Room-{roomCount}";
+            challengeRoom.GetComponent<ChallengeRoom>().RoomIndex=roomIndex;
+            rooms.Add(challengeRoom);
+            OpenDoors(challengeRoom,x,y);
+            return true;
+        }
+        return false;
+    }
     private bool TryMakeSpecialRoom(Vector2Int roomIndex, int x, int y)
     {
-        return TryMakeBossRoom(roomIndex,x,y) || TryMakeTreasureRoom(roomIndex,x,y);
+        if (TryMakeBossRoom(roomIndex,x,y))
+        {
+            return true;
+        }
+        if (TryMakeTreasureRoom(roomIndex,x,y))
+        {
+            return true;
+        }
+        if (TryMakeChallengeRoom(roomIndex,x,y))
+        {
+            return true;
+        }
+        return false;
     }
     private bool TryGenerateRoom(Vector2Int roomIndex)
     {
@@ -160,10 +187,23 @@ public class RoomManager : MonoBehaviour
 
     }
 
+    public void DeleteAllRemainingObjects()
+    {
+        GameObject[] allObjects = FindObjectsOfType<GameObject>();
+        foreach (GameObject obj in allObjects)
+        {
+            if (obj.name == "Coin" || obj.name == "Chest")
+            {
+                Destroy(obj);
+            }
+        }
+    }
     private void RegenerateRooms()
     {
+
         rooms.ForEach(room=>Destroy(room));
         rooms.Clear();
+        DeleteAllRemainingObjects();
         roomGrid = new int[gridSizeX,gridSizeY];
         roomQueue.Clear();
         roomCount=0;
@@ -221,10 +261,23 @@ public class RoomManager : MonoBehaviour
             adjacentRoom.ColorDoor(direction, Color.yellow);
         }
     }
+
+    private void validateChallengeRoom(Room room, Room adjacentRoom, Vector2Int direction)
+    {
+        if (room is Room && adjacentRoom is ChallengeRoom)
+        {
+            room.ColorDoor(-direction, Color.blue);
+        }
+        if (room is ChallengeRoom)
+        {
+            adjacentRoom.ColorDoor(direction, Color.blue);
+        }
+    }
     private void validateRoomType(Room room, Room adjacentRoom, Vector2Int direction)
     {
         validateBossRoom(room,adjacentRoom,direction);
         validateTreasureRoom(room,adjacentRoom,direction);
+        validateChallengeRoom(room,adjacentRoom,direction);
     }
 
     void OpenDoors(GameObject room, int x, int y)

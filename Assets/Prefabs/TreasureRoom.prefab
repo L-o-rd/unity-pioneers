@@ -358,6 +358,10 @@ MonoBehaviour:
   leftDoor: {fileID: 6376556085150377623}
   rightDoor: {fileID: 3605834052289213814}
   RoomIndex: {x: 0, y: 0}
+  coinPrefab: {fileID: 1959717353171362881, guid: 0d26339a415210e41ade699be0395522, type: 3}
+  chestPrefab: {fileID: 2137276297077425716, guid: e7178d4e950aa994599e3844f7ad8dcf, type: 3}
+  spreadRangeX: 8
+  spreadRangeY: 4
 --- !u!1 &3306432770266152081
 GameObject:
   m_ObjectHideFlags: 0
