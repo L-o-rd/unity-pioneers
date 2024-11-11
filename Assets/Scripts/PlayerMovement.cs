@@ -2,53 +2,43 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
-{
-    public float moveSpeed = 5f;
+public class PlayerMovement : MonoBehaviour {
+    private readonly KeyCode right = KeyCode.D;
+    private readonly KeyCode left = KeyCode.A;
+    private readonly KeyCode down = KeyCode.S;
+    private readonly KeyCode up = KeyCode.W;
 
-    public Rigidbody2D rb;
-    public Camera cam;
-    
-    public Transform gun; //Reference to the gun object
-    public Transform body; // Reference to the body object
+    private float horizontal = 0f;
+    private float vertical = 0f;
+    private Vector2 movement;
+    private Rigidbody2D rb;
 
+    [SerializeField]
+    private GameObject direction;
 
-    Vector2 movement;
-    Vector2 mousePos;
+    [SerializeField]
+    private float maxSpeed = 5.5f;
 
-    // Update is called once per frame
-    void Update()
-    {
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical");
-        mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
-        FlipGun();
-    }
-    void FixedUpdate() {
-        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
-        Vector2 lookDir = mousePos - rb.position;
-        float angle = Mathf.Atan2(lookDir.y,lookDir.x) * Mathf.Rad2Deg - 90f;
-        rb.rotation = angle;
+    private void Start() {
+        rb = this.GetComponent<Rigidbody2D>();
     }
 
-    void FlipGun()
-    {
-        // Check if the gun's position is to the left or right of the body
-        if (gun.position.x < body.position.x)
-        {
-            // Gun is to the left of the body, flip it
-            if (gun.localScale.y > 0) // Ensure we only flip if it's not already flipped
-            {
-                gun.localScale = new Vector3(gun.localScale.x, -gun.localScale.y, gun.localScale.z);
-            }
-        }
-        else
-        {
-            // Gun is to the right of the body, reset to original scale
-            if (gun.localScale.y < 0) // Ensure we only flip back if it's currently flipped
-            {
-                gun.localScale = new Vector3(gun.localScale.x, -gun.localScale.y, gun.localScale.z);
-            }
-        }
+    private void Update() {
+        horizontal = Input.GetKey(right) ? 1f : (Input.GetKey(left) ? -1f : 0f);
+        vertical = Input.GetKey(up) ? 1f : (Input.GetKey(down) ? -1f : 0f);
+        movement.x = horizontal;
+        movement.y = vertical;
+        movement.Normalize();
+    }
+
+    private void FixedUpdate() {
+        rb.MovePosition(rb.position + movement * maxSpeed * Time.fixedDeltaTime);
+
+        if (movement != Vector2.zero) {
+            direction.SetActive(true);
+            float angle = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg;
+            direction.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle - 90));
+            direction.transform.position = rb.position + movement * 0.5f;
+        } else direction.SetActive(false);
     }
 }
