@@ -15,21 +15,17 @@ public class ChallengeRoom : Room
 
     GameObject challenge;
 
-    bool challengeComplete = false;
-
     private void SpawnReactionTest()
     {
         GameObject challenge = Instantiate(reactionTestPrefab, transform.position+new Vector3(-7f,3f,0f), Quaternion.identity);
         ReactionTestChallenge reactionTest = challenge.GetComponent<ReactionTestChallenge>();
-        if (reactionTest != null)
-        {
+        if (reactionTest != null){
             reactionTest.GetChallengeCompletedEvent().AddListener(OnChallengeComplete);
         }
     }
     
     private void OnChallengeComplete()
     {
-        challengeComplete = true;
         Invoke("SpawnChest", delay);
     }
     private void SpawnChallenge()
@@ -46,20 +42,19 @@ public class ChallengeRoom : Room
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
-        {
+        if (other.CompareTag("Player")){
             SpawnChallenge();
         }
     }
  
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        challengeComplete = true;
+
     }
 }

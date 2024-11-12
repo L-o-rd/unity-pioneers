@@ -32,10 +32,9 @@ public class TreasureRoom : Room
     void GenerateReward(){
         if (UnityEngine.Random.value<0.7f){
             GenerateCoins();
+            return;
         }
-        else{
-            GenerateChest();
-        }
+        GenerateChest();
         
     }
     void Start()

@@ -63,8 +63,8 @@ public class PlayerTeleportation : MonoBehaviour
             TeleportFromDoor(collision);
         }
         else if (collision.CompareTag("FinalDoor") && currentRoom!=null){
-            TeleportToSpawn();
             roomManager.SetLevelComplete(true);
+            TeleportToSpawn();
         }
         else if (currentRoom == null && collision.CompareTag("Door"))
         {

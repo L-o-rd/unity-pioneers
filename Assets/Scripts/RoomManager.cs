@@ -192,7 +192,7 @@ public class RoomManager : MonoBehaviour
         GameObject[] allObjects = FindObjectsOfType<GameObject>();
         foreach (GameObject obj in allObjects)
         {
-            if (obj.name == "Coin" || obj.name == "Chest")
+            if (obj.name == "Coin(Clone)" || obj.name == "Chest(Clone)" || obj.name == "Reaction Test(Clone)")
             {
                 Destroy(obj);
             }

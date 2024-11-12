@@ -11,8 +11,7 @@ public class Key : MonoBehaviour
     {
         if (hasTriggered) return;
         Debug.Log("Checking collision with " + other.tag);
-        if (other.CompareTag("Player"))
-        {
+        if (other.CompareTag("Player")){
             hasTriggered = true;
             Debug.Log("Key collected by " + other.name); // New Debug line
             Destroy(gameObject); // Despawn the key
