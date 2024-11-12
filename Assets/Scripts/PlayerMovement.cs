@@ -60,3 +60,4 @@ public class PlayerMovement : MonoBehaviour {
         maxSpeed /= percentage;
     }
 }
+
