@@ -27,8 +27,6 @@ public class AiChase : MonoBehaviour
 
 		direction.Normalize();
 
-		var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
 		if (distance < AttackRange)
 		{
 			isAttacking = true;
@@ -40,10 +38,17 @@ public class AiChase : MonoBehaviour
 
 		if (distance < DistanceBetween)
 		{
+			if (direction.x > 0)
+			{
+				transform.localScale = new Vector3(1, 1, 1);
+			}
+			else if (direction.x < 0)
+			{
+				transform.localScale = new Vector3(-1, 1, 1);
+			}
+
 			transform.position =
 				Vector2.MoveTowards(transform.position, Player.transform.position, Speed * Time.deltaTime);
-
-			transform.rotation = Quaternion.Euler(Vector3.forward * angle);
 
 			isChasing = true;
 		}
