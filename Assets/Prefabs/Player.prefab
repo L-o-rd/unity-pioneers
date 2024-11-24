@@ -96,10 +96,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7866078939630502176}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c88362dab42d2b4ea3a74e55e7d1bfd, type: 3}
+  m_Script: {fileID: 11500000, guid: 1edf320427edf094db8355bb53d8ab97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  direction: {fileID: 0}
+  maxSpeed: 5.5
 --- !u!50 &-3821930656359042099
 Rigidbody2D:
   serializedVersion: 4
