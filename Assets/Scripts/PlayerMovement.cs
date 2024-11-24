@@ -41,4 +41,23 @@ public class PlayerMovement : MonoBehaviour {
             direction.transform.position = rb.position + movement * 0.5f;
         } else direction.SetActive(false);
     }
+
+    public void SlowPlayerBy(float percentage)
+    {
+        if (percentage < 0 || percentage > 1){
+            Debug.LogWarning("Invalid percentage value");
+            return;
+        }
+        maxSpeed *= percentage;
+    }
+
+    public void SpeedUpPlayerBy(float percentage)
+    {
+        if (percentage < 0 || percentage > 1){
+            Debug.LogWarning("Invalid percentage value");
+            return;
+        }
+        maxSpeed /= percentage;
+    }
 }
+
