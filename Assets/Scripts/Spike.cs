@@ -1,0 +1,53 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Spike : MonoBehaviour
+{
+    [SerializeField] private Sprite activeSprite;
+    [SerializeField] private Sprite inactiveSprite;
+    [SerializeField] private float activationInterval = 2f; // Seconds
+    [SerializeField] private int damage = 10;
+
+    private bool isActive = false;
+    private SpriteRenderer spriteRenderer;
+    private float timer;
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (isActive && collision.CompareTag("Player"))
+        {
+            PlayerStats playerStats = collision.GetComponent<PlayerStats>();
+            if (playerStats != null)
+            {
+                playerStats.TakeDamage(damage);
+            }
+            else
+            {
+                Debug.LogWarning("PlayerStats component not found on player.");
+            }
+        }
+    }
+
+    private void UpdateSprite()
+    {
+        spriteRenderer.sprite = isActive ? activeSprite : inactiveSprite;
+    }
+    void Start()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        timer = activationInterval;
+        UpdateSprite();
+    }
+
+    void Update()
+    {
+        timer -= Time.deltaTime;
+        if (timer <= 0f)
+        {
+            isActive = !isActive;
+            timer = activationInterval;
+            UpdateSprite();
+        }
+    }
+}
