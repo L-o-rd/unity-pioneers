@@ -24,7 +24,7 @@ public class EnemyHealth : MonoBehaviour
 		currentHealth -= damageAmount;
 		Debug.Log($"Enemy took {damageAmount} damage. Remaining health: {currentHealth}");
 
-		if (animator != null)
+		if (animator != null && currentHealth > 0)
 		{
 			animator.SetTrigger("TakeDamage");
 		}
