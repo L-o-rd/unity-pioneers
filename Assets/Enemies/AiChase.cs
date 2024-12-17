@@ -12,14 +12,17 @@ public class AiChase : MonoBehaviour
 	private bool isChasing;
 	private Animator animator;
 
+	private const float ATTACK_COOLDOWN = 1f;
+	private float lastAttackTime;
 
-	// Start is called before the first frame update
+	private PlayerStats playerStats;
+
 	void Start()
 	{
 		animator = GetComponent<Animator>();
+		playerStats = Player.GetComponent<PlayerStats>();
 	}
 
-	// Update is called once per frame
 	void Update()
 	{
 		distance = Vector2.Distance(transform.position, Player.transform.position);
@@ -30,6 +33,7 @@ public class AiChase : MonoBehaviour
 		if (distance < AttackRange)
 		{
 			isAttacking = true;
+			AttackPlayer();
 		}
 		else
 		{
@@ -47,9 +51,8 @@ public class AiChase : MonoBehaviour
 				transform.localScale = new Vector3(-1, 1, 1);
 			}
 
-			transform.position =
-				Vector2.MoveTowards(transform.position, Player.transform.position, Speed * Time.deltaTime);
-
+			// Move towards the player
+			transform.position = Vector2.MoveTowards(transform.position, Player.transform.position, Speed * Time.deltaTime);
 			isChasing = true;
 		}
 		else
@@ -57,7 +60,22 @@ public class AiChase : MonoBehaviour
 			isChasing = false;
 		}
 
+		// Set animator states
 		animator.SetBool("isChasing", isChasing);
 		animator.SetBool("isAttacking", isAttacking);
+	}
+
+	void AttackPlayer()
+	{
+		if (Time.time > lastAttackTime + ATTACK_COOLDOWN)
+		{
+			if (playerStats != null)
+			{
+				playerStats.TakeDamage(10);
+				Debug.Log("Player damaged: 10 health points.");
+			}
+
+			lastAttackTime = Time.time;
+		}
 	}
 }
