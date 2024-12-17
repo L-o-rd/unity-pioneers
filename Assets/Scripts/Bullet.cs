@@ -1,30 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float maxRange = 30f; // Maximum range in units
-    private Vector2 startPosition;
+	public float MaxRange = 30f; // Maximum range in units
+	public float Damage = 20f; // Damage dealt by the bullet
 
-    void OnEnable()
-    {
-        startPosition = transform.position; // Save the bullet's starting position when activated
-    }
+	private Vector2 startPosition;
 
-    void Update()
-    {
-        // Check if the bullet has exceeded its maximum range
-        float distanceTraveled = Vector2.Distance(startPosition, transform.position);
-        if (distanceTraveled >= maxRange)
-        {
-            gameObject.SetActive(false); // Deactivate the bullet after reaching max range
-        }
-    }
+	void OnEnable()
+	{
+		startPosition = transform.position; // Save the bullet's starting position when activated
+	}
 
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        // Deactivate the bullet upon collision without creating an effect
-        gameObject.SetActive(false);
-    }
+	void Update()
+	{
+		// Check if the bullet has exceeded its maximum range
+		float distanceTraveled = Vector2.Distance(startPosition, transform.position);
+		if (distanceTraveled >= MaxRange)
+		{
+			gameObject.SetActive(false); // Deactivate the bullet after reaching max range
+		}
+	}
+
+	private void OnTriggerEnter2D(Collider2D collision)
+	{
+		var enemy = collision.GetComponent<EnemyHealth>();
+		Debug.Log("Bullet collided with " + collision.name);
+		if (enemy != null)
+		{
+			enemy.TakeDamage(Damage);
+			gameObject.SetActive(false);
+		}
+	}
 }
