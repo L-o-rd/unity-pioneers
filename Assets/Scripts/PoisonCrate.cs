@@ -5,7 +5,7 @@ using UnityEngine;
 public class PoisonCrate : MonoBehaviour
 {
     [SerializeField] private GameObject poisonEffectPrefab; 
-    [SerializeField] private int poisonDamage = 10;
+    [SerializeField] private float poisonDamage = 10f;
     [SerializeField] private float poisonDuration = 5f;
     [SerializeField] private float poisonRadius = 2.5f;
 

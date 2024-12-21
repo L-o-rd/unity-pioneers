@@ -8,6 +8,15 @@ public class PlayerStats : MonoBehaviour {
 
     [SerializeField]
     private float maxHealth = 100;
+    private float totalCoins = 0;
+
+    public float getTotalCoins(){
+        return totalCoins;
+    }
+    public void addCoins(float coins){
+        totalCoins += coins;
+    }
+
     public void TakeDamage(float damage) {
         health -= damage;
         Debug.Log(string.Format("Health remaining: {0}.", health));

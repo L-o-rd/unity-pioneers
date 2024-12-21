@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class PoisonEffect : MonoBehaviour
 {
-    private int poisonDamage;
+    private float poisonDamage;
     private float poisonRadius;
     private float poisonDuration;
 
-    public void Initialize(int damage, float radius, float duration)
+    public void Initialize(float damage, float radius, float duration)
     {
-        poisonDamage = damage;
+        poisonDamage = damage*GameObject.Find("RoomManager").GetComponent<RoomManager>().GetBonusDifficulty();
         poisonRadius = radius;
         poisonDuration = duration;
 

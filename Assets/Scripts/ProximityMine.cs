@@ -6,7 +6,7 @@ public class ProximityMine : MonoBehaviour
 {
     [SerializeField] private float activationRange = 2f;
     [SerializeField] private float explosionRange = 3f;
-    [SerializeField] private int explosionDamage = 20;
+    [SerializeField] private float explosionDamage = 20f;
     [SerializeField] private float explosionDelay = 3f;
     [SerializeField] private GameObject explosionEffectPrefab;
     [SerializeField] private Color alternateColor1 = new Color(124,43,4); // Color 1 for alternation
@@ -71,6 +71,7 @@ public class ProximityMine : MonoBehaviour
     }
     private void Start()
     {
+        explosionDamage = explosionDamage*GameObject.Find("RoomManager").GetComponent<RoomManager>().GetBonusDifficulty();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
     private void Update()

@@ -7,7 +7,7 @@ public class Spike : MonoBehaviour
     [SerializeField] private Sprite activeSprite;
     [SerializeField] private Sprite inactiveSprite;
     [SerializeField] private float activationInterval = 2f; // Seconds
-    [SerializeField] private int damage = 10;
+    [SerializeField] private float damage = 10f;
 
     private bool isActive = false;
     private SpriteRenderer spriteRenderer;
@@ -36,6 +36,7 @@ public class Spike : MonoBehaviour
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        damage = damage*GameObject.Find("RoomManager").GetComponent<RoomManager>().GetBonusDifficulty();
         timer = activationInterval;
         UpdateSprite();
     }

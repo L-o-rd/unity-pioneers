@@ -5,7 +5,7 @@ using UnityEngine;
 public class ExplosiveCrate : MonoBehaviour
 {
     [SerializeField] private GameObject explosionEffectPrefab; // Reference to the particle prefab
-    [SerializeField] private int explosionDamage = 30;
+    [SerializeField] private float explosionDamage = 30f;
     [SerializeField] private float explosionRange = 3f; // Area of effect for the explosion
 
     private void Explode()
@@ -45,6 +45,11 @@ public class ExplosiveCrate : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, explosionRange);
+    }
+
+    private void Start()
+    {
+        explosionDamage = explosionDamage*GameObject.Find("RoomManager").GetComponent<RoomManager>().GetBonusDifficulty();
     }
 
 }
