@@ -18,12 +18,23 @@ public class PlayerStats : MonoBehaviour {
     }
 
     public void TakeDamage(float damage) {
+        if (isDead) return;
         health -= damage;
         Debug.Log(string.Format("Health remaining: {0}.", health));
 
-        // if (health <= 0) {
-        //     isDead = true;
-        // }
+        if (health <= 0) {
+            isDead = true;
+        }
+    }
+
+    public void Heal(float heal) {
+        if (isDead) return;
+        if (health + heal > maxHealth) {
+            health = maxHealth;
+            return;
+        }
+        health += heal;
+        Debug.Log(string.Format("Health remaining: {0}.", health));
     }
 
     private void Start() {
