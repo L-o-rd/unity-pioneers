@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 5801989139618244415}
   - component: {fileID: 2799077479805618235}
   - component: {fileID: 3755212429837389612}
-  - component: {fileID: 5408906426170735165}
+  - component: {fileID: 5531466062952740245}
   m_Layer: 0
-  m_Name: bullet 1
+  m_Name: bullet  Homing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -159,7 +159,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.69, y: 3.37}
   m_EdgeRadius: 0
---- !u!114 &5408906426170735165
+--- !u!114 &5531466062952740245
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -168,7 +168,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6840079661474906302}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd3fe65f0c44a2f428161aa4187542d1, type: 3}
+  m_Script: {fileID: 11500000, guid: acefdaec42d64a947ab47b82798ffb91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  homingSpeed: 10
   maxRange: 30
+  targetSearchRadius: 10

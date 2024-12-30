@@ -4,7 +4,7 @@ using UnityEngine;
 public class Weapon : ScriptableObject
 {
     public string weaponName;         // Name of the weapon
-    public GameObject bulletPrefab;   // Prefab for the bullet
+    public string bulletType;         // Bullet type (tag for ObjectPool)
     public float bulletForce;         // Force applied to the bullet
     public float fireRate;            // Rate of fire (bullets per second)
     public Sprite weaponSprite;       // Sprite for the weapon in UI or as a visual

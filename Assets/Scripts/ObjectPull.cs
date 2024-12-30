@@ -1,58 +1,75 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ObjectPool : MonoBehaviour
 {
-  public static ObjectPool instance;
+    public static ObjectPool instance;
 
-  [SerializeField] private GameObject clonePrefab; // Replace with your player clone prefab
-  [SerializeField] private Transform parentTransform; 
-  private List<GameObject> pooledObjects = new List<GameObject>();
-  [SerializeField] private int amountToPool = 20;
+    [System.Serializable]
+    public class Pool
+    {
+        public string tag; // A tag to identify the bullet type
+        public GameObject prefab; // The prefab for this bullet type
+        public int size; // Initial size of the pool
+    }
 
-  private void Awake()
+    public List<Pool> pools; // List of bullet pools
+    private Dictionary<string, Queue<GameObject>> poolDictionary;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    void Start()
+    {
+        poolDictionary = new Dictionary<string, Queue<GameObject>>();
+
+        foreach (Pool pool in pools)
+        {
+            Queue<GameObject> objectPool = new Queue<GameObject>();
+
+            for (int i = 0; i < pool.size; i++)
+            {
+                GameObject obj = Instantiate(pool.prefab);
+                obj.SetActive(false);
+                objectPool.Enqueue(obj);
+            }
+
+            poolDictionary.Add(pool.tag, objectPool);
+        }
+    }
+
+    public GameObject GetPooledObject(string tag)
 {
-    if (instance == null)
+    if (!poolDictionary.ContainsKey(tag))
     {
-        instance = this;
-        DontDestroyOnLoad(gameObject);
+        Debug.LogWarning($"Pool with tag {tag} doesn't exist.");
+        return null;
     }
-    else
+
+    GameObject objectToSpawn = poolDictionary[tag].Dequeue();
+
+    objectToSpawn.SetActive(true);
+
+    // Ensure that any bullet-specific state (e.g., ricochet count) is reset
+    RicochetBullet ricochetBullet = objectToSpawn.GetComponent<RicochetBullet>();
+    if (ricochetBullet != null)
     {
-        Destroy(gameObject);
+        ricochetBullet.ResetBullet(); // Reset the ricochet bullet state
     }
+
+    poolDictionary[tag].Enqueue(objectToSpawn);
+
+    return objectToSpawn;
 }
 
-
-
-  void Start()
-  {
-    // Initialize the pool with inactive player clone instances
-    for (int i = 0; i < amountToPool; i++)
-    {
-      GameObject obj = Instantiate(clonePrefab, parentTransform);
-      obj.SetActive(false); // Asigură-te că este dezactivat
-      pooledObjects.Add(obj); // Adaugă obiectul la listă
-
-    }
-  }
-
-  public GameObject GetPooledObject()
-  {
-    // Find an inactive object in the pool and return it
-    foreach (GameObject obj in pooledObjects)
-    {
-      if (!obj.activeInHierarchy)
-      {
-        return obj; // Return inactive object
-      }
-    }
-
-    // Optional: Expand the pool if all objects are active
-    GameObject newObj = Instantiate(clonePrefab, parentTransform);
-    newObj.SetActive(false);
-    pooledObjects.Add(newObj); // Add the new clone to the pool
-    return newObj; // Return the new object
-  }
 }

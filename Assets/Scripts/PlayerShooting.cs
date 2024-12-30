@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class PlayerShooting : MonoBehaviour
@@ -15,7 +14,6 @@ public class PlayerShooting : MonoBehaviour
 
     void Start()
     {
-        // Get the SpriteRenderer component of the gun to change its sprite
         gunSpriteRenderer = gun.GetComponent<SpriteRenderer>();
     }
 
@@ -27,7 +25,6 @@ public class PlayerShooting : MonoBehaviour
 
     private void HandleShooting()
     {
-        // Check if the fire button is pressed and if we can fire
         if (Input.GetButton("Fire1") && Time.time >= nextFireTime)
         {
             nextFireTime = Time.time + (1f / equippedWeapon.fireRate);
@@ -37,7 +34,6 @@ public class PlayerShooting : MonoBehaviour
 
     private void Shoot()
     {
-        // Validate weapon and object pool
         if (equippedWeapon == null)
         {
             Debug.LogError("No weapon equipped!");
@@ -50,55 +46,39 @@ public class PlayerShooting : MonoBehaviour
             return;
         }
 
-        // Get a bullet from the pool
-        GameObject bullet = ObjectPool.instance.GetPooledObject();
+        // Get a bullet from the pool using the weapon's bullet type
+        GameObject bullet = ObjectPool.instance.GetPooledObject(equippedWeapon.bulletType);
         if (bullet != null)
         {
-            // Set bullet's position and rotation
             bullet.transform.position = firePoint.position;
 
-            // Calculate direction to the mouse position
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePosition.z = 0f;
             Vector2 direction = (mousePosition - firePoint.position).normalized;
 
-            // Rotate the bullet to face the mouse
             bullet.transform.up = direction;
 
-            // Activate the bullet
-            bullet.SetActive(true);
-
-            // Apply force to the bullet
             Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
             if (rb != null)
             {
-                rb.velocity = Vector2.zero; // Reset velocity
+                rb.velocity = Vector2.zero;
                 rb.AddForce(direction * equippedWeapon.bulletForce, ForceMode2D.Impulse);
-            }
-            else
-            {
-                Debug.LogError("Bullet is missing a Rigidbody2D component!");
             }
         }
         else
         {
-            Debug.LogError("No pooled objects available in ObjectPool!");
+            Debug.LogError($"No bullets available for type {equippedWeapon.bulletType}");
         }
     }
 
     private void FlipGun()
     {
-        // Get the mouse position in world coordinates
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = 0f;
 
-        // Calculate direction from gun to mouse
         Vector2 direction = (mousePosition - gun.position).normalized;
-
-        // Determine angle between gun's right direction and mouse direction
         float angle = Vector2.SignedAngle(Vector2.right, direction);
 
-        // Flip the gun sprite if necessary
         if (angle > 90f || angle < -90f)
         {
             if (!isFlipped)
@@ -119,10 +99,8 @@ public class PlayerShooting : MonoBehaviour
 
     public void EquipWeapon(Weapon newWeapon)
     {
-        // Equip a new weapon by assigning it to the equippedWeapon
         equippedWeapon = newWeapon;
 
-        // Change the gun sprite to match the new weapon's gun sprite
         if (gunSpriteRenderer != null && equippedWeapon.gunSprite != null)
         {
             gunSpriteRenderer.sprite = equippedWeapon.gunSprite;

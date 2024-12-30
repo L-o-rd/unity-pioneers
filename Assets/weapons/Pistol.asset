@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Pistol
   m_EditorClassIdentifier: 
   weaponName: Pistol
-  bulletPrefab: {fileID: 6840079661474906302, guid: 4c6bdb9eec383004ca4f2f83aeae2c7b, type: 3}
+  bulletType: normal
   bulletForce: 20
   fireRate: 20
   weaponSprite: {fileID: 21300000, guid: 3e652a597824bd44d91fd93f87e3857d, type: 3}
