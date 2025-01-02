@@ -616,6 +616,15 @@ MonoBehaviour:
   bottomDoor: {fileID: 6081039426154488411}
   leftDoor: {fileID: 8677509619274767335}
   rightDoor: {fileID: 2293879833417420685}
+  trapWeights:
+  - trapPrefab: {fileID: 8312954973427701736, guid: b805b26f036caa844800bdc0f690f9df, type: 3}
+    weight: 4
+  - trapPrefab: {fileID: 6516697257806821546, guid: 30b81d4038d7b7740b09f35150ed6e5e, type: 3}
+    weight: 2
+  - trapPrefab: {fileID: 6672191614378403612, guid: 194a3555fcccb6043ae5995027f634c6, type: 3}
+    weight: 3
+  safeZoneRadius: 2
+  trapSpacing: 1.5
   RoomIndex: {x: 0, y: 0}
 --- !u!1 &4090820485749453104
 GameObject:

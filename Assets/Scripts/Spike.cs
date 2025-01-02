@@ -18,13 +18,9 @@ public class Spike : MonoBehaviour
         if (isActive && collision.CompareTag("Player"))
         {
             PlayerStats playerStats = collision.GetComponent<PlayerStats>();
-            if (playerStats != null)
+            if (playerStats != null && !playerStats.isTrapImmune())
             {
                 playerStats.TakeDamage(damage);
-            }
-            else
-            {
-                Debug.LogWarning("PlayerStats component not found on player.");
             }
         }
     }

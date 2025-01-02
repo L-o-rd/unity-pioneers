@@ -30,7 +30,7 @@ public class PoisonEffect : MonoBehaviour
                 if (obj.CompareTag("Player"))
                 {
                     PlayerStats playerStats = obj.GetComponent<PlayerStats>();
-                    if (playerStats != null)
+                    if (playerStats != null && !playerStats.isTrapImmune())
                     {
                         playerStats.TakeDamage(poisonDamage);
                     }

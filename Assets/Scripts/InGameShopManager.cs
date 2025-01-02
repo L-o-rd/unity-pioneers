@@ -19,6 +19,10 @@ public class ShopManager : MonoBehaviour
         {
             GameObject itemPrefab = itemPrefabs[Random.Range(0, itemPrefabs.Length)];
             GameObject spawnedItem = Instantiate(itemPrefab, transform.position + itemPositions[i], Quaternion.identity, transform);
+            var powerUp = spawnedItem.GetComponent<PowerupManager>();
+            if (powerUp != null){
+                powerUp.isPurchasable = true;
+            }
             spawnedItems[i] = spawnedItem;
         }
     }

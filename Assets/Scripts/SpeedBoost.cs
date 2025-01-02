@@ -1,26 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
-public class SpeedBost : MonoBehaviour
+public class SpeedBoost : PowerupManager
 {
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    void OnTriggerEnter2D(Collider2D other){
-        if (other.gameObject.tag=="Player"){
-            other.GetComponent<PlayerMovement>().SpeedUpPlayerBy(0.9f);
-            Debug.Log("Speeding up Player");
-            Destroy(gameObject);
+    [SerializeField]
+    private float speedIncrease = 0.9f;
+    protected override void ActivatePowerUp(){
+        if (playerMovement != null){
+            playerMovement.SpeedUpPlayerBy(speedIncrease);
+            UnityEngine.Debug.Log("Speeding up Player");
+            FindObjectOfType<InGameTextUI>().ShowFeedback(itemDescription);
+            gameObject.SetActive(false);
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

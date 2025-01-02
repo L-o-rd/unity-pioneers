@@ -2,18 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DashPowerup : MonoBehaviour
+public class DashPowerup : PowerupManager
 {
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected override void ActivatePowerUp()
     {
-        if (collision.CompareTag("Player"))
+        if (playerMovement!=null)
         {
-            PlayerMovement playerMovement = collision.GetComponent<PlayerMovement>();
-            if (playerMovement != null)
-            {
-                playerMovement.ActivateDashPower();
-                Destroy(gameObject);
-            }
+            playerMovement.ActivateDashPower();
+            FindObjectOfType<InGameTextUI>().ShowFeedback(itemDescription);
+            Destroy(gameObject);
         }
     }
 

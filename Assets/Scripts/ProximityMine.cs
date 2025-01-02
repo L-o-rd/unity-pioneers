@@ -48,7 +48,7 @@ public class ProximityMine : MonoBehaviour
             if (distance <= explosionRange)
             {
                 PlayerStats playerStats = player.GetComponent<PlayerStats>();
-                if (playerStats != null)
+                if (playerStats != null && !playerStats.isTrapImmune())
                 {
                     playerStats.TakeDamage(explosionDamage);
                 }

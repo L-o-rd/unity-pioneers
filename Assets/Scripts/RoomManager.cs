@@ -114,6 +114,7 @@ public class RoomManager : MonoBehaviour
             var bossRoom = Instantiate(bossRoomPrefab, GetPositionFromGridIndex(roomIndex),Quaternion.identity);
             bossRoom.name = $"Boss Room-{roomCount}";
             bossRoom.GetComponent<BossRoom>().RoomIndex=roomIndex;
+            bossRoom.GetComponent<Room>().GenerateTraps((int)Mathf.Floor(10f*difficultyMultiplier));
             rooms.Add(bossRoom);
             OpenDoors(bossRoom,x,y);
             return true;
@@ -142,6 +143,7 @@ public class RoomManager : MonoBehaviour
             var challengeRoom = Instantiate(challengeRoomPrefab, GetPositionFromGridIndex(roomIndex),Quaternion.identity);
             challengeRoom.name = $"Challenge Room-{roomCount}";
             challengeRoom.GetComponent<ChallengeRoom>().RoomIndex=roomIndex;
+            challengeRoom.GetComponent<Room>().GenerateTraps((int)Mathf.Floor(7f*difficultyMultiplier));
             rooms.Add(challengeRoom);
             OpenDoors(challengeRoom,x,y);
             return true;
@@ -185,6 +187,7 @@ public class RoomManager : MonoBehaviour
 
         var newRoom = Instantiate(roomPrefab, GetPositionFromGridIndex(roomIndex),Quaternion.identity);
         newRoom.GetComponent<Room>().RoomIndex=roomIndex;
+        newRoom.GetComponent<Room>().GenerateTraps((int)Mathf.Floor(5f*difficultyMultiplier));
         newRoom.name=$"Room-{roomCount}";
         rooms.Add(newRoom);
         OpenDoors(newRoom,x,y);
@@ -197,7 +200,7 @@ public class RoomManager : MonoBehaviour
         GameObject[] allObjects = FindObjectsOfType<GameObject>();
         foreach (GameObject obj in allObjects)
         {
-            if (obj.name == "Coin(Clone)" || obj.name == "Chest(Clone)" || obj.name == "Reaction Test(Clone)")
+            if (obj.tag!="Player" && obj.tag!="MainCamera" && obj.tag!="UI" && obj.tag!="GameController" && obj.tag!="Untagged") //delete untagged at final build
             {
                 Destroy(obj);
             }

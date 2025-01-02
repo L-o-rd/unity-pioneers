@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour {
     private bool isDead = false;
+    private bool trapImmune = false;
     private float health;
 
     [SerializeField]
@@ -15,6 +16,14 @@ public class PlayerStats : MonoBehaviour {
     }
     public void addCoins(float coins){
         totalCoins += coins;
+    }
+
+    public bool isTrapImmune(){
+        return trapImmune;
+    }
+
+    public void setTrapImmune(bool value){
+        trapImmune = value;
     }
 
     public void TakeDamage(float damage) {
