@@ -38,7 +38,6 @@ public class BossRoom : Room
            //roomManager.SetLevelComplete(true);
             return;
         }
-        //TODO: Add logic to spawn some other door if all doors are active
         
     }
 

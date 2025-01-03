@@ -12,7 +12,8 @@ public class RoomManager : MonoBehaviour
     [SerializeField] GameObject treasureRoomPrefab;
     [SerializeField] GameObject challengeRoomPrefab;
     [SerializeField] private int totalRooms=15;
-    //[SerializeField] private int minRooms=10;
+    [SerializeField] private float difficultyMultiplier=1.0f;
+    [SerializeField] private float difficultyMultiplierCap = 2.0f;
     private bool levelComplete = false;
     int roomWidth=28;
     int roomHeight=17;
@@ -41,6 +42,10 @@ public class RoomManager : MonoBehaviour
     public void SetLevelComplete(bool value)
     {
         levelComplete=value;
+    }
+    public float GetBonusDifficulty()
+    {
+        return difficultyMultiplier;
     }
 
     private Vector3 GetPositionFromGridIndex(Vector2Int gridIndex)
@@ -118,7 +123,7 @@ public class RoomManager : MonoBehaviour
 
     private bool TryMakeTreasureRoom(Vector2Int roomIndex, int x, int y)
     {
-        if (UnityEngine.Random.value<0.1f && roomIndex!=new Vector2Int(gridSizeX/2,gridSizeY/2))
+        if (UnityEngine.Random.value<(0.1f*difficultyMultiplier) && roomIndex!=new Vector2Int(gridSizeX/2,gridSizeY/2))
         {
             var treasureRoom = Instantiate(treasureRoomPrefab, GetPositionFromGridIndex(roomIndex),Quaternion.identity);
             treasureRoom.name = $"Treasure Room-{roomCount}";
@@ -132,7 +137,7 @@ public class RoomManager : MonoBehaviour
 
     private bool TryMakeChallengeRoom(Vector2Int roomIndex, int x, int y)
     {
-        if (UnityEngine.Random.value<0.35f && roomIndex!=new Vector2Int(gridSizeX/2,gridSizeY/2))
+        if (UnityEngine.Random.value<(0.3f*difficultyMultiplier) && roomIndex!=new Vector2Int(gridSizeX/2,gridSizeY/2))
         {
             var challengeRoom = Instantiate(challengeRoomPrefab, GetPositionFromGridIndex(roomIndex),Quaternion.identity);
             challengeRoom.name = $"Challenge Room-{roomCount}";
@@ -192,7 +197,7 @@ public class RoomManager : MonoBehaviour
         GameObject[] allObjects = FindObjectsOfType<GameObject>();
         foreach (GameObject obj in allObjects)
         {
-            if (obj.name == "Coin(Clone)" || obj.name == "Chest(Clone)" || obj.name == "Reaction Test(Clone)")
+            if (obj.tag!="Player" && obj.tag!="MainCamera" && obj.tag!="UI" && obj.tag!="GameController" && obj.tag!="Untagged") //delete untagged at final build
             {
                 Destroy(obj);
             }
@@ -344,13 +349,13 @@ public class RoomManager : MonoBehaviour
         {
             levelComplete=false;
             Debug.Log("Regenerating Rooms because Level Complete");
-            
             RegenerateRooms();
         }
         else if (!generationComplete)
         {
             generationComplete=true;
             Debug.Log("Generation Complete");
+            difficultyMultiplier=Math.Max(difficultyMultiplier+0.1f,difficultyMultiplierCap);
         }
     }
 }
