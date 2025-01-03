@@ -32,7 +32,7 @@ public class Spike : MonoBehaviour
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        damage = damage*GameObject.Find("RoomManager").GetComponent<RoomManager>().GetBonusDifficulty();
+        damage = damage*GameObject.Find("RoomManager").GetComponent<RoomManager>().GetDifficulty();
         timer = activationInterval;
         UpdateSprite();
     }

@@ -11,94 +11,75 @@ public class PlayerTeleportation : MonoBehaviour
 
     [SerializeField]
     private RoomManager roomManager;
-    private Room currentRoom;
-    void Start()
-    {
-        roomManager = FindObjectOfType<RoomManager>();
-        if (roomManager == null)
-        {
-            Debug.LogError("RoomManager not found in the scene");
-        }
-    }
 
-    private void TeleportToSpawn(){
-        Debug.Log("Final door detected");
-        Debug.Log("Level complete");
-        transform.position = new Vector3(0,0,0);
-        Camera.main.transform.position = new Vector3(0,0,Camera.main.transform.position.z);
+    private Room Current;
+    private void Awake()
+    {
     }
 
     private void TeleportFromDoor(Collider2D collision){
-        Debug.Log("Door detected");
-            Vector2Int direction = Vector2Int.zero;
+        // Debug.Log("Door detected");
+        Vector2Int direction = Vector2Int.zero;
+        this.Current = roomManager.GetCurrentRoom();
 
-            if (collision.gameObject == currentRoom.topDoor)
-            {
-                direction = Vector2Int.up;
-            }
-            else if (collision.gameObject == currentRoom.bottomDoor)
-            {
-                direction = Vector2Int.down;
-            }
-            else if (collision.gameObject == currentRoom.leftDoor)
-            {
-                direction = Vector2Int.left;
-            }
-            else if (collision.gameObject == currentRoom.rightDoor)
-            {
-                direction = Vector2Int.right;
-            }
+        if (collision.gameObject == Current.topDoor)
+        {
+            direction = Vector2Int.up;
+        }
+        else if (collision.gameObject == Current.bottomDoor)
+        {
+            direction = Vector2Int.down;
+        }
+        else if (collision.gameObject == Current.leftDoor)
+        {
+            direction = Vector2Int.left;
+        }
+        else if (collision.gameObject == Current.rightDoor)
+        {
+            direction = Vector2Int.right;
+        }
 
-            if (direction != Vector2Int.zero)
-            {
-                Debug.Log("Teleporting to room in direction: " + direction);
-                TeleportToRoomInDirection(direction);
-            }
+        if (direction != Vector2Int.zero)
+        {
+            // Debug.Log("Teleporting to room in direction: " + direction);
+            TeleportToRoomInDirection(direction);
+        }
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Collision detected");
-        if (collision.CompareTag("Door") && currentRoom != null)
+        // Debug.Log("Collision detected");
+        if (collision.CompareTag("Door"))
         {
             TeleportFromDoor(collision);
         }
-        else if (collision.CompareTag("FinalDoor") && currentRoom!=null){
-            roomManager.SetLevelComplete(true);
-            TeleportToSpawn();
-        }
-        else if (currentRoom == null && collision.CompareTag("Door"))
+        else if (collision.CompareTag("FinalDoor"))
         {
-            Debug.LogWarning("CurrentRoom is null when trying to teleport");
+            roomManager.SetLevelComplete(true);
         }
     }
 
     private void TeleportToRoomInDirection(Vector2Int direction)
     {
-        Vector2Int targetRoomIndex = currentRoom.RoomIndex + direction;
-        Debug.Log("Target room index: " + targetRoomIndex);
-        Debug.Log(roomManager);
-        Room targetRoom = roomManager.GetRoomScriptAt(targetRoomIndex);
-        Debug.Log(targetRoom);
+        Vector2Int targetRoomIndex = Current.RoomIndex + direction;
+        GameObject door = null;
+        // Debug.Log("Target room index: " + targetRoomIndex);
+        // Debug.Log(roomManager);
+        Room targetRoom = roomManager.GetRoomAt(targetRoomIndex);
+        if (direction == Vector2Int.down) door = targetRoom.topDoor;
+        else if (direction == Vector2Int.up) door = targetRoom.bottomDoor;
+        else if (direction == Vector2Int.left) door = targetRoom.rightDoor;
+        else if (direction == Vector2Int.right) door = targetRoom.leftDoor;
+        // Debug.Log(targetRoom);
         if (targetRoom != null)
         {
-            Vector3 targetPosition = targetRoom.transform.position;
+            Vector3 targetPosition = door.transform.position;
             Vector3 offset = new Vector3(direction.x, direction.y, 0) * teleportOffset;
-            Debug.Log("Teleporting to position: " + targetPosition + offset);
+            // Debug.Log("Teleporting to position: " + targetPosition + offset);
             transform.position = targetPosition + offset;
-            Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, Camera.main.transform.position.z)-offset;
-            currentRoom = targetRoom;
+            // Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, Camera.main.transform.position.z)-offset;
+            roomManager.SetCurrentRoom(targetRoomIndex);
         }
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        Debug.Log("Collision detected");
-        Debug.Log(collision.tag);
-        if (collision.CompareTag("Room"))
-        {
-            currentRoom = collision.GetComponent<Room>();
-        }
-        Debug.Log(roomManager);
     }
 
     // Update is called once per frame

@@ -6,190 +6,177 @@ using UnityEngine;
 
 public class RoomManager : MonoBehaviour
 {
+    [SerializeField] new Camera camera;
     [SerializeField] GameObject roomPrefab;
     [SerializeField] GameObject bossRoomPrefab;
-
     [SerializeField] GameObject treasureRoomPrefab;
     [SerializeField] GameObject challengeRoomPrefab;
-    [SerializeField] private int totalRooms=15;
-    [SerializeField] private float difficultyMultiplier=1.0f;
+
+    [SerializeField] private int maxRooms = 4, minRooms = 2;
+    [SerializeField] private float difficultyMultiplier = 1.0f;
     [SerializeField] private float difficultyMultiplierCap = 2.0f;
+
+    private readonly int roomHeight = 17;
+    private readonly int roomWidth = 32;
     private bool levelComplete = false;
-    int roomWidth=28;
-    int roomHeight=17;
 
-    int gridSizeX=10;
-    int gridSizeY=10;
-
-    private bool generationComplete=false;
-
+    private Dictionary<Vector2Int, int> roomDict = new Dictionary<Vector2Int, int>();
     private List<GameObject> rooms = new List<GameObject>();
-
-    private Queue<Vector2Int> roomQueue = new Queue<Vector2Int>();
-
-    private int[,] roomGrid;
 
     private int roomCount;
 
-    void Start()
+    void Awake()
     {
-        roomGrid=new int[gridSizeX,gridSizeY];
-        roomQueue = new Queue<Vector2Int>();
-        Vector2Int initialRoomIndex = new Vector2Int(gridSizeX/2,gridSizeY/2);
-        StartRoomGeneration(initialRoomIndex);
+        TryMakeRoom<Room>(roomPrefab, WalkerPosition, "Room", null, null);
+    }
+
+    private Vector2Int LastWalkerPosition = new Vector2Int(0, 0);
+    private Vector2Int WalkerPosition = new Vector2Int(0, 0);
+    private Vector2Int CurrentRoom = new Vector2Int(0, 0);
+    private readonly int WalkerSteps = 20;
+    [SerializeField]
+    private int seed = 0;
+    private System.Random rng;
+
+    private void WalkerStep(int choice)
+    {
+        LastWalkerPosition.x = WalkerPosition.x;
+        LastWalkerPosition.y = WalkerPosition.y;
+
+        if (choice == 0)
+        {
+            WalkerPosition.x++;
+        }
+        else if (choice == 1)
+        {
+            WalkerPosition.x--;
+        }
+        else if (choice == 2)
+        {
+            WalkerPosition.y++;
+        }
+        else if (choice == 3)
+        {
+            WalkerPosition.y--;
+        }
+    }
+
+    public void MakeRNG(int seed)
+    {
+        this.rng = new System.Random(seed);
+    }
+
+    private void GenerateRooms()
+    {
+        while (true)
+        {
+            for (int i = 0; i < WalkerSteps; ++i)
+            {
+                if (roomCount >= maxRooms)
+                    goto Done;
+
+                WalkerStep(rng.Next(0, 4));
+                if (TryMakeRoom<TreasureRoom>(treasureRoomPrefab, WalkerPosition, "TreasureRoom", rng, TreasureCondition)) continue;
+                if (TryMakeRoom<ChallengeRoom>(challengeRoomPrefab, WalkerPosition, "ChallengeRoom", rng, ChallengeCondition)) continue;
+                if (TryMakeRoom<Room>(roomPrefab, WalkerPosition, "Room", null, null))
+                {
+                    difficultyMultiplier += 0.1f;
+                    if (difficultyMultiplier >= difficultyMultiplierCap)
+                    {
+                        difficultyMultiplier = difficultyMultiplierCap;
+                    }
+                }
+
+                //Debug.Log($"({WalkerPosition.x}, {WalkerPosition.y})");
+            }
+
+            if (roomCount >= minRooms) goto Done;
+        }
+
+    Done:;
+        while (!TryMakeRoom<BossRoom>(bossRoomPrefab, WalkerPosition, "BossRoom", rng, null))
+        {
+            WalkerStep(rng.Next(0, 4));
+            // Debug.Log($"Boss: ({WalkerPosition.x}, {WalkerPosition.y})");
+        }
+
+        foreach (var room in rooms)
+        {
+
+        }
+    }
+
+
+    private void Start()
+    {
+        MakeRNG(this.seed);
+        GenerateRooms();
+        SetBounds();
+    }
+
+    private void SetBounds()
+    {
+        Room room = rooms[roomDict[CurrentRoom]].GetComponent<Room>();
+        camera.GetComponent<CameraMovement>().SetEast(room.maxEast.position);
+        camera.GetComponent<CameraMovement>().SetWest(room.maxWest.position);
+        camera.GetComponent<CameraMovement>().SetNorth(room.maxNorth.position);
+        camera.GetComponent<CameraMovement>().SetSouth(room.maxSouth.position);
+    }
+
+    public Room GetCurrentRoom()
+    {
+        return rooms[roomDict[CurrentRoom]].GetComponent<Room>();
     }
 
     public void SetLevelComplete(bool value)
     {
-        levelComplete=value;
+        levelComplete = value;
     }
-    public float GetBonusDifficulty()
+
+    public float GetDifficulty()
     {
         return difficultyMultiplier;
     }
 
-    private Vector3 GetPositionFromGridIndex(Vector2Int gridIndex)
+    private Vector3 GetPositionFromGridIndex(Vector2Int index)
     {
-        int gridX=gridIndex.x;
-        int gridY=gridIndex.y;
-        return new Vector3(roomWidth*(gridX-gridSizeX/2),roomHeight*(gridY-gridSizeY/2));
+        return new Vector3(roomWidth * index.x, roomHeight * index.y);
     }
 
-    private void OnDrawGizmos()
+    private delegate bool RoomCondition(System.Random rng);
+
+    private bool TreasureCondition(System.Random rng)
     {
-        Color gizmoColor = new Color(0,1,1,0.05f);
-        Gizmos.color=gizmoColor;
-        for (int x=0;x<gridSizeX;x++){
-            for (int y=0;y<=gridSizeY;y++){
-                Vector3 position = GetPositionFromGridIndex(new Vector2Int(x,y));
-                Gizmos.DrawWireCube(new Vector3(position.x,position.y), new Vector3(roomWidth,roomHeight,1));
-            }
+        return rng.Next(0, 100) < 10;
+    }
+
+    private bool ChallengeCondition(System.Random rng)
+    {
+        return rng.Next(0, 100) * 10 < (int) (50.0f * difficultyMultiplier);
+    }
+
+    private bool TryMakeRoom<T>(GameObject prefab, Vector2Int index, String name, System.Random rng, RoomCondition condition) where T : Room
+    {
+        if (condition is not null)
+        {
+            if (!condition(rng)) return false;
         }
-    }
 
-    private void StartRoomGeneration(Vector2Int roomIndex)
-    {
-        roomQueue.Enqueue(roomIndex);
-        int x = roomIndex.x;
-        int y = roomIndex.y;
-        roomGrid[x,y]=1;
+        if (roomDict.ContainsKey(index)) return false;
+
+        var room = Instantiate(prefab, GetPositionFromGridIndex(index), Quaternion.identity);
+        if (LastWalkerPosition != WalkerPosition)
+        {
+            rooms[roomDict[LastWalkerPosition]].GetComponent<Room>().OpenDoor(WalkerPosition - LastWalkerPosition);
+            room.GetComponent<Room>().OpenDoor(LastWalkerPosition - WalkerPosition);
+        }
+
+        room.GetComponent<T>().RoomIndex = index;
+        room.name = $"{name}-{roomCount}";
+        roomDict.Add(index, roomCount);
+        rooms.Add(room);
         roomCount++;
-
-        var initialRoom = Instantiate(roomPrefab, GetPositionFromGridIndex(roomIndex),Quaternion.identity);
-        initialRoom.name = $"Room-{roomCount}";
-        initialRoom.GetComponent<Room>().RoomIndex=roomIndex;
-        rooms.Add(initialRoom);
-    }
-
-    private bool checkRequirements(Vector2Int roomIndex)
-    {
-        int x = roomIndex.x;
-        int y = roomIndex.y;
-
-        if (x>=gridSizeX || y>=gridSizeY || x<0 || y<0 || roomCount>=totalRooms)
-        {
-            return false;
-        }
-
-        if (roomCount>=totalRooms)
-        {
-            return false;
-        }
-
-        if (UnityEngine.Random.value < 0.5f && roomIndex !=new Vector2Int(gridSizeX/2,gridSizeY/2))
-        {
-            return false;
-        }
-        if (CountAdjacentRooms(roomIndex)>1)
-        {
-            return false;
-        }
         return true;
-    }
-
-    private bool TryMakeBossRoom(Vector2Int roomIndex, int x, int y)
-    {
-        if (roomCount==totalRooms)
-        {
-            var bossRoom = Instantiate(bossRoomPrefab, GetPositionFromGridIndex(roomIndex),Quaternion.identity);
-            bossRoom.name = $"Boss Room-{roomCount}";
-            bossRoom.GetComponent<BossRoom>().RoomIndex=roomIndex;
-            rooms.Add(bossRoom);
-            OpenDoors(bossRoom,x,y);
-            return true;
-        }
-        return false;
-    }
-
-    private bool TryMakeTreasureRoom(Vector2Int roomIndex, int x, int y)
-    {
-        if (UnityEngine.Random.value<(0.1f*difficultyMultiplier) && roomIndex!=new Vector2Int(gridSizeX/2,gridSizeY/2))
-        {
-            var treasureRoom = Instantiate(treasureRoomPrefab, GetPositionFromGridIndex(roomIndex),Quaternion.identity);
-            treasureRoom.name = $"Treasure Room-{roomCount}";
-            treasureRoom.GetComponent<TreasureRoom>().RoomIndex=roomIndex;
-            rooms.Add(treasureRoom);
-            OpenDoors(treasureRoom,x,y);
-            return true;
-        }
-        return false;
-    }
-
-    private bool TryMakeChallengeRoom(Vector2Int roomIndex, int x, int y)
-    {
-        if (UnityEngine.Random.value<(0.3f*difficultyMultiplier) && roomIndex!=new Vector2Int(gridSizeX/2,gridSizeY/2))
-        {
-            var challengeRoom = Instantiate(challengeRoomPrefab, GetPositionFromGridIndex(roomIndex),Quaternion.identity);
-            challengeRoom.name = $"Challenge Room-{roomCount}";
-            challengeRoom.GetComponent<ChallengeRoom>().RoomIndex=roomIndex;
-            rooms.Add(challengeRoom);
-            OpenDoors(challengeRoom,x,y);
-            return true;
-        }
-        return false;
-    }
-    private bool TryMakeSpecialRoom(Vector2Int roomIndex, int x, int y)
-    {
-        if (TryMakeBossRoom(roomIndex,x,y))
-        {
-            return true;
-        }
-        if (TryMakeTreasureRoom(roomIndex,x,y))
-        {
-            return true;
-        }
-        if (TryMakeChallengeRoom(roomIndex,x,y))
-        {
-            return true;
-        }
-        return false;
-    }
-    private bool TryGenerateRoom(Vector2Int roomIndex)
-    {
-        int x = roomIndex.x;
-        int y = roomIndex.y;
-
-        if (!checkRequirements(roomIndex))
-        {
-            return false;
-        }
-
-        roomQueue.Enqueue(roomIndex);
-        roomGrid[x,y] = 1;
-        roomCount++;
-
-        if (TryMakeSpecialRoom(roomIndex,x,y))
-        {
-            return true;
-        }
-
-        var newRoom = Instantiate(roomPrefab, GetPositionFromGridIndex(roomIndex),Quaternion.identity);
-        newRoom.GetComponent<Room>().RoomIndex=roomIndex;
-        newRoom.name=$"Room-{roomCount}";
-        rooms.Add(newRoom);
-        OpenDoors(newRoom,x,y);
-        return true;
-
     }
 
     public void DeleteAllRemainingObjects()
@@ -197,165 +184,27 @@ public class RoomManager : MonoBehaviour
         GameObject[] allObjects = FindObjectsOfType<GameObject>();
         foreach (GameObject obj in allObjects)
         {
-            if (obj.tag!="Player" && obj.tag!="MainCamera" && obj.tag!="UI" && obj.tag!="GameController" && obj.tag!="Untagged") //delete untagged at final build
+            if (obj.tag != "Player" && obj.tag != "MainCamera" && obj.tag != "UI" && obj.tag != "GameController" && obj.tag != "Untagged") //delete untagged at final build
             {
                 Destroy(obj);
             }
         }
     }
-    private void RegenerateRooms()
-    {
 
-        rooms.ForEach(room=>Destroy(room));
-        rooms.Clear();
-        DeleteAllRemainingObjects();
-        roomGrid = new int[gridSizeX,gridSizeY];
-        roomQueue.Clear();
-        roomCount=0;
-        generationComplete=false;
-        Vector2Int initialRoomIndex = new Vector2Int(gridSizeX/2,gridSizeY/2);
-        StartRoomGeneration(initialRoomIndex);
+    public void SetCurrentRoom(Vector2Int index)
+    {
+        this.CurrentRoom = index;
+        this.SetBounds();
     }
 
-    private int CountAdjacentRooms(Vector2Int roomIndex)
+    public Room GetRoomAt(Vector2Int index)
     {
-        int x = roomIndex.x;
-        int y = roomIndex.y;
-        int count = 0 ;
-
-        if (x>0 && roomGrid[x-1,y]!=0)
-        {
-            count++;
-        }
-        if (x<gridSizeX-1 && roomGrid[x+1,y]!=0)
-        {
-            count++;
-        }
-        if (y>0 && roomGrid[x,y-1]!=0)
-        {
-            count++;
-        }
-        if (y<gridSizeY-1 && roomGrid[x,y+1]!=0)
-        {
-            count++;
-        }
-
-        return count;
+        if (!roomDict.ContainsKey(index)) return null;
+        return rooms[roomDict[index]].GetComponent<Room>();
     }
-
-    private void validateBossRoom(Room room, Room adjacentRoom, Vector2Int direction)
-    {
-        if (room is Room && adjacentRoom is BossRoom)
-        {
-            room.ColorDoor(-direction, Color.red);
-        }
-        if (room is BossRoom)
-        {
-            adjacentRoom.ColorDoor(direction, Color.red);
-        }
-    }
-
-    private void validateTreasureRoom(Room room, Room adjacentRoom, Vector2Int direction)
-    {
-        if (room is Room && adjacentRoom is TreasureRoom)
-        {
-            room.ColorDoor(-direction, Color.yellow);
-        }
-        if (room is TreasureRoom)
-        {
-            adjacentRoom.ColorDoor(direction, Color.yellow);
-        }
-    }
-
-    private void validateChallengeRoom(Room room, Room adjacentRoom, Vector2Int direction)
-    {
-        if (room is Room && adjacentRoom is ChallengeRoom)
-        {
-            room.ColorDoor(-direction, Color.blue);
-        }
-        if (room is ChallengeRoom)
-        {
-            adjacentRoom.ColorDoor(direction, Color.blue);
-        }
-    }
-    private void validateRoomType(Room room, Room adjacentRoom, Vector2Int direction)
-    {
-        validateBossRoom(room,adjacentRoom,direction);
-        validateTreasureRoom(room,adjacentRoom,direction);
-        validateChallengeRoom(room,adjacentRoom,direction);
-    }
-
-    void OpenDoors(GameObject room, int x, int y)
-    {
-        Room roomScript = room.GetComponent<Room>();
-        Room leftRoom = GetRoomScriptAt(new Vector2Int(x-1,y));
-        Room rightRoom = GetRoomScriptAt(new Vector2Int(x+1,y));
-        Room topRoom = GetRoomScriptAt(new Vector2Int(x,y+1));
-        Room bottomRoom = GetRoomScriptAt(new Vector2Int(x,y-1));
-
-
-        if (x>0 && roomGrid[x-1,y]!=0 && leftRoom!=null)
-        {
-            roomScript.OpenDoor(Vector2Int.left);
-            leftRoom.OpenDoor(Vector2Int.right);
-            validateRoomType(roomScript,leftRoom,Vector2Int.right);
-        }
-        if (x<gridSizeX-1 && roomGrid[x+1,y]!=0 && rightRoom!=null)
-        {
-            roomScript.OpenDoor(Vector2Int.right);
-            rightRoom.OpenDoor(Vector2Int.left);
-            validateRoomType(roomScript,rightRoom,Vector2Int.left);
-        }
-        if (y>0 && roomGrid[x,y-1]!=0 && bottomRoom!=null)
-        {
-            roomScript.OpenDoor(Vector2Int.down);
-            bottomRoom.OpenDoor(Vector2Int.up);
-            validateRoomType(roomScript,bottomRoom,Vector2Int.up);
-        }
-        if (y<gridSizeY-1 && roomGrid[x,y+1]!=0 && topRoom!=null)
-        {
-            roomScript.OpenDoor(Vector2Int.up);
-            topRoom.OpenDoor(Vector2Int.down);
-            validateRoomType(roomScript,topRoom,Vector2Int.down);
-        }
-    }
-
-    public Room GetRoomScriptAt(Vector2Int index)
-    {
-        GameObject room = rooms.Find(r => r.GetComponent<Room>().RoomIndex == index);
-        //Debug.Log("Room at index: "+index+" is "+room);
-        if (room != null)
-        {
-            return room.GetComponent<Room>();
-        }
-        return null;
-    }
-    
 
     void Update()
     {
-        if (roomQueue.Count>0 && roomCount<totalRooms && !generationComplete)
-        {
-            Vector2Int roomIndex=roomQueue.Dequeue();
-            int gridX=roomIndex.x;
-            int gridY=roomIndex.y;
-
-            TryGenerateRoom(new Vector2Int(gridX+1,gridY));
-            TryGenerateRoom(new Vector2Int(gridX-1,gridY));
-            TryGenerateRoom(new Vector2Int(gridX,gridY+1));
-            TryGenerateRoom(new Vector2Int(gridX,gridY-1));
-        }
-        else if (roomCount<totalRooms || levelComplete==true)
-        {
-            levelComplete=false;
-            Debug.Log("Regenerating Rooms because Level Complete");
-            RegenerateRooms();
-        }
-        else if (!generationComplete)
-        {
-            generationComplete=true;
-            Debug.Log("Generation Complete");
-            difficultyMultiplier=Math.Max(difficultyMultiplier+0.1f,difficultyMultiplierCap);
-        }
+        
     }
 }

@@ -24,16 +24,6 @@ public class PlayerStats : MonoBehaviour {
         trapImmune = value;
     }
 
-    public void TakeDamage(float damage) {
-        if (isDead) return;
-        health -= damage;
-        Debug.Log(string.Format("Health remaining: {0}.", health));
-
-        if (health <= 0) {
-            isDead = true;
-        }
-    }
-
     public void Heal(float heal) {
         if (isDead) return;
         if (health + heal > maxHealth) {

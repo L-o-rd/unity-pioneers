@@ -1,11 +1,6 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Prefabs/AntiTrapPowerup.prefab.meta
-guid: 22406914b663c654d862338e4dd74e16
-PrefabImporter:
-========
-guid: e9adaeef58a247e4a857e6bedfd623ae
+guid: 85c71fd47d0b3d94f9d9c4cc9cdbcbb1
 DefaultImporter:
->>>>>>>> main:Assets/Scenes/Enemy_Integration.unity.meta
   externalObjects: {}
   userData: 
   assetBundleName: 

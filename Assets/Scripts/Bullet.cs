@@ -25,11 +25,12 @@ public class Bullet : MonoBehaviour
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
 		var enemy = collision.GetComponent<EnemyHealth>();
-		Debug.Log("Bullet collided with " + collision.name);
+		// Debug.Log("Bullet collided with " + collision.name);
 		if (enemy != null)
 		{
 			enemy.TakeDamage(Damage);
-			gameObject.SetActive(false);
-		}
-	}
+        }
+
+        gameObject.SetActive(false);
+    }
 }

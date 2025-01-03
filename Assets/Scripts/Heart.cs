@@ -7,7 +7,7 @@ public class Heart : MonoBehaviour
     private float heal=20f;
     void Start()
     {
-        heal/=GameObject.Find("RoomManager").GetComponent<RoomManager>().GetBonusDifficulty();
+        heal /= GameObject.Find("RoomManager").GetComponent<RoomManager>().GetDifficulty();
     }
 
         void OnTriggerEnter2D(Collider2D other){

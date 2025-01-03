@@ -64,12 +64,17 @@ public class PlayerMovement : MonoBehaviour {
             rb.MovePosition(rb.position + movement * maxSpeed * Time.fixedDeltaTime);
         }
 
-        if (movement != Vector2.zero) {
-            direction.SetActive(true);
-            float angle = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg;
-            direction.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle - 90));
-            direction.transform.position = rb.position + movement * 0.5f;
-        } else direction.SetActive(false);
+        if (direction is not null)
+        {
+            if (movement != Vector2.zero)
+            {
+                direction.SetActive(true);
+                float angle = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg;
+                direction.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle - 90));
+                direction.transform.position = rb.position + movement * 1.0f;
+            }
+            else direction.SetActive(false);
+        }
     }
 
     public bool IsImmuneToSlow()
@@ -98,7 +103,7 @@ public class PlayerMovement : MonoBehaviour {
 
     private bool DetectDoubleTap(KeyCode key) {
         if (Input.GetKeyDown(key)){
-            Debug.Log("Detecting double tap with pressed key: "+key);
+            // Debug.Log("Detecting double tap with pressed key: "+key);
             if (lastKeyPressed == key && Time.time - lastKeyPressedTime < doubleTapThreshold) {
                 return true;
             }

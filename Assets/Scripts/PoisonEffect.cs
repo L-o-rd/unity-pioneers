@@ -10,7 +10,7 @@ public class PoisonEffect : MonoBehaviour
 
     public void Initialize(float damage, float radius, float duration)
     {
-        poisonDamage = damage*GameObject.Find("RoomManager").GetComponent<RoomManager>().GetBonusDifficulty();
+        poisonDamage = damage*GameObject.Find("RoomManager").GetComponent<RoomManager>().GetDifficulty();
         poisonRadius = radius;
         poisonDuration = duration;
 

@@ -29,7 +29,7 @@ public class WeaponManager : MonoBehaviour
             currentWeaponIndex = index;
             playerShooting.EquipWeapon(availableWeapons[currentWeaponIndex]);
             SaveWeaponSelection(); // Save the weapon index after equipping
-            Debug.Log($"Equipped weapon: {availableWeapons[currentWeaponIndex].weaponName}");
+            // Debug.Log($"Equipped weapon: {availableWeapons[currentWeaponIndex].weaponName}");
         }
         else
         {
@@ -47,7 +47,7 @@ public class WeaponManager : MonoBehaviour
     {
         PlayerPrefs.SetInt("SelectedWeaponIndex", currentWeaponIndex);
         PlayerPrefs.Save();
-        Debug.Log($"Weapon index {currentWeaponIndex} saved.");
+        // Debug.Log($"Weapon index {currentWeaponIndex} saved.");
     }
 
     private void LoadWeaponSelection()
@@ -61,6 +61,6 @@ public class WeaponManager : MonoBehaviour
             currentWeaponIndex = 0;
         }
 
-        Debug.Log($"Loaded weapon index: {currentWeaponIndex}");
+        // Debug.Log($"Loaded weapon index: {currentWeaponIndex}");
     }
 }
