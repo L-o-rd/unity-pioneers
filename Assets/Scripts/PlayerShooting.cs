@@ -12,6 +12,7 @@ public class PlayerShooting : MonoBehaviour
     private SpriteRenderer gunSpriteRenderer; // To reference the gun's sprite renderer
     private bool isFlipped = false;     // Tracks if the gun is flipped
     private float nextFireTime = 0f;    // Time until the next shot is allowed
+    private float fireRateMultiplier = 1f; // Multiplier for fire rate
 
     void Start()
     {
@@ -24,13 +25,21 @@ public class PlayerShooting : MonoBehaviour
         HandleShooting();
         FlipGun();
     }
+    public float getFireRateMultiplier()
+    {
+        return fireRateMultiplier;
+    }
+    public void setFireRateMultiplier(float multiplier)
+    {
+        fireRateMultiplier = multiplier;
+    }
 
     private void HandleShooting()
     {
         // Check if the fire button is pressed and if we can fire
         if (Input.GetButton("Fire1") && Time.time >= nextFireTime)
         {
-            nextFireTime = Time.time + (1f / equippedWeapon.fireRate);
+            nextFireTime = Time.time + (1f / (equippedWeapon.fireRate*fireRateMultiplier));
             Shoot();
         }
     }

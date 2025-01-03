@@ -11,6 +11,7 @@ TagManager:
   - Treasure
   - Particles
   - Trap
+  - Enemy
   layers:
   - Default
   - TransparentFX

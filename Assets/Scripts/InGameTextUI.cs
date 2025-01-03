@@ -32,14 +32,15 @@ public class InGameTextUI : MonoBehaviour
         descriptionText.gameObject.SetActive(false);
     }
 
-    public void ShowWorldFeedback(string text)
+    public void ShowWorldFeedback(string text,Color color)
     {
-        StartCoroutine(DisplayWorldFeedback(text, worldTextDuration));
+        StartCoroutine(DisplayWorldFeedback(text, worldTextDuration,color));
     }
 
-    private IEnumerator DisplayWorldFeedback(string text, float worldTextDuration)
+    private IEnumerator DisplayWorldFeedback(string text, float worldTextDuration, Color color)
     {
         worldText.text = text;
+        worldText.color = color;
         worldText.gameObject.SetActive(true);
         yield return new WaitForSeconds(worldTextDuration);
         worldText.gameObject.SetActive(false);

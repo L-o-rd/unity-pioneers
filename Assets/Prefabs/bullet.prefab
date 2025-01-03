@@ -171,4 +171,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd3fe65f0c44a2f428161aa4187542d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxRange: 30
+  MaxRange: 30
+  Damage: 20
+  damageCap: 50

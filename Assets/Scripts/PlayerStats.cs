@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour
 {
 	private bool isDead = false;
-    private bool trapImmune = false;
+	private bool trapImmune = false;
 	private float health;
 
     [SerializeField]
@@ -25,16 +25,6 @@ public class PlayerStats : MonoBehaviour
         trapImmune = value;
     }
 
-    public void TakeDamage(float damage) {
-        if (isDead) return;
-        health -= damage;
-        Debug.Log(string.Format("Health remaining: {0}.", health));
-
-        if (health <= 0) {
-            isDead = true;
-        }
-    }
-
     public void Heal(float heal) {
         if (isDead) return;
         if (health + heal > maxHealth) {
@@ -42,6 +32,11 @@ public class PlayerStats : MonoBehaviour
             return;
         }
         health += heal;
+		var rageMeter = GetComponent<RageMeter>();
+		if (rageMeter != null)
+		{
+			rageMeter.AddRage(Mathf.Floor(-heal / 5));
+		}
         Debug.Log(string.Format("Health remaining: {0}.", health));
     }
 
@@ -78,8 +73,13 @@ public class PlayerStats : MonoBehaviour
 		}
 
 		health -= amount;
+		var rageMeter = GetComponent<RageMeter>();
+		if (rageMeter != null)
+		{
+			rageMeter.AddRage(Mathf.Floor(amount / 3));
+		}
 		Debug.Log($"Health remaining: {health}");
-
+		FindObjectOfType<InGameTextUI>().ShowWorldFeedback("-"+amount+"HP",Color.red);
 		if (health <= 0)
 		{
 			isDead = true;

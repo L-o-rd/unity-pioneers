@@ -511,19 +511,17 @@ MonoBehaviour:
   bottomDoor: {fileID: 3868070198333767867}
   leftDoor: {fileID: 1848342266650343687}
   rightDoor: {fileID: 9088101269857889645}
-  trapWeights:
-  - trapPrefab: {fileID: 6672191614378403612, guid: 194a3555fcccb6043ae5995027f634c6, type: 3}
-    weight: 1
-  - trapPrefab: {fileID: 6516697257806821546, guid: 30b81d4038d7b7740b09f35150ed6e5e, type: 3}
-    weight: 1
-  - trapPrefab: {fileID: 8312954973427701736, guid: b805b26f036caa844800bdc0f690f9df, type: 3}
-    weight: 3
-  - trapPrefab: {fileID: 6132292642768095577, guid: f6d993110b8b7ae479833e76cb4f87da, type: 3}
-    weight: 3
-  - trapPrefab: {fileID: 5293155174675913490, guid: 475a1ea6ac6ab9947b720824c98f492c, type: 3}
+  rewardWeights:
+  - rewardPrefab: {fileID: 2984619610456011452, guid: 87a12ae4bdbb6ce4cb3c57f1a627db13, type: 3}
+    weight: 4
+  - rewardPrefab: {fileID: 1622943197523293393, guid: c0c3e8af33665dd4f802d25002f6e309, type: 3}
+    weight: 5
+  - rewardPrefab: {fileID: 1348100166636745767, guid: 22406914b663c654d862338e4dd74e16, type: 3}
     weight: 2
-  safeZoneRadius: 2
-  trapSpacing: 1.5
+  - rewardPrefab: {fileID: 9209656792178838127, guid: d2eae6bfef4bbe64ebce1366e1d84fad, type: 3}
+    weight: 3
+  - rewardPrefab: {fileID: 4436189384927093668, guid: aac291e27ccc33a4290956a0c06d26c6, type: 3}
+    weight: 4
   RoomIndex: {x: 0, y: 0}
 --- !u!61 &589909037542033222
 BoxCollider2D:

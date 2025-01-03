@@ -144,7 +144,7 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     public void ReduceDashCooldown(){
-        dashCooldown=Mathf.Min(dashCooldown-1,1);
+        dashCooldown=Mathf.Max(dashCooldown-1,1);
     }
 }
 

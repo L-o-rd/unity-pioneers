@@ -41,16 +41,34 @@ public class ProximityMine : MonoBehaviour
             Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
         }
 
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
+        Collider2D[] objectsInRange = Physics2D.OverlapCircleAll(transform.position, explosionRange);
+        foreach (Collider2D obj in objectsInRange)
         {
-            float distance = Vector2.Distance(transform.position, player.transform.position);
-            if (distance <= explosionRange)
+            // Trigger explosions in other crates
+            if (obj.CompareTag("Trap"))
             {
-                PlayerStats playerStats = player.GetComponent<PlayerStats>();
+                Crate crate = obj.GetComponent<Crate>();
+                if (crate != null)
+                {
+                    crate.InteractWithCrate();
+                }
+            }
+
+            if (obj.CompareTag("Player"))
+            {
+                PlayerStats playerStats = obj.GetComponent<PlayerStats>();
                 if (playerStats != null && !playerStats.isTrapImmune())
                 {
                     playerStats.TakeDamage(explosionDamage);
+                }
+            }
+
+            if (obj.CompareTag("Enemy"))
+            {
+                EnemyHealth enemy = obj.GetComponent<EnemyHealth>();
+                if (enemy != null)
+                {
+                    enemy.TakeDamage(explosionDamage);
                 }
             }
         }

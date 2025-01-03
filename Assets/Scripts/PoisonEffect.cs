@@ -35,6 +35,14 @@ public class PoisonEffect : MonoBehaviour
                         playerStats.TakeDamage(poisonDamage);
                     }
                 }
+                if (obj.CompareTag("Enemy"))
+                {
+                    EnemyHealth enemy = obj.GetComponent<EnemyHealth>();
+                    if (enemy != null)
+                    {
+                        enemy.TakeDamage(poisonDamage);
+                    }
+                }
             }
 
             elapsedTime += 1f;
