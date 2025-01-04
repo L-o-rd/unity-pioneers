@@ -3,19 +3,26 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
 	public float MaxRange = 30f; // Maximum range in units
-	public float Damage = 20f; // Damage dealt by the bullet
-
+	public float BaseDamage = 20f; // Damage dealt by the bullet
+	private float Damage;
+	[SerializeField]
+	private PlayerStats playerStats;
 	private Vector2 startPosition;
 
-	void OnEnable()
+	public void setDamage()
+	{
+		Damage = BaseDamage + playerStats.getBonusDamage();
+	}
+    void OnEnable()
 	{
 		startPosition = transform.position; // Save the bullet's starting position when activated
-	}
+    }
 
-	void Update()
+    void Update()
 	{
-		// Check if the bullet has exceeded its maximum range
-		float distanceTraveled = Vector2.Distance(startPosition, transform.position);
+		Debug.Log(Damage);
+        // Check if the bullet has exceeded its maximum range
+        float distanceTraveled = Vector2.Distance(startPosition, transform.position);
 		if (distanceTraveled >= MaxRange)
 		{
 			gameObject.SetActive(false); // Deactivate the bullet after reaching max range

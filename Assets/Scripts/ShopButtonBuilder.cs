@@ -8,19 +8,39 @@ using UnityEngine.UI;
 
 public class ShopButtonBuilder : MonoBehaviour
 {
-    [SerializeField]
     private string upgradeName;
-    [SerializeField]
     private int price;
-    [SerializeField]
     private int upgradeLevel;
     [SerializeField]
     private List<Sprite> sprites;
+    [SerializeField]
+    private PlayerStats playerStats;
+
     void Start()
+    {
+        buildButton();
+    }
+
+    public void setUpgradeName(string name)
+    {
+        this.upgradeName = name;
+    }
+
+    public void setPrice(int price)
+    {
+        this.price = price;
+    }
+
+    public void setUpgradeLevel(int level)
+    {
+        this.upgradeLevel = level;
+    }
+
+    public void buildButton()
     {
         gameObject.transform.GetChild(1).GetComponent<TMP_Text>().text = upgradeName;
         gameObject.transform.GetChild(2).GetComponent<TMP_Text>().text = price.ToString();
-        if(upgradeLevel < 0 || upgradeLevel > 6)
+        if (upgradeLevel < 0 || upgradeLevel > 6)
         {
             Debug.Log("Invalid upgrade level.");
         }
