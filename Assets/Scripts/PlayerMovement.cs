@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour {
     private bool canDash = false;
     private bool immuneToSlow = false;
     private float maxSpeed;
+    private Animator animator;
 
     [SerializeField]
     private GameObject direction;
@@ -37,6 +38,7 @@ public class PlayerMovement : MonoBehaviour {
 
     private void Start() {
         rb = this.GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     private void Update() {
@@ -46,6 +48,15 @@ public class PlayerMovement : MonoBehaviour {
         movement.x = horizontal;
         movement.y = vertical;
         movement.Normalize();
+
+        if(movement.x == 0 && movement.y == 0)
+        {
+            animator.SetBool("isMoving", false);
+        }
+        else
+        {
+            animator.SetBool("isMoving", true);
+        }
 
         if (DetectDoubleTap(right) || DetectDoubleTap(left) || 
             DetectDoubleTap(up) || DetectDoubleTap(down))
