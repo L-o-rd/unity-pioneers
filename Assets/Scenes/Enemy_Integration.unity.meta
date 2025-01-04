@@ -1,11 +1,6 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Prefabs/bullet  Homing.prefab.meta
-guid: 217ab7efdc5dc1e418c4f4e855df416e
-PrefabImporter:
-========
-guid: e9adaeef58a247e4a857e6bedfd623ae
+guid: 85c71fd47d0b3d94f9d9c4cc9cdbcbb1
 DefaultImporter:
->>>>>>>> 001a6a5c09e44983e3574df05c6ac6ca3a404834:Assets/Scenes/Enemy_Integration.unity.meta
   externalObjects: {}
   userData: 
   assetBundleName: 

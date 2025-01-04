@@ -1,8 +1,15 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GunRotation : MonoBehaviour {
     [SerializeField]
     private Transform gun; // Referință către arma copil
+    private Quaternion initq;
+
+    private void Awake()
+    {
+        initq = gun.rotation;
+    }
 
     private void Update() {
         // Obține poziția mouse-ului în coordonatele lumii
@@ -16,11 +23,8 @@ public class GunRotation : MonoBehaviour {
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
         // Setează rotația player-ului
-        transform.rotation = Quaternion.Euler(0, 0, angle);
-
-        // Sincronizează rotația gun-ului
-        if (gun != null) {
-            gun.rotation = Quaternion.Euler(0, 0, angle); // Gun urmează aceeași rotație
-        }
+        gun.rotation = initq;
+        gun.RotateAround(transform.position, Vector3.forward, angle);
+        gun.position = transform.position + direction * 1.2f;
     }
 }

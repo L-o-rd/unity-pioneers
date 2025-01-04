@@ -7,7 +7,10 @@ TagManager:
   - Door
   - Room
   - FinalDoor
-  - Enemy
+  - Bullet
+  - Treasure
+  - Particles
+  - Trap
   layers:
   - Default
   - TransparentFX

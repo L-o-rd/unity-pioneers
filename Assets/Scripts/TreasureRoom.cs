@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class TreasureRoom : Room
 {
-    // Start is called before the first frame update
 
     // Future logic for spawning treasure and collecting the treasure
     // Waiting on currency system and powerups to be implemented
-
     
     [SerializeField] GameObject coinPrefab;
     private int coinCount;
     [SerializeField] GameObject chestPrefab;
+    [SerializeField] GameObject shopPrefab;
 
     [SerializeField] float spreadRangeX = 4f;
 
@@ -20,6 +19,10 @@ public class TreasureRoom : Room
 
     void GenerateChest(){
         Instantiate(chestPrefab, transform.position+new Vector3(7f,-4f,0), Quaternion.identity);
+    }
+
+    void GenerateShop(){
+        Instantiate(shopPrefab, transform.position+new Vector3(7f,-4f,0), Quaternion.identity);
     }
 
     void GenerateCoins(){
@@ -30,11 +33,16 @@ public class TreasureRoom : Room
     }
 
     void GenerateReward(){
-        if (UnityEngine.Random.value<0.7f){
+        float randomValue = UnityEngine.Random.value;
+        if (randomValue<0.33f){
             GenerateCoins();
             return;
         }
-        GenerateChest();
+        if (randomValue<0.66f){
+            GenerateChest();
+            return;
+        }
+        GenerateShop();
         
     }
     void Start()

@@ -12,12 +12,30 @@ public class PlayerMovement : MonoBehaviour {
     private float vertical = 0f;
     private Vector2 movement;
     private Rigidbody2D rb;
+    private KeyCode lastKeyPressed = KeyCode.None;
+    private float doubleTapThreshold = 0.3f;
+    private float lastKeyPressedTime;
+    private bool isDashing = false;
+    private bool canDash = false;
+    private bool immuneToSlow = false;
+
 
     [SerializeField]
     private GameObject direction;
 
     [SerializeField]
     private float maxSpeed = 5.5f;
+
+    [SerializeField] 
+    private float dashSpeedMultiplier = 2.5f;
+
+    [SerializeField] 
+    private float dashDuration = 0.2f;
+
+    [SerializeField]
+
+    private float dashCooldown = 5f;
+    
 
     private void Start() {
         rb = this.GetComponent<Rigidbody2D>();
@@ -29,21 +47,43 @@ public class PlayerMovement : MonoBehaviour {
         movement.x = horizontal;
         movement.y = vertical;
         movement.Normalize();
+
+        if (DetectDoubleTap(right) || DetectDoubleTap(left) || 
+            DetectDoubleTap(up) || DetectDoubleTap(down))
+        {
+            if (!isDashing && canDash)
+            {
+                StartCoroutine(Dash());
+            }
+        }
+
     }
 
     private void FixedUpdate() {
-        rb.MovePosition(rb.position + movement * maxSpeed * Time.fixedDeltaTime);
+        if (!isDashing) {
+            rb.MovePosition(rb.position + movement * maxSpeed * Time.fixedDeltaTime);
+        }
 
-        if (movement != Vector2.zero) {
-            direction.SetActive(true);
-            float angle = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg;
-            direction.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle - 90));
-            direction.transform.position = rb.position + movement * 0.5f;
-        } else direction.SetActive(false);
+        if (direction is not null)
+        {
+            if (movement != Vector2.zero)
+            {
+                direction.SetActive(true);
+                float angle = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg;
+                direction.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle - 90));
+                direction.transform.position = rb.position + movement * 1.0f;
+            }
+            else direction.SetActive(false);
+        }
     }
 
+    public bool IsImmuneToSlow()
+    {
+        return immuneToSlow;
+    }
     public void SlowPlayerBy(float percentage)
     {
+
         if (percentage < 0 || percentage > 1){
             Debug.LogWarning("Invalid percentage value");
             return;
@@ -53,11 +93,63 @@ public class PlayerMovement : MonoBehaviour {
 
     public void SpeedUpPlayerBy(float percentage)
     {
+
         if (percentage < 0 || percentage > 1){
             Debug.LogWarning("Invalid percentage value");
             return;
         }
         maxSpeed /= percentage;
+    }
+
+    private bool DetectDoubleTap(KeyCode key) {
+        if (Input.GetKeyDown(key)){
+            // Debug.Log("Detecting double tap with pressed key: "+key);
+            if (lastKeyPressed == key && Time.time - lastKeyPressedTime < doubleTapThreshold) {
+                return true;
+            }
+            lastKeyPressed = key;
+            lastKeyPressedTime = Time.time;
+        }
+
+        return false;
+    }
+
+    private IEnumerator Dash()
+    {
+        Debug.Log("Dashing");
+        isDashing = true;
+        canDash = false;
+        immuneToSlow = true;
+        Vector2 dashDirection = movement != Vector2.zero ? movement : Vector2.up;
+
+        float dashSpeed = maxSpeed * dashSpeedMultiplier;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < dashDuration)
+        {
+            rb.MovePosition(rb.position + dashDirection * dashSpeed * Time.fixedDeltaTime);
+            elapsedTime += Time.fixedDeltaTime;
+            yield return null;
+        }
+        immuneToSlow = false;
+        isDashing = false;
+
+        // Start cooldown
+        yield return new WaitForSeconds(dashCooldown);
+        canDash = true;
+    }
+
+    public void ActivateDashPower(){
+        if (canDash){
+            ReduceDashCooldown();
+        }
+        Debug.Log("Dash Power Activated");
+        Debug.Log("Dash Cooldown: "+dashCooldown);
+        canDash=true;
+    }
+
+    public void ReduceDashCooldown(){
+        dashCooldown=Mathf.Min(dashCooldown-1,1);
     }
 }
 

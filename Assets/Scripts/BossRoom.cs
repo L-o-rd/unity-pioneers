@@ -17,6 +17,7 @@ public class BossRoom : Room
             //roomManager.SetLevelComplete(true);
             return;
         }
+
         if (!bottomDoor.activeInHierarchy){
             bottomDoor.SetActive(true);
             bottomDoor.GetComponent<SpriteRenderer>().color = Color.white;
@@ -24,6 +25,7 @@ public class BossRoom : Room
             //roomManager.SetLevelComplete(true);
             return;
         }
+
         if (!leftDoor.activeInHierarchy){
             leftDoor.SetActive(true);
             leftDoor.GetComponent<SpriteRenderer>().color = Color.white;
@@ -31,6 +33,7 @@ public class BossRoom : Room
             //roomManager.SetLevelComplete(true);
             return;
         }
+
         if (!rightDoor.activeInHierarchy){
             rightDoor.SetActive(true);
             rightDoor.GetComponent<SpriteRenderer>().color = Color.white;
@@ -38,15 +41,13 @@ public class BossRoom : Room
            //roomManager.SetLevelComplete(true);
             return;
         }
-        //TODO: Add logic to spawn some other door if all doors are active
-        
     }
 
 
     void Start()
     {
         //no boss yet, just open the door instantly
-        ActivateFinalDoor();
+        // ActivateFinalDoor();
     }
 
     // Update is called once per frame

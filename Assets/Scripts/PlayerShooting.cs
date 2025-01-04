@@ -106,6 +106,6 @@ public class PlayerShooting : MonoBehaviour
             gunSpriteRenderer.sprite = equippedWeapon.gunSprite;
         }
 
-        Debug.Log($"Equipped weapon: {newWeapon.weaponName}");
+        // Debug.Log($"Equipped weapon: {newWeapon.weaponName}");
     }
 }

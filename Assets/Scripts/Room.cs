@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class Room : MonoBehaviour
 {
-    // Start is called before the first frame update
 
     [SerializeField]
-     public GameObject topDoor;
+    public GameObject topDoor;
 
     [SerializeField]
     public GameObject bottomDoor;
@@ -18,6 +17,27 @@ public class Room : MonoBehaviour
     [SerializeField]
     public GameObject rightDoor;
 
+    [SerializeField]
+    public Transform maxNorth;
+
+    [SerializeField]
+    public Transform maxSouth;
+
+    [SerializeField]
+    public Transform maxWest;
+
+    [SerializeField]
+    public Transform maxEast;
+
+    [SerializeField]
+    private List<TrapWeight> trapWeights;
+
+    [SerializeField]
+    private float safeZoneRadius = 3f;
+
+    [SerializeField]
+    private float trapSpacing = 1.5f;
+    private List<Vector3> occupiedPositions = new List<Vector3>();
     public Vector2Int RoomIndex;
 
     public void OpenDoor(Vector2Int direction)
@@ -66,6 +86,8 @@ public class Room : MonoBehaviour
             rightDoor.GetComponent<SpriteRenderer>().color = color;
         }
     }
+
+
     
     void Start()
     {
