@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 5801989139618244415}
   - component: {fileID: 2799077479805618235}
   - component: {fileID: 3755212429837389612}
-  - component: {fileID: 5408906426170735165}
+  - component: {fileID: 7811938855443539676}
   m_Layer: 0
-  m_Name: bullet 1
+  m_Name: bullet Bounce
   m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -112,7 +112,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!61 &3755212429837389612
 BoxCollider2D:
@@ -130,7 +130,7 @@ BoxCollider2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_LayerOverridePriority: 0
+  m_LayerOverridePriority: 1
   m_ForceSendLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -143,7 +143,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -159,7 +159,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.69, y: 3.37}
   m_EdgeRadius: 0
---- !u!114 &5408906426170735165
+--- !u!114 &7811938855443539676
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -168,8 +168,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 6840079661474906302}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd3fe65f0c44a2f428161aa4187542d1, type: 3}
+  m_Script: {fileID: 11500000, guid: bf033780a2eb39443b03e3bad3366d6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxRange: 30
-  damage: 20
+  maxRicochets: 3
