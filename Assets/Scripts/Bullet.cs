@@ -9,18 +9,19 @@ public class Bullet : MonoBehaviour
 	private PlayerStats playerStats;
 	private Vector2 startPosition;
 
-	public void setDamage()
+	public void SetDamage()
 	{
 		Damage = BaseDamage + playerStats.getBonusDamage();
 	}
     void OnEnable()
 	{
 		startPosition = transform.position; // Save the bullet's starting position when activated
+		SetDamage();
     }
 
     void Update()
 	{
-		Debug.Log(Damage);
+		// Debug.Log(Damage);
         // Check if the bullet has exceeded its maximum range
         float distanceTraveled = Vector2.Distance(startPosition, transform.position);
 		if (distanceTraveled >= MaxRange)
