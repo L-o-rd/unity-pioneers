@@ -268,6 +268,7 @@ GameObject:
   - component: {fileID: 6372701817571382071}
   - component: {fileID: 5012531858453026479}
   - component: {fileID: 3122267784625944055}
+  - component: {fileID: 7331727362800672830}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -333,7 +334,7 @@ SpriteRenderer:
   m_SortingLayerID: 568003561
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
+  m_Sprite: {fileID: -307787176, guid: 16cba220c142c5a4c9174a63e9d936b5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -460,10 +461,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   totalCoins: 0
+  permanentCoins: 0
   defenceLevel: 0
   maxHealthLevel: 0
-  movementSpeedLevel: 0
-  bonusDamageLevel: 0
+  movementSpeedLevel: 6
+  bonusDamageLevel: 3
 --- !u!114 &6372701817571382071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -509,6 +511,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gun: {fileID: 1202894661746670718}
+--- !u!95 &7331727362800672830
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7866078939630502176}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e55694584a2ad7349823cd5cbbe19996, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8958051088796094090
 GameObject:
   m_ObjectHideFlags: 0
