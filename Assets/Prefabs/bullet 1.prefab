@@ -171,5 +171,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd3fe65f0c44a2f428161aa4187542d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxRange: 30
-  damage: 20
+  MaxRange: 30
+  Damage: 20
+  playerStats: {fileID: 961224960191432624, guid: cd45f08944e4f9b44a632c10cce68437, type: 3}
