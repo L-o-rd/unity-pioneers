@@ -796,6 +796,7 @@ GameObject:
   - component: {fileID: 790469814}
   - component: {fileID: 790469815}
   - component: {fileID: 790469816}
+  - component: {fileID: 790469817}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -956,10 +957,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   direction: {fileID: 331089665}
-  maxSpeed: 5.5
   dashSpeedMultiplier: 2.5
   dashDuration: 0.2
   dashCooldown: 5
+  playerStats: {fileID: 790469813}
 --- !u!114 &790469813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -972,7 +973,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 312c7f67353a1604f99ee696cc8d339e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  totalCoins: 5
+  permanentCoins: 5
+  defenceLevel: 5
+  maxHealthLevel: 5
+  movementSpeedLevel: 5
+  bonusDamageLevel: 5
 --- !u!114 &790469814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1019,6 +1025,27 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4bbfb03a16d37d940a3159c4b8dbe70f, type: 2}
   - {fileID: 11400000, guid: aa45d80c887833147b6ef954a97e64b6, type: 2}
   playerShooting: {fileID: 790469814}
+--- !u!95 &790469817
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 790469807}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e55694584a2ad7349823cd5cbbe19996, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &861557631
 GameObject:
   m_ObjectHideFlags: 0
