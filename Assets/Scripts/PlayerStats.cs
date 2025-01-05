@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class PlayerStats : MonoBehaviour {
@@ -18,11 +19,13 @@ public class PlayerStats : MonoBehaviour {
     public int movementSpeedLevel = 0;
 	[SerializeField]
     public int bonusDamageLevel = 0;
+	private InGameTextUI inGameTextUI;
+	private RageMeter rageMeter;
 
 	private int defence;
     private float maxHealth;
 	private float movementSpeed;
-	private int bonusDamage;
+	private int playerDamage;
 
     public float getTotalCoins(){
         return totalCoins;
@@ -36,6 +39,16 @@ public class PlayerStats : MonoBehaviour {
 		return (float)(5.5 + 2.5 / 6 * movementSpeedLevel);
 	}
 
+	public int setPlayerDamage(int damage)
+	{
+		playerDamage = damage;
+		return playerDamage;
+	}
+
+	public int getPlayerDamage()
+	{
+		return playerDamage;
+	}
 	public int getBonusDamage()
 	{
 		return bonusDamageLevel * 2;
@@ -61,12 +74,13 @@ public class PlayerStats : MonoBehaviour {
 
     public void Heal(float heal) {
         if (isDead) return;
+		
         if (health + heal > maxHealth) {
-            health = maxHealth;
-            return;
+			heal = maxHealth - health;
         }
         health += heal;
-		var rageMeter = GetComponent<RageMeter>();
+		inGameTextUI.ShowWorldFeedback("+"+heal+"HP",Color.green);
+		rageMeter = GetComponent<RageMeter>();
 		if (rageMeter != null)
 		{
 			rageMeter.AddRage(Mathf.Floor(-heal / 5));
@@ -81,6 +95,8 @@ public class PlayerStats : MonoBehaviour {
 		maxHealth = getMaxHealth();
 
 		health = maxHealth;
+			
+		inGameTextUI = FindObjectOfType<InGameTextUI>();
 	}
 
 	private void Update()
@@ -89,7 +105,8 @@ public class PlayerStats : MonoBehaviour {
 		{
 			return;
 		}
-
+		inGameTextUI.UpdateCoinText(totalCoins);
+		inGameTextUI.UpdateHPText(health);
 		// Debug: reduce health with the Space key
 		if (Input.GetKey(KeyCode.Space))
 		{
@@ -111,6 +128,11 @@ public class PlayerStats : MonoBehaviour {
 		}
 
 		health -= (amount - getDefence());
+		inGameTextUI.ShowWorldFeedback("-"+amount+"HP",Color.red);
+		if (rageMeter != null)
+		{
+			rageMeter.AddRage(Mathf.Floor(amount / 4));
+		}
 		Debug.Log($"Health remaining: {health}");
 
 		if (health <= 0)

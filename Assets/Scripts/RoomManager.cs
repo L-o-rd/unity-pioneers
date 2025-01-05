@@ -7,10 +7,10 @@ using UnityEngine;
 public class RoomManager : MonoBehaviour
 {
     [SerializeField] new Camera camera;
-    [SerializeField] GameObject roomPrefab;
+    [SerializeField] List<GameObject> roomPrefabs;
     [SerializeField] GameObject bossRoomPrefab;
     [SerializeField] GameObject treasureRoomPrefab;
-    [SerializeField] GameObject challengeRoomPrefab;
+    [SerializeField] List<GameObject> challengeRoomPrefab;
 
     [SerializeField] private int maxRooms = 4, minRooms = 2;
     [SerializeField] private float difficultyMultiplier = 1.0f;
@@ -27,7 +27,7 @@ public class RoomManager : MonoBehaviour
 
     void Awake()
     {
-        TryMakeRoom<Room>(roomPrefab, WalkerPosition, "Room", null, null);
+        TryMakeRoom<Room>(roomPrefabs[0], WalkerPosition, "Room", null, null);
     }
 
     private Vector2Int LastWalkerPosition = new Vector2Int(0, 0);
@@ -66,6 +66,16 @@ public class RoomManager : MonoBehaviour
         this.rng = new System.Random(seed);
     }
 
+    private GameObject GetRandomRoomPrefab()
+    {
+        return roomPrefabs[rng.Next(0, roomPrefabs.Count)];
+    }
+
+    private GameObject GetRandomChallengeRoomPrefab()
+    {
+        return challengeRoomPrefab[rng.Next(0, challengeRoomPrefab.Count)];
+    }
+
     private void GenerateRooms()
     {
         while (true)
@@ -77,8 +87,8 @@ public class RoomManager : MonoBehaviour
 
                 WalkerStep(rng.Next(0, 4));
                 if (TryMakeRoom<TreasureRoom>(treasureRoomPrefab, WalkerPosition, "TreasureRoom", rng, TreasureCondition)) continue;
-                if (TryMakeRoom<ChallengeRoom>(challengeRoomPrefab, WalkerPosition, "ChallengeRoom", rng, ChallengeCondition)) continue;
-                if (TryMakeRoom<Room>(roomPrefab, WalkerPosition, "Room", null, null))
+                if (TryMakeRoom<ChallengeRoom>(GetRandomChallengeRoomPrefab(), WalkerPosition, "ChallengeRoom", rng, ChallengeCondition)) continue;
+                if (TryMakeRoom<Room>(GetRandomRoomPrefab(), WalkerPosition, "Room", null, null))
                 {
                     difficultyMultiplier += 0.1f;
                     if (difficultyMultiplier >= difficultyMultiplierCap)

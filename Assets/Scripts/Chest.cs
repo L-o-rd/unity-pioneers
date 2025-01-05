@@ -9,7 +9,7 @@ public class Chest : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        bonusDifficulty=GameObject.Find("RoomManager").GetComponent<RoomManager>().GetBonusDifficulty();
+        bonusDifficulty=GameObject.Find("RoomManager").GetComponent<RoomManager>().GetDifficulty();
     }
     void OnTriggerEnter2D(Collider2D other){
         if (other.gameObject.tag=="Player")
@@ -22,6 +22,7 @@ public class Chest : MonoBehaviour
                 Debug.Log("Player opened a chest");
                 other.gameObject.GetComponent<PlayerStats>().addCoins(60*bonusDifficulty);
             }
+            Destroy(gameObject);
         }
     }
 }

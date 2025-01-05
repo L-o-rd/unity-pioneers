@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class DamagePowerup : PowerupManager
 {
-    [SerializeField] private float damageBoost = 5f;
+    [SerializeField] private int damageBoost = 3;
 
     protected override void ActivatePowerUp()
     {
-        if (bulletManager != null)
+        if (playerStats != null)
         {
-            bulletManager.AddGlobalDamageBoost(damageBoost);
+            playerStats.setPlayerDamage(playerStats.getPlayerDamage() + damageBoost);
             FindObjectOfType<InGameTextUI>().ShowFeedback(itemDescription);
             Destroy(gameObject);
         }

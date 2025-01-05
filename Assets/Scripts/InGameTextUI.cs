@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class InGameTextUI : MonoBehaviour
@@ -11,6 +12,12 @@ public class InGameTextUI : MonoBehaviour
 
     [SerializeField]
     private TMP_Text worldText;
+
+    [SerializeField]
+    private TMP_Text coinsText;
+
+    [SerializeField]
+    private TMP_Text hpText;
 
     [SerializeField]
     private float duration = 2f;
@@ -44,6 +51,19 @@ public class InGameTextUI : MonoBehaviour
         worldText.gameObject.SetActive(true);
         yield return new WaitForSeconds(worldTextDuration);
         worldText.gameObject.SetActive(false);
+    }
+
+    public void UpdateCoinText(float coins)
+    {
+        coinsText.text = "Coins: " + coins;
+    }
+
+    public void UpdateHPText(float health){
+        hpText.text = "Health: " + health;
+    }
+    void Update()
+    {
+        
     }
 
 

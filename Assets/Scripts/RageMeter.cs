@@ -6,12 +6,12 @@ public class RageMeter : MonoBehaviour
 {
     [SerializeField] private float maxRage = 200f; // Maximum rage value
     [SerializeField] private float rageDecayRate = 40f; // Rage decrease per second when activated
-    [SerializeField] private float damageBoost = 10f; // Extra damage during rage
+    [SerializeField] private int damageBoost = 10; // Extra damage during rage
     [SerializeField] private Slider rageSlider; // Reference to UI slider for rage
     [SerializeField] private float currentRage = 0f;
     [SerializeField] private float shakeMagnitude = 4f; // Magnitude of the shake effect
-    [SerializeField] private BulletManager bulletManager; 
     [SerializeField] private RectTransform rageMeterTransform; // The RageMeter UI's RectTransform
+    private PlayerStats playerStats;
     private bool isRageActive = false;
     private Vector3 originalPosition; // Original position for shaking effect
 
@@ -22,7 +22,7 @@ public class RageMeter : MonoBehaviour
         {
             rageSlider.maxValue = maxRage;
             rageSlider.value = currentRage;
-            bulletManager = GameObject.Find("Player").GetComponent<BulletManager>();
+            playerStats=GameObject.Find("Player").GetComponent<PlayerStats>();
         }
         originalPosition = rageMeterTransform.localPosition;
     }
@@ -54,9 +54,9 @@ public class RageMeter : MonoBehaviour
         Debug.Log("In enumerator!");
         isRageActive = true;
         StartCoroutine(ShakeMeter());
-        if (bulletManager != null)
+        if (playerStats != null)
         {
-            bulletManager.AddGlobalDamageBoost(damageBoost); // Add the damage boost
+            playerStats.setPlayerDamage(playerStats.getPlayerDamage()+ damageBoost); // Add the damage boost
         }
 
         float rageDuration = maxRage / rageDecayRate; // Calculate duration of rage
@@ -69,9 +69,9 @@ public class RageMeter : MonoBehaviour
             yield return null;
         }
 
-        if (bulletManager != null)
+        if (playerStats != null)
         {
-            bulletManager.AddGlobalDamageBoost(-damageBoost); // Remove the damage boost
+            playerStats.setPlayerDamage(playerStats.getPlayerDamage() - damageBoost); // Remove the damage boost
         }
 
         isRageActive = false;

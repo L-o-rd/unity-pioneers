@@ -30,18 +30,6 @@ public class Room : MonoBehaviour
     public Transform maxEast;
 
     [SerializeField]
-    public Transform maxNorth;
-
-    [SerializeField]
-    public Transform maxSouth;
-
-    [SerializeField]
-    public Transform maxWest;
-
-    [SerializeField]
-    public Transform maxEast;
-
-    [SerializeField]
     private List<RewardWeight> rewardWeights;
     public Vector2Int RoomIndex;
 
@@ -108,7 +96,8 @@ public class Room : MonoBehaviour
             cumulativeWeight += reward.weight;
             if (randomWeight <= cumulativeWeight)
             {
-                Instantiate(reward.rewardPrefab, transform.position + new Vector3(3,0,0), Quaternion.identity);
+                var spawnedReward=Instantiate(reward.rewardPrefab, transform.position + new Vector3(3,0,0), Quaternion.identity);
+                spawnedReward.transform.parent = transform;
                 return;
             }
         }

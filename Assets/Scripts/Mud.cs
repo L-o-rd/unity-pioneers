@@ -5,24 +5,20 @@ using UnityEngine;
 public class Mud : MonoBehaviour
 {
     [SerializeField] float slowFactor = 0.5f;
-    private bool inMud = false; // to prevent multiple speed change calls and to fix dash bug
     private PlayerMovement playerMovement;
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && playerMovement != null && !playerMovement.IsImmuneToSlow() && inMud == false) 
+        if (other.CompareTag("Player") && playerMovement != null && !playerMovement.IsImmuneToSlow()) 
         {
-            Debug.Log("Player detected");
-            inMud = true;
-            playerMovement.SlowPlayerBy(slowFactor);
+            playerMovement.setInMud(true);
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && playerMovement != null && !playerMovement.IsImmuneToSlow() && inMud == true)
+        if (other.CompareTag("Player") && playerMovement != null)
         {
-            playerMovement.SpeedUpPlayerBy(slowFactor);
-            inMud = false;
+            playerMovement.setInMud(false);
         }
     }
 

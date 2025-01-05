@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour {
     private bool isDashing = false;
     private bool canDash = false;
     private bool immuneToSlow = false;
+    private bool inMud = false; // to prevent multiple speed change calls and to fix dash bug
     private float maxSpeed;
     private Animator animator;
 
@@ -39,10 +40,16 @@ public class PlayerMovement : MonoBehaviour {
     private void Start() {
         rb = this.GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        
     }
 
     private void Update() {
-        maxSpeed = playerStats.getMovementSpeed();
+        if (inMud){
+            maxSpeed = playerStats.getMovementSpeed()/2;
+        }
+        else{
+            maxSpeed = playerStats.getMovementSpeed();
+        }
         horizontal = Input.GetKey(right) ? 1f : (Input.GetKey(left) ? -1f : 0f);
         vertical = Input.GetKey(up) ? 1f : (Input.GetKey(down) ? -1f : 0f);
         movement.x = horizontal;
@@ -91,9 +98,15 @@ public class PlayerMovement : MonoBehaviour {
     {
         return immuneToSlow;
     }
+
+    public void setInMud(bool value)
+    {
+        inMud = value;
+    }
     public void SlowPlayerBy(float percentage)
     {
 
+        if (!inMud) return;
         if (percentage < 0 || percentage > 1){
             Debug.LogWarning("Invalid percentage value");
             return;

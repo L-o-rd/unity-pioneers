@@ -43,8 +43,15 @@ public class Bullet : MonoBehaviour
 				rageMeter.AddRage(Mathf.Floor(Damage / 10));
 			}
 			enemy.TakeDamage(Damage);
-        }
+			gameObject.SetActive(false);
+			return;
+		}
+		var crate = collision.GetComponent<Crate>();
+		if (crate != null)
+		{
+			crate.InteractWithCrate();
+			gameObject.SetActive(false);
+		}
 
-        gameObject.SetActive(false);
-    }
+	}
 }
