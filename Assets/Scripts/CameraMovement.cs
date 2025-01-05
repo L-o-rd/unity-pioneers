@@ -25,6 +25,23 @@ public class CameraMovement : MonoBehaviour {
         width = height * GetComponent<Camera>().aspect;
     }
 
+    public void SetEast(Vector3 v)
+    {
+        maxEast.position = v;
+    }
+    public void SetWest(Vector3 v)
+    {
+        maxWest.position = v;
+    }
+    public void SetNorth(Vector3 v)
+    {
+        maxNorth.position = v;
+    }
+    public void SetSouth(Vector3 v)
+    {
+        maxSouth.position = v;
+    }
+
     private void LateUpdate() {
         var follow2D = Vector2.MoveTowards(transform.position, rb.position, 7.5f * Time.deltaTime);
         var follow = new Vector3(follow2D.x, follow2D.y, transform.position.z);

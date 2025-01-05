@@ -18,13 +18,11 @@ public class PlayerMovement : MonoBehaviour {
     private bool isDashing = false;
     private bool canDash = false;
     private bool immuneToSlow = false;
-
+    private float maxSpeed;
+    private Animator animator;
 
     [SerializeField]
     private GameObject direction;
-
-    [SerializeField]
-    private float maxSpeed = 5.5f;
 
     [SerializeField] 
     private float dashSpeedMultiplier = 2.5f;
@@ -33,20 +31,32 @@ public class PlayerMovement : MonoBehaviour {
     private float dashDuration = 0.2f;
 
     [SerializeField]
-
     private float dashCooldown = 5f;
-    
+
+    [SerializeField]
+    private PlayerStats playerStats;
 
     private void Start() {
         rb = this.GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     private void Update() {
+        maxSpeed = playerStats.getMovementSpeed();
         horizontal = Input.GetKey(right) ? 1f : (Input.GetKey(left) ? -1f : 0f);
         vertical = Input.GetKey(up) ? 1f : (Input.GetKey(down) ? -1f : 0f);
         movement.x = horizontal;
         movement.y = vertical;
         movement.Normalize();
+
+        if(movement.x == 0 && movement.y == 0)
+        {
+            animator.SetBool("isMoving", false);
+        }
+        else
+        {
+            animator.SetBool("isMoving", true);
+        }
 
         if (DetectDoubleTap(right) || DetectDoubleTap(left) || 
             DetectDoubleTap(up) || DetectDoubleTap(down))
@@ -64,12 +74,17 @@ public class PlayerMovement : MonoBehaviour {
             rb.MovePosition(rb.position + movement * maxSpeed * Time.fixedDeltaTime);
         }
 
-        if (movement != Vector2.zero) {
-            direction.SetActive(true);
-            float angle = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg;
-            direction.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle - 90));
-            direction.transform.position = rb.position + movement * 0.5f;
-        } else direction.SetActive(false);
+        if (direction is not null)
+        {
+            if (movement != Vector2.zero)
+            {
+                direction.SetActive(true);
+                float angle = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg;
+                direction.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle - 90));
+                direction.transform.position = rb.position + movement * 1.0f;
+            }
+            else direction.SetActive(false);
+        }
     }
 
     public bool IsImmuneToSlow()
@@ -98,7 +113,7 @@ public class PlayerMovement : MonoBehaviour {
 
     private bool DetectDoubleTap(KeyCode key) {
         if (Input.GetKeyDown(key)){
-            Debug.Log("Detecting double tap with pressed key: "+key);
+            // Debug.Log("Detecting double tap with pressed key: "+key);
             if (lastKeyPressed == key && Time.time - lastKeyPressedTime < doubleTapThreshold) {
                 return true;
             }

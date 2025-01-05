@@ -89,7 +89,7 @@ public class ProximityMine : MonoBehaviour
     }
     private void Start()
     {
-        explosionDamage = explosionDamage*GameObject.Find("RoomManager").GetComponent<RoomManager>().GetBonusDifficulty();
+        explosionDamage = explosionDamage*GameObject.Find("RoomManager").GetComponent<RoomManager>().GetDifficulty();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
     private void Update()

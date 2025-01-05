@@ -173,4 +173,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxRange: 30
   Damage: 20
-  damageCap: 50
+  playerStats: {fileID: 961224960191432624, guid: cd45f08944e4f9b44a632c10cce68437, type: 3}

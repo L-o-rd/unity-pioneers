@@ -31,7 +31,7 @@ public abstract class PowerupManager : MonoBehaviour
     {
         if (isPurchasable)
         {
-            price = Random.Range(50, 70)*GameObject.Find("RoomManager").GetComponent<RoomManager>().GetBonusDifficulty();
+            price = Random.Range(50, 70)*GameObject.Find("RoomManager").GetComponent<RoomManager>().GetDifficulty();
         }
     }
 

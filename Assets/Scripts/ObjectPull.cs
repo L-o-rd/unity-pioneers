@@ -24,8 +24,6 @@ public class ObjectPool : MonoBehaviour
     }
 }
 
-
-
   void Start()
   {
     // Initialize the pool with inactive player clone instances
@@ -34,7 +32,6 @@ public class ObjectPool : MonoBehaviour
       GameObject obj = Instantiate(clonePrefab, parentTransform);
       obj.SetActive(false); // Asigură-te că este dezactivat
       pooledObjects.Add(obj); // Adaugă obiectul la listă
-
     }
   }
 

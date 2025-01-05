@@ -86,7 +86,7 @@ public class ExplosiveCrate : Crate
 
     private void Start()
     {
-        explosionDamage = explosionDamage*GameObject.Find("RoomManager").GetComponent<RoomManager>().GetBonusDifficulty();
+        explosionDamage = explosionDamage * GameObject.Find("RoomManager").GetComponent<RoomManager>().GetDifficulty();
     }
 
 }

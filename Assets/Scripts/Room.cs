@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class Room : MonoBehaviour
 {
-    // Start is called before the first frame update
 
     [SerializeField]
-     public GameObject topDoor;
+    public GameObject topDoor;
 
     [SerializeField]
     public GameObject bottomDoor;
@@ -17,6 +16,30 @@ public class Room : MonoBehaviour
 
     [SerializeField]
     public GameObject rightDoor;
+
+    [SerializeField]
+    public Transform maxNorth;
+
+    [SerializeField]
+    public Transform maxSouth;
+
+    [SerializeField]
+    public Transform maxWest;
+
+    [SerializeField]
+    public Transform maxEast;
+
+    [SerializeField]
+    public Transform maxNorth;
+
+    [SerializeField]
+    public Transform maxSouth;
+
+    [SerializeField]
+    public Transform maxWest;
+
+    [SerializeField]
+    public Transform maxEast;
 
     [SerializeField]
     private List<RewardWeight> rewardWeights;

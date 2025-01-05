@@ -438,7 +438,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f188609acc345b42844e0fb2dd0e2b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gun: {fileID: 0}
+  gun: {fileID: 1692482420}
 --- !u!114 &370977260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -482,6 +482,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: {fileID: 571745246}
   maxSpeed: 5.5
+  dashSpeedMultiplier: 2.5
+  dashDuration: 0.2
+  dashCooldown: 5
 --- !u!61 &370977263
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -593,7 +596,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1692482420}
-  - {fileID: 1066210752}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &571745246
@@ -851,11 +853,11 @@ Transform:
   m_GameObject: {fileID: 1066210751}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.93, y: 0.038, z: 0.06566997}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 5.150698, y: 0.33994025, z: 0.06566997}
+  m_LocalScale: {x: 9.364906, y: 8.945796, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 370977265}
+  m_Father: {fileID: 1692482420}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1175198185
 GameObject:
@@ -6299,7 +6301,8 @@ Transform:
   m_LocalPosition: {x: 1.38, y: 0, z: 0}
   m_LocalScale: {x: 0.10678163, y: 0.111784354, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1066210752}
   m_Father: {fileID: 370977265}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1692482421

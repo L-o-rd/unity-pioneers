@@ -55,9 +55,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0abec780a3519ea42990991f24516f13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeName: 
-  price: 0
-  upgradeLevel: 0
   sprites:
   - {fileID: 354234939, guid: c3695ad2c99559a4ca9f3262182de69d, type: 3}
   - {fileID: 2073472903, guid: c3695ad2c99559a4ca9f3262182de69d, type: 3}
@@ -66,6 +63,7 @@ MonoBehaviour:
   - {fileID: -1674400551, guid: c3695ad2c99559a4ca9f3262182de69d, type: 3}
   - {fileID: 1464225267, guid: c3695ad2c99559a4ca9f3262182de69d, type: 3}
   - {fileID: 912368583, guid: c3695ad2c99559a4ca9f3262182de69d, type: 3}
+  playerStats: {fileID: 0}
 --- !u!222 &2285597876106339345
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -257,8 +255,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.5801163, y: -41.4}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 1.1514969, y: -41.4}
+  m_SizeDelta: {x: 38.0668, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &617207145857038303
 CanvasRenderer:
@@ -317,8 +315,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -528,8 +526,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -544,7 +542,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
