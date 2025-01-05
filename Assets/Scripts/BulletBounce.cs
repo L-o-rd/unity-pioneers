@@ -13,12 +13,12 @@ public class RicochetBullet : BaseBullet
         rb2d = GetComponent<Rigidbody2D>(); // Get the Rigidbody2D component
     }
 
-    void Update()
+    protected override void Update()
     {
         lastFrameVelocity = rb2d.velocity; // Store the velocity from the previous frame
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    protected override void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
