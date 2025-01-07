@@ -1,55 +1,65 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ObjectPool : MonoBehaviour
 {
-  public static ObjectPool instance;
+    public static ObjectPool instance;
 
-  [SerializeField] private GameObject clonePrefab; // Replace with your player clone prefab
-  [SerializeField] private Transform parentTransform; 
-  private List<GameObject> pooledObjects = new List<GameObject>();
-  [SerializeField] private int amountToPool = 20;
-
-  private void Awake()
-{
-    if (instance == null)
+    [System.Serializable]
+    public class Pool
     {
-        instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
-    else
-    {
-        Destroy(gameObject);
-    }
-}
-
-  void Start()
-  {
-    // Initialize the pool with inactive player clone instances
-    for (int i = 0; i < amountToPool; i++)
-    {
-      GameObject obj = Instantiate(clonePrefab, parentTransform);
-      obj.SetActive(false); // Asigură-te că este dezactivat
-      pooledObjects.Add(obj); // Adaugă obiectul la listă
-    }
-  }
-
-  public GameObject GetPooledObject()
-  {
-    // Find an inactive object in the pool and return it
-    foreach (GameObject obj in pooledObjects)
-    {
-      if (!obj.activeInHierarchy)
-      {
-        return obj; // Return inactive object
-      }
+        public string tag;
+        public GameObject prefab;
+        public int size;
     }
 
-    // Optional: Expand the pool if all objects are active
-    GameObject newObj = Instantiate(clonePrefab, parentTransform);
-    newObj.SetActive(false);
-    pooledObjects.Add(newObj); // Add the new clone to the pool
-    return newObj; // Return the new object
-  }
+    public List<Pool> pools; // A list of pools for different objects
+    private Dictionary<string, Queue<GameObject>> poolDictionary;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    void Start()
+    {
+        poolDictionary = new Dictionary<string, Queue<GameObject>>();
+
+        foreach (Pool pool in pools)
+        {
+            Queue<GameObject> objectPool = new Queue<GameObject>();
+
+            for (int i = 0; i < pool.size; i++)
+            {
+                GameObject obj = Instantiate(pool.prefab);
+                obj.SetActive(false);
+                objectPool.Enqueue(obj);
+            }
+
+            poolDictionary.Add(pool.tag, objectPool);
+        }
+    }
+
+    public GameObject GetPooledObject(string tag)
+    {
+        if (!poolDictionary.ContainsKey(tag))
+        {
+            Debug.LogWarning($"Pool with tag {tag} doesn't exist!");
+            return null;
+        }
+
+        GameObject objToReuse = poolDictionary[tag].Dequeue();
+        objToReuse.SetActive(true);
+        poolDictionary[tag].Enqueue(objToReuse);
+
+        return objToReuse;
+    }
 }
