@@ -575,6 +575,9 @@ MonoBehaviour:
   - tag: Normal
     prefab: {fileID: 6840079661474906302, guid: a7986df82a07a91489ad3ee04945fa18, type: 3}
     size: 10
+  - tag: Bounce
+    prefab: {fileID: 6840079661474906302, guid: 4c6bdb9eec383004ca4f2f83aeae2c7b, type: 3}
+    size: 10
 --- !u!4 &1508106860
 Transform:
   m_ObjectHideFlags: 0
