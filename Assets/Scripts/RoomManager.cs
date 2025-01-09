@@ -80,11 +80,11 @@ public class RoomManager : MonoBehaviour
                 if (TryMakeRoom<ChallengeRoom>(challengeRoomPrefab, WalkerPosition, "ChallengeRoom", rng, ChallengeCondition)) continue;
                 if (TryMakeRoom<Room>(roomPrefab, WalkerPosition, "Room", null, null))
                 {
-                    difficultyMultiplier += 0.1f;
-                    if (difficultyMultiplier >= difficultyMultiplierCap)
-                    {
-                        difficultyMultiplier = difficultyMultiplierCap;
-                    }
+                    // difficultyMultiplier += 0.1f;
+                    // if (difficultyMultiplier >= difficultyMultiplierCap)
+                    // {
+                    //     difficultyMultiplier = difficultyMultiplierCap;
+                    // }
                 }
 
                 //Debug.Log($"({WalkerPosition.x}, {WalkerPosition.y})");
@@ -136,6 +136,10 @@ public class RoomManager : MonoBehaviour
     public float GetDifficulty()
     {
         return difficultyMultiplier;
+    }
+    public float SetDifficulty(float difficulty)
+    {
+        return this.difficultyMultiplier = difficulty;
     }
 
     private Vector3 GetPositionFromGridIndex(Vector2Int index)
@@ -201,6 +205,39 @@ public class RoomManager : MonoBehaviour
     {
         if (!roomDict.ContainsKey(index)) return null;
         return rooms[roomDict[index]].GetComponent<Room>();
+    }
+
+    public int SetMinRooms(int minRooms)
+    {
+        return this.minRooms = minRooms;
+    }
+    public int SetMaxRooms(int maxRooms)
+    {
+        return this.maxRooms = maxRooms;
+    }
+
+    public void createLevel(){
+        if (roomDict.Count > 0)
+        {
+            DeleteAllRemainingObjects();
+            roomDict.Clear();
+            rooms.Clear();
+            roomCount = 0;
+            WalkerPosition = new Vector2Int(0, 0);
+            LastWalkerPosition = new Vector2Int(0, 0);
+            CurrentRoom = new Vector2Int(0, 0);
+        }
+        if (levelComplete){
+            levelComplete = false;
+            SetDifficulty(GetDifficulty() + 0.1f);
+            SetMinRooms(minRooms + 1);
+            SetMaxRooms(maxRooms + 2);
+        }
+        Debug.Log("Creating level");
+        TryMakeRoom<Room>(roomPrefab, WalkerPosition, "Room", null, null);
+        GenerateRooms();
+        SetBounds();
+
     }
 
     void Update()
