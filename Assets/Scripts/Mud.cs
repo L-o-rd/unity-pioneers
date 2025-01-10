@@ -9,7 +9,7 @@ public class Mud : MonoBehaviour
     private PlayerMovement playerMovement;
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && playerMovement != null && !playerMovement.IsImmuneToSlow() && inMud == false) 
+        if (other.CompareTag("Player") && (playerMovement != null) && (!playerMovement.IsImmuneToSlow()) && (inMud == false)) 
         {
             Debug.Log("Player detected");
             inMud = true;
