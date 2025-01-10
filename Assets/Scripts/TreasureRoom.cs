@@ -18,17 +18,20 @@ public class TreasureRoom : Room
     [SerializeField] float spreadRangeY = 3f;
 
     void GenerateChest(){
-        Instantiate(chestPrefab, transform.position+new Vector3(7f,-4f,0), Quaternion.identity);
+        var chest = Instantiate(chestPrefab, transform.position+new Vector3(7f,-4f,0), Quaternion.identity);
+        chest.transform.parent = transform;
     }
 
     void GenerateShop(){
-        Instantiate(shopPrefab, transform.position+new Vector3(7f,-4f,0), Quaternion.identity);
+        var shop = Instantiate(shopPrefab, transform.position+new Vector3(7f,-4f,0), Quaternion.identity);
+        shop.transform.parent = transform;
     }
 
     void GenerateCoins(){
         coinCount = UnityEngine.Random.Range(1, 5);
         for (int i = 0; i < coinCount; i++){
-            Instantiate(coinPrefab, transform.position + new Vector3(UnityEngine.Random.Range(-spreadRangeX, spreadRangeX), UnityEngine.Random.Range(-spreadRangeY, spreadRangeY), 0), Quaternion.identity);
+            var coin = Instantiate(coinPrefab, transform.position + new Vector3(UnityEngine.Random.Range(-spreadRangeX, spreadRangeX), UnityEngine.Random.Range(-spreadRangeY, spreadRangeY), 0), Quaternion.identity);
+            coin.transform.parent = transform;
         }
     }
 

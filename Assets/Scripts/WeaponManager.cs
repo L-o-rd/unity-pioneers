@@ -5,11 +5,13 @@ public class WeaponManager : MonoBehaviour
 {
     public List<Weapon> availableWeapons; // List of available weapons
     public PlayerShooting playerShooting; // Reference to the player's Shooting script
+
+    [SerializeField]
     private int currentWeaponIndex;
 
     void Start()
     {
-        LoadWeaponSelection(); // Load the last saved weapon index
+        // LoadWeaponSelection(); // Load the last saved weapon index
         EquipWeapon(currentWeaponIndex); // Equip the loaded or default weapon
     }
 
