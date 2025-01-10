@@ -53,20 +53,24 @@ public class RicochetBullet : BaseBullet
     }
 
     // Reset ricochet count and velocity when the bullet is deactivated
-    public void ResetBullet(bool resetVelocity = true, bool resetRicochetCount = false)
+    // Reset ricochet count and velocity when the bullet is deactivated
+public void ResetBullet(bool resetVelocity = true, bool resetRicochetCount = true)
+{
+    if (resetRicochetCount)
     {
-        if (resetRicochetCount)
-        {
-            ricochetCount = 0;  // Reset ricochet count only when needed
-        }
-
-        if (resetVelocity)
-        {
-            rb2d.velocity = Vector2.zero; // Reset velocity to prevent strange behavior when reused
-        }
-
-        transform.rotation = Quaternion.identity; // Reset rotation to default
+        ricochetCount = 0; // Reset ricochet count
     }
+
+    if (resetVelocity)
+    {
+        rb2d.velocity = Vector2.zero; // Reset velocity
+    }
+
+    transform.rotation = Quaternion.identity; // Reset rotation
+    lastFrameVelocity = Vector2.zero; // Reset last frame velocity
+}
+
+
 
     // Ensure the bullet's initial state is properly set
     public void ResetBulletState()
