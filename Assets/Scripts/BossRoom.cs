@@ -9,36 +9,33 @@ public class BossRoom : Room
 
     // Future logic for spawning boss and defeating the boss
     
+    void ActivateDoor(GameObject door){
+        door.SetActive(true);
+        SpriteRenderer[] childRenderers = door.GetComponentsInChildren<SpriteRenderer>();
+        foreach (SpriteRenderer renderer in childRenderers)
+        {
+            renderer.color = Color.black;
+        }
+        door.tag = "FinalDoor";
+    }
     void ActivateFinalDoor(){
         if (!topDoor.activeInHierarchy){
-            topDoor.SetActive(true);
-            topDoor.GetComponent<SpriteRenderer>().color = Color.white;
-            topDoor.tag = "FinalDoor";
-            //roomManager.SetLevelComplete(true);
+            ActivateDoor(topDoor);
             return;
         }
 
         if (!bottomDoor.activeInHierarchy){
-            bottomDoor.SetActive(true);
-            bottomDoor.GetComponent<SpriteRenderer>().color = Color.white;
-            bottomDoor.tag = "FinalDoor";
-            //roomManager.SetLevelComplete(true);
+            ActivateDoor(bottomDoor);
             return;
         }
 
         if (!leftDoor.activeInHierarchy){
-            leftDoor.SetActive(true);
-            leftDoor.GetComponent<SpriteRenderer>().color = Color.white;
-            leftDoor.tag = "FinalDoor";
-            //roomManager.SetLevelComplete(true);
+            ActivateDoor(leftDoor);
             return;
         }
 
         if (!rightDoor.activeInHierarchy){
-            rightDoor.SetActive(true);
-            rightDoor.GetComponent<SpriteRenderer>().color = Color.white;
-            rightDoor.tag = "FinalDoor";
-           //roomManager.SetLevelComplete(true);
+            ActivateDoor(rightDoor);
             return;
         }
     }
@@ -47,7 +44,7 @@ public class BossRoom : Room
     void Start()
     {
         //no boss yet, just open the door instantly
-        // ActivateFinalDoor();
+        ActivateFinalDoor();
     }
 
     // Update is called once per frame

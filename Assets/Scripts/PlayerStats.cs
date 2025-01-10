@@ -19,10 +19,10 @@ public class PlayerStats : MonoBehaviour {
 	[SerializeField]
     public int bonusDamageLevel = 0;
 
-	private int defence;
+	private float baseSpeed = 5.5f;
     private float maxHealth;
-	private float movementSpeed;
 	private int bonusDamage;
+	private int defence;
 
     public float getTotalCoins(){
         return totalCoins;
@@ -33,10 +33,15 @@ public class PlayerStats : MonoBehaviour {
 
 	public float getMovementSpeed()
 	{
-		return (float)(5.5 + 2.5 / 6 * movementSpeedLevel);
+		return (float)(baseSpeed + 2.5 / 6 * movementSpeedLevel);
 	}
 
-	public int getBonusDamage()
+    public void ScaleSpeed(float factor)
+    {
+		baseSpeed *= factor;
+    }
+
+    public int getBonusDamage()
 	{
 		return bonusDamageLevel * 2;
 	}
