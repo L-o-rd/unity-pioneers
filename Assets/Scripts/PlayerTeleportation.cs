@@ -57,7 +57,7 @@ public class PlayerTeleportation : MonoBehaviour
         {
             roomManager.SetLevelComplete(true);
             transform.position = new Vector3(0, 0, 0);
-            roomManager.createLevel();
+            roomManager.CreateLevel();
         }
     }
 

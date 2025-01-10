@@ -38,6 +38,9 @@ public class RoomManager : MonoBehaviour
     private int seed = 0;
     private System.Random rng;
 
+    private int CurrentLevel = 0;
+    private int LastLevel = 3;
+
     private void WalkerStep(int choice)
     {
         LastWalkerPosition.x = WalkerPosition.x;
@@ -98,11 +101,6 @@ public class RoomManager : MonoBehaviour
         {
             WalkerStep(rng.Next(0, 4));
             // Debug.Log($"Boss: ({WalkerPosition.x}, {WalkerPosition.y})");
-        }
-
-        foreach (var room in rooms)
-        {
-
         }
     }
 
@@ -216,7 +214,17 @@ public class RoomManager : MonoBehaviour
         return this.maxRooms = maxRooms;
     }
 
-    public void createLevel(){
+    private void FinishRun()
+    {
+        Debug.Log("Run finished.");
+    }
+
+    public void CreateLevel(){
+        if (++CurrentLevel >= LastLevel)
+        {
+            FinishRun();
+        }
+
         if (roomDict.Count > 0)
         {
             DeleteAllRemainingObjects();
@@ -237,7 +245,6 @@ public class RoomManager : MonoBehaviour
         TryMakeRoom<Room>(roomPrefab, WalkerPosition, "Room", null, null);
         GenerateRooms();
         SetBounds();
-
     }
 
     void Update()
