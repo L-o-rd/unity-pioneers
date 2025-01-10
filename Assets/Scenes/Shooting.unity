@@ -1216,7 +1216,7 @@ GameObject:
   - component: {fileID: 1351653120}
   m_Layer: 0
   m_Name: East
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1346,7 +1346,7 @@ GameObject:
   - component: {fileID: 1513789672}
   m_Layer: 0
   m_Name: North
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1423,7 +1423,7 @@ GameObject:
   - component: {fileID: 1561575444}
   m_Layer: 0
   m_Name: South
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1501,7 +1501,7 @@ GameObject:
   - component: {fileID: 1613421443}
   m_Layer: 0
   m_Name: Room
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6475,10 +6475,10 @@ MonoBehaviour:
   pools:
   - tag: normal
     prefab: {fileID: 6840079661474906302, guid: a7986df82a07a91489ad3ee04945fa18, type: 3}
-    size: 10
+    size: 20
   - tag: bounce
     prefab: {fileID: 6840079661474906302, guid: 4c6bdb9eec383004ca4f2f83aeae2c7b, type: 3}
-    size: 10
+    size: 20
   - tag: homing
     prefab: {fileID: 6840079661474906302, guid: 1caebb5dbec84354d9ccf5d008c94fe2, type: 3}
     size: 10
@@ -6509,7 +6509,7 @@ GameObject:
   - component: {fileID: 1781821116}
   m_Layer: 0
   m_Name: West
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

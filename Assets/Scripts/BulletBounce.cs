@@ -11,6 +11,7 @@ public class RicochetBullet : BaseBullet
     private void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>(); // Get the Rigidbody2D component
+        ResetBulletState(); // Ensure the initial state is set only once
     }
 
     protected override void Update()
@@ -22,11 +23,11 @@ public class RicochetBullet : BaseBullet
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            // Dacă glonțul lovește un "Enemy", dezactivează glonțul
+            // If the bullet hits an enemy, deactivate the bullet
             Debug.Log("Bullet hit an enemy. Returning to pool.");
-            collision.gameObject.SetActive(false); // Dezactivăm inamicul lovit (opțional)
-            gameObject.SetActive(false); // Dezactivează glonțul
-            return; // Ieșim din funcție, nu mai ricochetează
+            collision.gameObject.SetActive(false); // Optionally deactivate the enemy
+            gameObject.SetActive(false); // Deactivate the bullet
+            return; // Exit the function, no more ricochets
         }
 
         if (ricochetCount < maxRicochets)
@@ -47,15 +48,29 @@ public class RicochetBullet : BaseBullet
         else
         {
             // Deactivate the bullet after exceeding the ricochet limit
-            gameObject.SetActive(false); // Dezactivează glonțul
+            gameObject.SetActive(false); // Deactivate the bullet
         }
     }
 
     // Reset ricochet count and velocity when the bullet is deactivated
-    public void ResetBullet()
+    public void ResetBullet(bool resetVelocity = true, bool resetRicochetCount = false)
     {
-        ricochetCount = 0;
-        rb2d.velocity = Vector2.zero; // Reset velocity to prevent strange behavior
-        transform.rotation = Quaternion.identity; // Reset rotation
+        if (resetRicochetCount)
+        {
+            ricochetCount = 0;  // Reset ricochet count only when needed
+        }
+
+        if (resetVelocity)
+        {
+            rb2d.velocity = Vector2.zero; // Reset velocity to prevent strange behavior when reused
+        }
+
+        transform.rotation = Quaternion.identity; // Reset rotation to default
+    }
+
+    // Ensure the bullet's initial state is properly set
+    public void ResetBulletState()
+    {
+        ricochetCount = 0; // Always start with a fresh ricochet count when first instantiated
     }
 }

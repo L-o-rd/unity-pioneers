@@ -11,6 +11,11 @@ TagManager:
   - Treasure
   - Particles
   - Trap
+  - Enemy
+  - homing
+  - normal
+  - bounce
+  - Obstacle
   layers:
   - Default
   - TransparentFX
