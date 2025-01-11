@@ -248,7 +248,7 @@ public class RoomManager : MonoBehaviour
         }
         if (levelComplete){
             levelComplete = false;
-            SetDifficulty(Math.Max(GetDifficulty() + 0.1f, difficultyMultiplierCap));
+            SetDifficulty(Math.Min(GetDifficulty() + 0.1f, difficultyMultiplierCap));
             SetMinRooms(minRooms + 1);
             SetMaxRooms(maxRooms + 2);
         }
