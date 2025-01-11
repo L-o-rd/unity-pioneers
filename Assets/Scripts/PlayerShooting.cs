@@ -63,7 +63,7 @@ public class PlayerShooting : MonoBehaviour
 
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePosition.z = 0f;
-            Vector2 direction = (mousePosition - firePoint.position).normalized;
+            Vector2 direction = (mousePosition - transform.position).normalized;
 
             bullet.transform.up = direction;
 

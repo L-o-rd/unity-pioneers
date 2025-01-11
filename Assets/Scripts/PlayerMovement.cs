@@ -40,7 +40,6 @@ public class PlayerMovement : MonoBehaviour {
     private void Start() {
         rb = this.GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        
     }
 
     private void Update() {
@@ -107,11 +106,12 @@ public class PlayerMovement : MonoBehaviour {
     {
 
         if (!inMud) return;
-        if (percentage < 0 || percentage > 1){
+        if (percentage < 0 || percentage > 1) {
             Debug.LogWarning("Invalid percentage value");
             return;
         }
-        maxSpeed *= percentage;
+
+        playerStats.ScaleSpeed(percentage);
     }
 
     public void SpeedUpPlayerBy(float percentage)
@@ -121,7 +121,8 @@ public class PlayerMovement : MonoBehaviour {
             Debug.LogWarning("Invalid percentage value");
             return;
         }
-        maxSpeed /= percentage;
+
+        playerStats.ScaleSpeed(1.0f / percentage);
     }
 
     private bool DetectDoubleTap(KeyCode key) {

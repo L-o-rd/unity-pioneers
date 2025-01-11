@@ -22,7 +22,7 @@ public class PlayerStats : MonoBehaviour {
 	private InGameTextUI inGameTextUI;
 	private RageMeter rageMeter;
 
-	private int defence;
+	private float baseSpeed = 5.5f;
     private float maxHealth;
 	private float movementSpeed;
 	private int playerDamage;
@@ -36,8 +36,13 @@ public class PlayerStats : MonoBehaviour {
 
 	public float getMovementSpeed()
 	{
-		return (float)(5.5 + 2.5 / 6 * movementSpeedLevel);
+		return (float)(baseSpeed + 2.5 / 6 * movementSpeedLevel);
 	}
+
+    public void ScaleSpeed(float factor)
+    {
+		baseSpeed *= factor;
+    }
 
 	public int setPlayerDamage(int damage)
 	{
@@ -49,7 +54,7 @@ public class PlayerStats : MonoBehaviour {
 	{
 		return playerDamage;
 	}
-	public int getBonusDamage()
+    public int getBonusDamage()
 	{
 		return bonusDamageLevel * 2;
 	}
