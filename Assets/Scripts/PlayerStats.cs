@@ -1,24 +1,30 @@
+using System.IO;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
+[System.Serializable]
+public class Status
+{
+    public int permanentCoins = 0;
+    public int defenceLevel = 0;
+    public int maxHealthLevel = 0;
+    public int movementSpeedLevel = 0;
+    public int bonusDamageLevel = 0;
+}
 
 public class PlayerStats : MonoBehaviour {
     private bool isDead = false;
     private bool trapImmune = false;
     private float health;
 
+	[SerializeField]
+	public Status status = new Status();
+
     [SerializeField]
     private float totalCoins = 0;
-	[SerializeField]
-	private int permanentCoins = 0;
-
-	[SerializeField]
-	public int defenceLevel = 0;
-    [SerializeField]
-	public int maxHealthLevel = 0;
-	[SerializeField]
-    public int movementSpeedLevel = 0;
-	[SerializeField]
-    public int bonusDamageLevel = 0;
+	
 	private InGameTextUI inGameTextUI;
 	private RageMeter rageMeter;
 
@@ -36,7 +42,7 @@ public class PlayerStats : MonoBehaviour {
 
 	public float getMovementSpeed()
 	{
-		return (float)(baseSpeed + 2.5 / 6 * movementSpeedLevel);
+		return (float)(baseSpeed + 2.5 / 6 * status.movementSpeedLevel);
 	}
 
     public void ScaleSpeed(float factor)
@@ -56,17 +62,17 @@ public class PlayerStats : MonoBehaviour {
 	}
     public int getBonusDamage()
 	{
-		return bonusDamageLevel * 2;
+		return status.bonusDamageLevel * 2;
 	}
 
 	public float getMaxHealth()
 	{
-		return 100 + maxHealthLevel * 10;
+		return 100 + status.maxHealthLevel * 10;
     }
 
 	public int getDefence()
 	{
-		return defenceLevel * 2;
+		return status.defenceLevel * 2;
 	}
 
     public bool isTrapImmune(){
@@ -92,10 +98,29 @@ public class PlayerStats : MonoBehaviour {
         Debug.Log(string.Format("Health remaining: {0}.", health));
     }
 
+	public void SaveStats()
+	{
+		Debug.Log(Application.persistentDataPath);
+        FileStream file = File.Create(Application.persistentDataPath + "/playerStats.dat");
+        BinaryFormatter bf = new BinaryFormatter();
+		bf.Serialize(file, this.status);
+        file.Close();
+    }
+
+	public void LoadStats()
+	{
+        if (File.Exists(Application.persistentDataPath + "/playerStats.dat"))
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(Application.persistentDataPath + "/playerStats.dat", FileMode.Open);
+			this.status = (Status) bf.Deserialize(file);
+            file.Close();
+        }
+    }
+
     private void Start()
 	{
-		//TODO read stats levels from savefile
-
+		this.LoadStats();
 		maxHealth = getMaxHealth();
 
 		health = maxHealth;
@@ -109,12 +134,16 @@ public class PlayerStats : MonoBehaviour {
 		inGameTextUI = FindObjectOfType<InGameTextUI>();
 	}
 
-	private void Update()
+
+    private void Update()
 	{
 		if (isDead)
 		{
+			SaveStats();
+			SceneManager.LoadScene("GameOver");
 			return;
 		}
+
 		inGameTextUI.UpdateCoinText(totalCoins);
 		inGameTextUI.UpdateHPText(health);
 		// Debug: reduce health with the Space key
@@ -159,55 +188,59 @@ public class PlayerStats : MonoBehaviour {
 
 	public void UpgradeMaxHealth()
 	{
-		if (maxHealthLevel == 6)
+		if (status.maxHealthLevel == 6)
 			return;
-		int price = 1 + maxHealthLevel * 2;
-		if (price <= permanentCoins)
+		int price = 1 + status.maxHealthLevel * 2;
+		if (price <= status.permanentCoins)
 		{
-			permanentCoins -= price;
-			maxHealthLevel += 1;
+			status.permanentCoins -= price;
+			status.maxHealthLevel += 1;
 			health = getMaxHealth();
-		}
+            this.SaveStats();
+        }
 	}
 
 	public void UpgradeMovementSpeed()
 	{
-        if (movementSpeedLevel == 6)
+        if (status.movementSpeedLevel == 6)
             return;
-        int price = 1 + movementSpeedLevel * 2;
-        if (price <= permanentCoins)
+        int price = 1 + status.movementSpeedLevel * 2;
+        if (price <= status.permanentCoins)
         {
-            permanentCoins -= price;
-            movementSpeedLevel += 1;
+            status.permanentCoins -= price;
+            status.movementSpeedLevel += 1;
+            this.SaveStats();
         }
     }
 
 	public void UpgradeBonusDamage()
 	{
-        if (bonusDamageLevel == 6)
+        if (status.bonusDamageLevel == 6)
             return;
-        int price = 1 + bonusDamageLevel * 2;
-        if (price <= permanentCoins)
+        int price = 1 + status.bonusDamageLevel * 2;
+        if (price <= status.permanentCoins)
         {
-            permanentCoins -= price;
-            bonusDamageLevel += 1;
+            status.permanentCoins -= price;
+            status.bonusDamageLevel += 1;
+            this.SaveStats();
         }
     }
 
 	public void UpgradeDefence()
 	{
-        if (defenceLevel == 6)
+        if (status.defenceLevel == 6)
             return;
-        int price = 1 + defenceLevel * 2;
-        if (price <= permanentCoins)
+        int price = 1 + status.defenceLevel * 2;
+        if (price <= status.permanentCoins)
         {
-            permanentCoins -= price;
-            defenceLevel += 1;
+            status.permanentCoins -= price;
+            status.defenceLevel += 1;
+            this.SaveStats();
         }
     }
 	public int GetPermanentCoins()
 	{
-		return this.permanentCoins;
+		return this.status.permanentCoins;
 	}
 }
 

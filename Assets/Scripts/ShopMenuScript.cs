@@ -18,33 +18,34 @@ public class ShopMenuScript : MonoBehaviour
 
     void Start()
     {
+        playerStats.LoadStats();
         UpdateButtons();
     }
     public void UpdateButtons()
     {
         healthButton.setUpgradeName("Max Health");
-        healthButton.setUpgradeLevel(playerStats.maxHealthLevel);
-        healthButton.setPrice(1 + playerStats.maxHealthLevel * 2);
+        healthButton.setUpgradeLevel(playerStats.status.maxHealthLevel);
+        healthButton.setPrice(1 + playerStats.status.maxHealthLevel * 2);
         healthButton.buildButton();
 
         speedButton.setUpgradeName("Speed");
-        speedButton.setUpgradeLevel(playerStats.movementSpeedLevel);
-        speedButton.setPrice(1 + playerStats.movementSpeedLevel * 2);
+        speedButton.setUpgradeLevel(playerStats.status.movementSpeedLevel);
+        speedButton.setPrice(1 + playerStats.status.movementSpeedLevel * 2);
         speedButton.buildButton();
 
         defenceButton.setUpgradeName("Defence");
-        defenceButton.setUpgradeLevel(playerStats.defenceLevel);
-        defenceButton.setPrice(1 + playerStats.defenceLevel * 2);
+        defenceButton.setUpgradeLevel(playerStats.status.defenceLevel);
+        defenceButton.setPrice(1 + playerStats.status.defenceLevel * 2);
         defenceButton.buildButton();
 
         dmgButton.setUpgradeName("Damage");
-        dmgButton.setUpgradeLevel(playerStats.bonusDamageLevel);
-        dmgButton.setPrice(1 + playerStats.bonusDamageLevel * 2);
+        dmgButton.setUpgradeLevel(playerStats.status.bonusDamageLevel);
+        dmgButton.setPrice(1 + playerStats.status.bonusDamageLevel * 2);
         dmgButton.buildButton();
     }
-    public void SwitchToScene(string test)
+    public void SwitchToScene(string scene)
     {
-        SceneManager.LoadScene(test);
+        SceneManager.LoadScene(scene);
     }
     public void UpgradeHealth()
     {

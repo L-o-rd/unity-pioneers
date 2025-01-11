@@ -465,8 +465,8 @@ MonoBehaviour:
   permanentCoins: 0
   defenceLevel: 0
   maxHealthLevel: 0
-  movementSpeedLevel: 6
-  bonusDamageLevel: 3
+  movementSpeedLevel: 0
+  bonusDamageLevel: 0
 --- !u!114 &6372701817571382071
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -60,7 +60,7 @@ public class InGameTextUI : MonoBehaviour
     }
 
     public void UpdateHPText(float health){
-        hpText.text = "Health: " + health;
+        hpText.text = "Health: " + health.ToString("0.00");
     }
     void Update()
     {
