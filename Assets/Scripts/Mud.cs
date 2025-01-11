@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Mud : MonoBehaviour
 {
-    [SerializeField] float slowFactor = 0.5f;
     private PlayerMovement playerMovement;
     private void OnTriggerStay2D(Collider2D other)
     {

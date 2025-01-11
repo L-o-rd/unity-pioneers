@@ -91,14 +91,15 @@ public class RoomManager : MonoBehaviour
                 WalkerStep(rng.Next(0, 4));
                 if (TryMakeRoom<TreasureRoom>(treasureRoomPrefab, WalkerPosition, "TreasureRoom", rng, TreasureCondition)) continue;
                 if (TryMakeRoom<ChallengeRoom>(GetRandomChallengeRoomPrefab(), WalkerPosition, "ChallengeRoom", rng, ChallengeCondition)) continue;
-                if (TryMakeRoom<Room>(GetRandomRoomPrefab(), WalkerPosition, "Room", null, null))
-                {
-                    // difficultyMultiplier += 0.1f;
-                    // if (difficultyMultiplier >= difficultyMultiplierCap)
-                    // {
-                    //     difficultyMultiplier = difficultyMultiplierCap;
-                    // }
-                }
+                TryMakeRoom<Room>(GetRandomRoomPrefab(), WalkerPosition, "Room", null, null);
+                // if (TryMakeRoom<Room>(GetRandomRoomPrefab(), WalkerPosition, "Room", null, null))
+                // {
+                //     difficultyMultiplier += 0.1f;
+                //     if (difficultyMultiplier >= difficultyMultiplierCap)
+                //     {
+                //         difficultyMultiplier = difficultyMultiplierCap;
+                //     }
+                // }
 
                 //Debug.Log($"({WalkerPosition.x}, {WalkerPosition.y})");
             }
@@ -247,7 +248,7 @@ public class RoomManager : MonoBehaviour
         }
         if (levelComplete){
             levelComplete = false;
-            SetDifficulty(GetDifficulty() + 0.1f);
+            SetDifficulty(Math.Max(GetDifficulty() + 0.1f, difficultyMultiplierCap));
             SetMinRooms(minRooms + 1);
             SetMaxRooms(maxRooms + 2);
         }
