@@ -210,3 +210,8 @@ public class PlayerStats : MonoBehaviour {
 		return this.permanentCoins;
 	}
 }
+
+
+
+
+ 
