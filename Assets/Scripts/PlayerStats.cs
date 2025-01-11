@@ -80,7 +80,6 @@ public class PlayerStats : MonoBehaviour {
         }
         health += heal;
 		inGameTextUI.ShowWorldFeedback("+"+heal+"HP",Color.green);
-		rageMeter = GetComponent<RageMeter>();
 		if (rageMeter != null)
 		{
 			rageMeter.AddRage(Mathf.Floor(-heal / 5));
@@ -95,6 +94,12 @@ public class PlayerStats : MonoBehaviour {
 		maxHealth = getMaxHealth();
 
 		health = maxHealth;
+
+		rageMeter = GetComponent<RageMeter>();
+
+		if (rageMeter==null){
+			Debug.LogWarning("RageMeter not found");
+		}
 			
 		inGameTextUI = FindObjectOfType<InGameTextUI>();
 	}

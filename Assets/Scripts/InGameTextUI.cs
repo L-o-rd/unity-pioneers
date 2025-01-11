@@ -46,6 +46,7 @@ public class InGameTextUI : MonoBehaviour
 
     private IEnumerator DisplayWorldFeedback(string text, float worldTextDuration, Color color)
     {
+        Debug.Log("Displaying world feedback");
         worldText.text = text;
         worldText.color = color;
         worldText.gameObject.SetActive(true);
