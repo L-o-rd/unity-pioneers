@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour {
     private float dashSpeedMultiplier = 2.5f;
 
     [SerializeField] 
-    private float dashDuration = 0.2f;
+    private float dashDuration = 0.3f;
 
     [SerializeField]
     private float dashCooldown = 5f;

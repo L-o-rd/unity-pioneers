@@ -28,7 +28,7 @@ public class ReactionTestChallenge : MonoBehaviour
             Debug.Log("Color changed to green");
 
             timer = 0f;
-            while (timer < 0.5f)
+            while (timer < 0.4f)
             {
                 timer += Time.deltaTime;
                 yield return null;  // Wait for the next frame
