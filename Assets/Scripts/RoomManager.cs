@@ -252,7 +252,7 @@ public class RoomManager : MonoBehaviour
             SetMaxRooms(maxRooms + 2);
         }
         Debug.Log("Creating level");
-        TryMakeRoom<Room>(roomPrefab, WalkerPosition, "Room", null, null);
+        TryMakeRoom<Room>(roomPrefabs[0], WalkerPosition, "Room", null, null);
         GenerateRooms();
         SetBounds();
     }

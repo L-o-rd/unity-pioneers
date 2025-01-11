@@ -166,6 +166,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 163876552189531463, guid: 194a3555fcccb6043ae5995027f634c6, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1431649503132706567, guid: 194a3555fcccb6043ae5995027f634c6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.16346943
@@ -898,11 +902,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
---- !u!1 &989232473 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7866078939630502176, guid: cd45f08944e4f9b44a632c10cce68437, type: 3}
-  m_PrefabInstance: {fileID: 1083173777}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1049994765
 GameObject:
   m_ObjectHideFlags: 0
@@ -1026,6 +1025,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2497125257838064744, guid: cd45f08944e4f9b44a632c10cce68437, type: 3}
+      propertyPath: rageSlider
+      value: 
+      objectReference: {fileID: 1285206323}
+    - target: {fileID: 2497125257838064744, guid: cd45f08944e4f9b44a632c10cce68437, type: 3}
+      propertyPath: rageMeterTransform
+      value: 
+      objectReference: {fileID: 1285206322}
     - target: {fileID: 3926190041536374688, guid: cd45f08944e4f9b44a632c10cce68437, type: 3}
       propertyPath: m_SortingOrder
       value: 1
@@ -1057,10 +1064,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7866078939630502176, guid: cd45f08944e4f9b44a632c10cce68437, type: 3}
-      insertIndex: 10
-      addedObject: {fileID: 1881706436}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cd45f08944e4f9b44a632c10cce68437, type: 3}
 --- !u!1001 &1114336729
 PrefabInstance:
@@ -2010,25 +2014,6 @@ Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: -3821930656359042099, guid: cd45f08944e4f9b44a632c10cce68437, type: 3}
   m_PrefabInstance: {fileID: 1083173777}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1881706436
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 989232473}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f95928022e129324c97e9edad3227ef0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxRage: 200
-  rageDecayRate: 40
-  damageBoost: 10
-  rageSlider: {fileID: 1285206323}
-  currentRage: 0
-  shakeMagnitude: 4
-  rageMeterTransform: {fileID: 1285206322}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

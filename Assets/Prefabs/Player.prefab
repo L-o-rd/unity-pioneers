@@ -269,6 +269,7 @@ GameObject:
   - component: {fileID: 5012531858453026479}
   - component: {fileID: 3122267784625944055}
   - component: {fileID: 7331727362800672830}
+  - component: {fileID: 2497125257838064744}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -498,6 +499,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6558c452eb2978c44ad4cea9161814b9, type: 2}
   - {fileID: 11400000, guid: 4bbfb03a16d37d940a3159c4b8dbe70f, type: 2}
   playerShooting: {fileID: 6372701817571382071}
+  currentWeaponIndex: 0
 --- !u!114 &3122267784625944055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -532,6 +534,25 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2497125257838064744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7866078939630502176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f95928022e129324c97e9edad3227ef0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxRage: 200
+  rageDecayRate: 40
+  damageBoost: 10
+  rageSlider: {fileID: 0}
+  currentRage: 0
+  shakeMagnitude: 4
+  rageMeterTransform: {fileID: 0}
 --- !u!1 &8958051088796094090
 GameObject:
   m_ObjectHideFlags: 0
