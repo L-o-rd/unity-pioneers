@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Rifle
   m_EditorClassIdentifier: 
   weaponName: RocketLauncher
-  bulletType: homing
+  bulletType: Homing
   bulletForce: 5
   fireRate: 5
   weaponSprite: {fileID: 21300000, guid: 837bde0e349efa24fa4fd77808011006, type: 3}

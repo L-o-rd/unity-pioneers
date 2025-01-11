@@ -12,10 +12,10 @@ public class ReactionTestChallenge : MonoBehaviour
 
     IEnumerator ChangeReactionTileColor()
     {
-        Debug.Log("Changing color");
+        // Debug.Log("Changing color");
         while (true)
         {
-            Debug.Log("In loop");
+            // Debug.Log("In loop");
             float waitTime = Random.Range(1f, 5f);
             float timer = 0f;
             while (timer < waitTime)
@@ -25,7 +25,7 @@ public class ReactionTestChallenge : MonoBehaviour
             }
             gameObject.GetComponent<SpriteRenderer>().color = Color.green;
             isSquareGreen = true;
-            Debug.Log("Color changed to green");
+            // Debug.Log("Color changed to green");
 
             timer = 0f;
             while (timer < 0.4f)
@@ -36,7 +36,7 @@ public class ReactionTestChallenge : MonoBehaviour
 
             gameObject.GetComponent<SpriteRenderer>().color = Color.red;
             isSquareGreen = false;
-            Debug.Log("Color changed to red");
+            // Debug.Log("Color changed to red");
         }
     }
 

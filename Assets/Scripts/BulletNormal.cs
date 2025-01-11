@@ -16,7 +16,7 @@ public class BaseBullet : MonoBehaviour
         float distanceTraveled = Vector2.Distance(startPosition, transform.position);
         if (distanceTraveled >= maxRange)
         {
-            gameObject.SetActive(false); // Deactivate the bullet after reaching max range
+            DeactivateBullet();
         }
     }
 
@@ -24,7 +24,8 @@ public class BaseBullet : MonoBehaviour
     {
         gameObject.SetActive(false); // Default behavior: deactivate on collision
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
 	{
 		// var enemy = collision.GetComponent<EnemyHealth>();
 		// // Debug.Log("Bullet collided with " + collision.name);
@@ -43,8 +44,13 @@ public class BaseBullet : MonoBehaviour
 		if (crate != null)
 		{
 			crate.InteractWithCrate();
-			gameObject.SetActive(false);
-		}
+        }
 
-	}
+        DeactivateBullet();
+    }
+
+    public void DeactivateBullet()
+    {
+        ObjectPool.instance.ReturnPooledObject(gameObject);
+    }
 }

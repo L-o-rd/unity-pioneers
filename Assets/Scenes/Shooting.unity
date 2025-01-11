@@ -1025,6 +1025,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4bbfb03a16d37d940a3159c4b8dbe70f, type: 2}
   - {fileID: 11400000, guid: aa45d80c887833147b6ef954a97e64b6, type: 2}
   playerShooting: {fileID: 790469814}
+  currentWeaponIndex: 0
 --- !u!95 &790469817
 Animator:
   serializedVersion: 5
@@ -6454,7 +6455,7 @@ GameObject:
   - component: {fileID: 1652943830}
   - component: {fileID: 1652943829}
   m_Layer: 0
-  m_Name: BulletPull
+  m_Name: BulletPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6473,13 +6474,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pools:
-  - tag: normal
+  - tag: Normal
     prefab: {fileID: 6840079661474906302, guid: a7986df82a07a91489ad3ee04945fa18, type: 3}
     size: 20
-  - tag: bounce
+  - tag: Bounce
     prefab: {fileID: 6840079661474906302, guid: 4c6bdb9eec383004ca4f2f83aeae2c7b, type: 3}
     size: 20
-  - tag: homing
+  - tag: Homing
     prefab: {fileID: 6840079661474906302, guid: 1caebb5dbec84354d9ccf5d008c94fe2, type: 3}
     size: 10
 --- !u!4 &1652943830

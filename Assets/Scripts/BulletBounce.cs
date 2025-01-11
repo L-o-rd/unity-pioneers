@@ -26,7 +26,7 @@ public class RicochetBullet : BaseBullet
             // If the bullet hits an enemy, deactivate the bullet
             Debug.Log("Bullet hit an enemy. Returning to pool.");
             collision.gameObject.SetActive(false); // Optionally deactivate the enemy
-            gameObject.SetActive(false); // Deactivate the bullet
+            DeactivateBullet(); // Deactivate the bullet
             return; // Exit the function, no more ricochets
         }
 
@@ -48,13 +48,38 @@ public class RicochetBullet : BaseBullet
         else
         {
             // Deactivate the bullet after exceeding the ricochet limit
-            gameObject.SetActive(false); // Deactivate the bullet
+            DeactivateBullet(); // Deactivate the bullet
+        }
+    }
+
+    protected override void OnTriggerEnter2D(Collider2D collision)
+    {
+        // Check if the collision is with an enemy
+        if (collision.CompareTag("Enemy"))
+        {
+            Debug.Log("Bullet hit an enemy");
+
+            // Apply damage if the enemy has a health script attached
+            var enemy = collision.GetComponent<EnemyHealth>();
+            if (enemy != null)
+            {
+                Debug.Log("Enemy found, applying damage.");
+                enemy.TakeDamage(20f); // Adjust the damage value as needed
+            }
+
+            // Deactivate the bullet after hitting an enemy
+            DeactivateBullet();
+        }
+        else
+        {
+            base.OnTriggerEnter2D(collision);
+            // Debug.Log("Bullet hit something else: " + collision.gameObject.name);
         }
     }
 
     // Reset ricochet count and velocity when the bullet is deactivated
     // Reset ricochet count and velocity when the bullet is deactivated
-public void ResetBullet(bool resetVelocity = true, bool resetRicochetCount = true)
+    public void ResetBullet(bool resetVelocity = true, bool resetRicochetCount = true)
 {
     if (resetRicochetCount)
     {

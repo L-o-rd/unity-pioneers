@@ -5050,9 +5050,7 @@ MonoBehaviour:
   maxSouth: {fileID: 3387123124775525708}
   maxWest: {fileID: 531453639877174601}
   maxEast: {fileID: 5902004287368158642}
-  trapWeights: []
-  safeZoneRadius: 3
-  trapSpacing: 1.5
+  rewardWeights: []
   RoomIndex: {x: 0, y: 0}
   coinPrefab: {fileID: 1959717353171362881, guid: 0d26339a415210e41ade699be0395522, type: 3}
   chestPrefab: {fileID: 2137276297077425716, guid: e7178d4e950aa994599e3844f7ad8dcf, type: 3}
@@ -5313,7 +5311,7 @@ GameObject:
   - component: {fileID: 8821589807671163758}
   m_Layer: 0
   m_Name: East
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5642,7 +5640,7 @@ GameObject:
   - component: {fileID: 1913023911330282763}
   m_Layer: 0
   m_Name: West
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6386,7 +6384,7 @@ GameObject:
   - component: {fileID: 1302829224586098133}
   m_Layer: 0
   m_Name: North
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6520,7 +6518,7 @@ GameObject:
   - component: {fileID: 1285353097267041645}
   m_Layer: 0
   m_Name: South
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

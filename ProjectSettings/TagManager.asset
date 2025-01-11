@@ -12,9 +12,9 @@ TagManager:
   - Particles
   - Trap
   - Enemy
-  - homing
-  - normal
-  - bounce
+  - Homing
+  - Normal
+  - Bounce
   - Obstacle
   layers:
   - Default

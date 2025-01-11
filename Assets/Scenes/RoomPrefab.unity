@@ -1094,6 +1094,14 @@ PrefabInstance:
       propertyPath: roomManager
       value: 
       objectReference: {fileID: 1345341145}
+    - target: {fileID: 5012531858453026479, guid: cd45f08944e4f9b44a632c10cce68437, type: 3}
+      propertyPath: availableWeapons.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012531858453026479, guid: cd45f08944e4f9b44a632c10cce68437, type: 3}
+      propertyPath: availableWeapons.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: aa45d80c887833147b6ef954a97e64b6, type: 2}
     - target: {fileID: 5465063610453830802, guid: cd45f08944e4f9b44a632c10cce68437, type: 3}
       propertyPath: m_Name
       value: DamageOrHealText
@@ -1747,6 +1755,9 @@ MonoBehaviour:
     size: 10
   - tag: Bounce
     prefab: {fileID: 6840079661474906302, guid: 4c6bdb9eec383004ca4f2f83aeae2c7b, type: 3}
+    size: 10
+  - tag: Homing
+    prefab: {fileID: 6840079661474906302, guid: 1caebb5dbec84354d9ccf5d008c94fe2, type: 3}
     size: 10
 --- !u!4 &1508106860
 Transform:

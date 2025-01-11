@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Sniper
   m_EditorClassIdentifier: 
   weaponName: Blaster
-  bulletType: bounce
+  bulletType: Bounce
   bulletForce: 5
   fireRate: 5
   weaponSprite: {fileID: 21300000, guid: 5b7ba0d9d2234364a96c9db530596d61, type: 3}
