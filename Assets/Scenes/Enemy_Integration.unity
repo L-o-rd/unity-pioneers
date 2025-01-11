@@ -425,6 +425,7 @@ MonoBehaviour:
   availableWeapons:
   - {fileID: 11400000, guid: 6558c452eb2978c44ad4cea9161814b9, type: 2}
   - {fileID: 11400000, guid: 4bbfb03a16d37d940a3159c4b8dbe70f, type: 2}
+  - {fileID: 11400000, guid: aa45d80c887833147b6ef954a97e64b6, type: 2}
   playerShooting: {fileID: 370977260}
 --- !u!114 &370977259
 MonoBehaviour:
@@ -6177,9 +6178,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd8310a93a41c9c4a87213bd4d0c72c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clonePrefab: {fileID: 6840079661474906302, guid: a7986df82a07a91489ad3ee04945fa18, type: 3}
-  parentTransform: {fileID: 1593028705}
-  amountToPool: 20
+  pools:
+  - tag: normal
+    prefab: {fileID: 6840079661474906302, guid: a7986df82a07a91489ad3ee04945fa18, type: 3}
+    size: 10
+  - tag: bounce
+    prefab: {fileID: 6840079661474906302, guid: 4c6bdb9eec383004ca4f2f83aeae2c7b, type: 3}
+    size: 10
+  - tag: homing
+    prefab: {fileID: 6840079661474906302, guid: 1caebb5dbec84354d9ccf5d008c94fe2, type: 3}
+    size: 10
 --- !u!4 &1593028705
 Transform:
   m_ObjectHideFlags: 0

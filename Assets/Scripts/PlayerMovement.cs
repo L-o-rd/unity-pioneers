@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -106,12 +107,12 @@ public class PlayerMovement : MonoBehaviour {
     public void SlowPlayerBy(float percentage)
     {
 
-        if (!inMud) return;
-        if (percentage < 0 || percentage > 1){
+        if (percentage < 0 || percentage > 1) {
             Debug.LogWarning("Invalid percentage value");
             return;
         }
-        maxSpeed *= percentage;
+
+        playerStats.ScaleSpeed(percentage);
     }
 
     public void SpeedUpPlayerBy(float percentage)
@@ -121,7 +122,8 @@ public class PlayerMovement : MonoBehaviour {
             Debug.LogWarning("Invalid percentage value");
             return;
         }
-        maxSpeed /= percentage;
+
+        playerStats.ScaleSpeed(1.0f / percentage);
     }
 
     private bool DetectDoubleTap(KeyCode key) {
@@ -175,4 +177,5 @@ public class PlayerMovement : MonoBehaviour {
         dashCooldown=Mathf.Max(dashCooldown-1,1);
     }
 }
+
 

@@ -1,3 +1,4 @@
+
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
@@ -38,6 +39,11 @@ public class PlayerStats : MonoBehaviour {
 	{
 		return (float)(5.5 + 2.5 / 6 * movementSpeedLevel);
 	}
+  
+  public void ScaleSpeed(float factor)
+  {
+	  baseSpeed *= factor;
+  }
 
 	public int setPlayerDamage(int damage)
 	{
@@ -200,3 +206,8 @@ public class PlayerStats : MonoBehaviour {
 		return this.permanentCoins;
 	}
 }
+
+
+
+
+ 

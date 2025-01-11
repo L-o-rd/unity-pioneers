@@ -56,6 +56,8 @@ public class PlayerTeleportation : MonoBehaviour
         else if (collision.CompareTag("FinalDoor"))
         {
             roomManager.SetLevelComplete(true);
+            transform.position = new Vector3(0, 0, 0);
+            roomManager.CreateLevel();
         }
     }
 

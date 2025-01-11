@@ -835,6 +835,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3926190041536374688, guid: cd45f08944e4f9b44a632c10cce68437, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4685606191312216409, guid: cd45f08944e4f9b44a632c10cce68437, type: 3}
       propertyPath: roomManager
       value: 
@@ -1331,9 +1335,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd8310a93a41c9c4a87213bd4d0c72c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clonePrefab: {fileID: 6840079661474906302, guid: a7986df82a07a91489ad3ee04945fa18, type: 3}
-  parentTransform: {fileID: 1508106860}
-  amountToPool: 20
+  pools:
+  - tag: Normal
+    prefab: {fileID: 6840079661474906302, guid: a7986df82a07a91489ad3ee04945fa18, type: 3}
+    size: 10
+  - tag: Bounce
+    prefab: {fileID: 6840079661474906302, guid: 4c6bdb9eec383004ca4f2f83aeae2c7b, type: 3}
+    size: 10
 --- !u!4 &1508106860
 Transform:
   m_ObjectHideFlags: 0
