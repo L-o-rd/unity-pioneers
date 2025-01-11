@@ -5517,9 +5517,15 @@ MonoBehaviour:
   maxSouth: {fileID: 8199824690926088632}
   maxWest: {fileID: 332445282451526148}
   maxEast: {fileID: 1219145539750961685}
-  trapWeights: []
-  safeZoneRadius: 2
-  trapSpacing: 1.5
+  rewardWeights:
+  - rewardPrefab: {fileID: 4559712607841094007, guid: dea1561ce5965c141975a6d892e812e3, type: 3}
+    weight: 10
+  - rewardPrefab: {fileID: 2137276297077425716, guid: e7178d4e950aa994599e3844f7ad8dcf, type: 3}
+    weight: 2
+  - rewardPrefab: {fileID: 1622943197523293393, guid: c0c3e8af33665dd4f802d25002f6e309, type: 3}
+    weight: 2
+  - rewardPrefab: {fileID: 1959717353171362881, guid: 0d26339a415210e41ade699be0395522, type: 3}
+    weight: 12
   RoomIndex: {x: 0, y: 0}
 --- !u!1 &6726619742593523545
 GameObject:

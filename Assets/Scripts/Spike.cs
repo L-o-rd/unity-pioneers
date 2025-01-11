@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Spike : MonoBehaviour
 {
-    [SerializeField] private Sprite activeSprite;
-    [SerializeField] private Sprite inactiveSprite;
     [SerializeField] private float activationInterval = 2f; // Seconds
     [SerializeField] private float damage = 10f;
 
@@ -27,7 +25,7 @@ public class Spike : MonoBehaviour
 
     private void UpdateSprite()
     {
-        spriteRenderer.sprite = isActive ? activeSprite : inactiveSprite;
+        spriteRenderer.color = isActive ? Color.black : Color.gray;
     }
     void Start()
     {

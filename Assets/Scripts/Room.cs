@@ -30,14 +30,7 @@ public class Room : MonoBehaviour
     public Transform maxEast;
 
     [SerializeField]
-    private List<TrapWeight> trapWeights;
-
-    [SerializeField]
-    private float safeZoneRadius = 3f;
-
-    [SerializeField]
-    private float trapSpacing = 1.5f;
-    private List<Vector3> occupiedPositions = new List<Vector3>();
+    private List<RewardWeight> rewardWeights;
     public Vector2Int RoomIndex;
 
     public void OpenDoor(Vector2Int direction)
@@ -87,11 +80,32 @@ public class Room : MonoBehaviour
         }
     }
 
+    public void SpawnReward()
+    {
+        float totalWeight = 0f;
+        foreach (RewardWeight reward in rewardWeights)
+        {
+            totalWeight += reward.weight;
+        }
 
+        float randomWeight = Random.Range(0, totalWeight);
+        float cumulativeWeight = 0f;
+
+        foreach (RewardWeight reward in rewardWeights)
+        {
+            cumulativeWeight += reward.weight;
+            if (randomWeight <= cumulativeWeight)
+            {
+                var spawnedReward=Instantiate(reward.rewardPrefab, transform.position + new Vector3(3,0,0), Quaternion.identity);
+                spawnedReward.transform.parent = transform;
+                return;
+            }
+        }
+    }
     
     void Start()
     {
-        
+        SpawnReward();
     }
 
     // Update is called once per frame

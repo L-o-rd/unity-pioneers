@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class PlayerStats : MonoBehaviour {
@@ -18,11 +19,13 @@ public class PlayerStats : MonoBehaviour {
     public int movementSpeedLevel = 0;
 	[SerializeField]
     public int bonusDamageLevel = 0;
+	private InGameTextUI inGameTextUI;
+	private RageMeter rageMeter;
 
 	private float baseSpeed = 5.5f;
     private float maxHealth;
-	private int bonusDamage;
-	private int defence;
+	private float movementSpeed;
+	private int playerDamage;
 
     public float getTotalCoins(){
         return totalCoins;
@@ -41,6 +44,16 @@ public class PlayerStats : MonoBehaviour {
 		baseSpeed *= factor;
     }
 
+	public int setPlayerDamage(int damage)
+	{
+		playerDamage = damage;
+		return playerDamage;
+	}
+
+	public int getPlayerDamage()
+	{
+		return playerDamage;
+	}
     public int getBonusDamage()
 	{
 		return bonusDamageLevel * 2;
@@ -66,11 +79,16 @@ public class PlayerStats : MonoBehaviour {
 
     public void Heal(float heal) {
         if (isDead) return;
+		
         if (health + heal > maxHealth) {
-            health = maxHealth;
-            return;
+			heal = maxHealth - health;
         }
         health += heal;
+		inGameTextUI.ShowWorldFeedback("+"+heal+"HP",Color.green);
+		if (rageMeter != null)
+		{
+			rageMeter.AddRage(Mathf.Floor(-heal / 5));
+		}
         Debug.Log(string.Format("Health remaining: {0}.", health));
     }
 
@@ -81,6 +99,14 @@ public class PlayerStats : MonoBehaviour {
 		maxHealth = getMaxHealth();
 
 		health = maxHealth;
+
+		rageMeter = GetComponent<RageMeter>();
+
+		if (rageMeter==null){
+			Debug.LogWarning("RageMeter not found");
+		}
+			
+		inGameTextUI = FindObjectOfType<InGameTextUI>();
 	}
 
 	private void Update()
@@ -89,7 +115,8 @@ public class PlayerStats : MonoBehaviour {
 		{
 			return;
 		}
-
+		inGameTextUI.UpdateCoinText(totalCoins);
+		inGameTextUI.UpdateHPText(health);
 		// Debug: reduce health with the Space key
 		if (Input.GetKey(KeyCode.Space))
 		{
@@ -111,6 +138,11 @@ public class PlayerStats : MonoBehaviour {
 		}
 
 		health -= (amount - getDefence());
+		inGameTextUI.ShowWorldFeedback("-"+amount+"HP",Color.red);
+		if (rageMeter != null)
+		{
+			rageMeter.AddRage(Mathf.Floor(amount / 4));
+		}
 		Debug.Log($"Health remaining: {health}");
 
 		if (health <= 0)
@@ -178,3 +210,8 @@ public class PlayerStats : MonoBehaviour {
 		return this.permanentCoins;
 	}
 }
+
+
+
+
+ 

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class TrapWeight
+public class RewardWeight
 {
-    public GameObject trapPrefab;
+    public GameObject rewardPrefab;
     public float weight; // higher weight means higher chance of being selected.
 }

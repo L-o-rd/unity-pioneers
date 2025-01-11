@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6646581046087618623}
   - component: {fileID: 5865082090961186106}
   - component: {fileID: 7315171654605382971}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: PoisonEffect
   m_TagString: Particles
   m_Icon: {fileID: 0}

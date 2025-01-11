@@ -24,4 +24,27 @@ public class BaseBullet : MonoBehaviour
     {
         gameObject.SetActive(false); // Default behavior: deactivate on collision
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+	{
+		// var enemy = collision.GetComponent<EnemyHealth>();
+		// // Debug.Log("Bullet collided with " + collision.name);
+		// if (enemy != null)
+		// {
+		// 	var rageMeter = FindObjectOfType<RageMeter>();
+		// 	if (rageMeter != null)
+		// 	{
+		// 		rageMeter.AddRage(Mathf.Floor(Damage / 10));
+		// 	}
+		// 	enemy.TakeDamage(Damage);
+		// 	gameObject.SetActive(false);
+		// 	return;
+		// }
+		var crate = collision.GetComponent<Crate>();
+		if (crate != null)
+		{
+			crate.InteractWithCrate();
+			gameObject.SetActive(false);
+		}
+
+	}
 }

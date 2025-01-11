@@ -2,33 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PoisonCrate : MonoBehaviour
+public class PoisonCrate : Crate
 {
     [SerializeField] private GameObject poisonEffectPrefab; 
     [SerializeField] private float poisonDamage = 10f;
     [SerializeField] private float poisonDuration = 5f;
     [SerializeField] private float poisonRadius = 2.5f;
 
+    private bool hasPoisoned = false;
 
-    private void Poison()
+
+    public void Poison()
     {
         if (poisonEffectPrefab != null)
         {
             GameObject poisonEffect = Instantiate(poisonEffectPrefab, transform.position, Quaternion.identity);
             poisonEffect.AddComponent<PoisonEffect>().Initialize(poisonDamage, poisonRadius, poisonDuration);
+            Destroy(gameObject);
             Destroy(poisonEffect, poisonDuration);
         }
 
     }
 
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    public override void InteractWithCrate()
     {
-        if (collision.gameObject.CompareTag("Bullet"))
-        {
-            Poison();
-            Destroy(gameObject);
-        }
+        if (hasPoisoned) return;
+        Poison();
     }
 
     private void OnDrawGizmos()

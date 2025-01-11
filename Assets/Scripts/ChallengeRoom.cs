@@ -49,7 +49,7 @@ public class ChallengeRoom : Room
  
     void Start()
     {
-        
+        SpawnChallenge();
     }
 
     // Update is called once per frame

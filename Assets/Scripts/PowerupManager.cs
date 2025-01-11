@@ -10,6 +10,7 @@ public abstract class PowerupManager : MonoBehaviour
     protected bool isPlayerNearby = false;
     protected PlayerMovement playerMovement;
     protected PlayerStats playerStats;
+    protected PlayerShooting playerShooting;
     public bool isPurchasable = false;
     private float price;
 
@@ -103,6 +104,7 @@ public abstract class PowerupManager : MonoBehaviour
         {
             playerMovement = other.GetComponent<PlayerMovement>();
             playerStats = other.GetComponent<PlayerStats>();
+            playerShooting = other.GetComponent<PlayerShooting>();
             isPlayerNearby = true;
 
             if (!isPurchasable) // Direct pickup if not purchasable

@@ -49,6 +49,8 @@ MonoBehaviour:
   - {fileID: 1348100166636745767, guid: 22406914b663c654d862338e4dd74e16, type: 3}
   - {fileID: 4559712607841094007, guid: dea1561ce5965c141975a6d892e812e3, type: 3}
   - {fileID: 1622943197523293393, guid: c0c3e8af33665dd4f802d25002f6e309, type: 3}
+  - {fileID: 2984619610456011452, guid: 87a12ae4bdbb6ce4cb3c57f1a627db13, type: 3}
+  - {fileID: 4436189384927093668, guid: aac291e27ccc33a4290956a0c06d26c6, type: 3}
   itemPositions:
   - {x: -3, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}

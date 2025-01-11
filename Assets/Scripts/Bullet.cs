@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -36,9 +37,21 @@ public class Bullet : MonoBehaviour
 		// Debug.Log("Bullet collided with " + collision.name);
 		if (enemy != null)
 		{
+			var rageMeter = FindObjectOfType<RageMeter>();
+			if (rageMeter != null)
+			{
+				rageMeter.AddRage(Mathf.Floor(Damage / 10));
+			}
 			enemy.TakeDamage(Damage);
-        }
+			gameObject.SetActive(false);
+			return;
+		}
+		var crate = collision.GetComponent<Crate>();
+		if (crate != null)
+		{
+			crate.InteractWithCrate();
+			gameObject.SetActive(false);
+		}
 
-        gameObject.SetActive(false);
-    }
+	}
 }
