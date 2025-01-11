@@ -8,12 +8,12 @@ public class ObjectPool : MonoBehaviour
     [System.Serializable]
     public class Pool
     {
-        public string tag;
-        public GameObject prefab;
-        public int size;
+        public string tag;           // Tag-ul pentru obiecte
+        public GameObject prefab;    // Prefabricatul obiectului
+        public int size;             // Numărul de obiecte din pool
     }
 
-    public List<Pool> pools; // A list of pools for different objects
+    public List<Pool> pools;        // Lista de pool-uri pentru obiecte
     private Dictionary<string, Queue<GameObject>> poolDictionary;
 
     private void Awake()
@@ -41,6 +41,7 @@ public class ObjectPool : MonoBehaviour
             {
                 GameObject obj = Instantiate(pool.prefab);
                 obj.SetActive(false);
+                obj.tag = pool.tag; // Asigură-te că obiectele au tag-ul corect
                 objectPool.Enqueue(obj);
             }
 
@@ -49,17 +50,51 @@ public class ObjectPool : MonoBehaviour
     }
 
     public GameObject GetPooledObject(string tag)
+{
+    if (!poolDictionary.ContainsKey(tag))
     {
-        if (!poolDictionary.ContainsKey(tag))
+        Debug.LogWarning($"Pool with tag {tag} doesn't exist!");
+        return null;
+    }
+
+    GameObject objectToSpawn = poolDictionary[tag].Dequeue();
+
+    // Reset obiectul (starea specifică trebuie să fie restaurată)
+    RicochetBullet ricochetBullet = objectToSpawn.GetComponent<RicochetBullet>();
+    if (ricochetBullet != null)
+    {
+        ricochetBullet.ResetBullet(resetVelocity: true, resetRicochetCount: true); // Asigură-te că bullet-ul este complet resetat
+    }
+
+    // Reutilizare (activează și adaugă înapoi în coadă)
+    objectToSpawn.SetActive(true);
+    poolDictionary[tag].Enqueue(objectToSpawn);
+
+    return objectToSpawn;
+}
+
+
+    public void ReturnPooledObject(GameObject obj)
+{
+    if (obj != null && poolDictionary.ContainsKey(obj.tag))
+    {
+        obj.SetActive(false);
+
+        // Reset Bullet state when returned to the pool
+        RicochetBullet bullet = obj.GetComponent<RicochetBullet>();
+        if (bullet != null)
         {
-            Debug.LogWarning($"Pool with tag {tag} doesn't exist!");
-            return null;
+            bullet.ResetBullet(resetVelocity: true, resetRicochetCount: true); // Reset ricochet count and velocity
         }
 
-        GameObject objToReuse = poolDictionary[tag].Dequeue();
-        objToReuse.SetActive(true);
-        poolDictionary[tag].Enqueue(objToReuse);
-
-        return objToReuse;
+        poolDictionary[obj.tag].Enqueue(obj);
+        Debug.Log($"Bullet with tag {obj.tag} returned to pool.");
     }
+    else
+    {
+        Debug.LogError($"Trying to return object {obj?.name} with an invalid or missing tag.");
+    }
+}
+
+
 }

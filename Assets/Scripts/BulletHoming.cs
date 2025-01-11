@@ -6,39 +6,46 @@ public class BulletHoming : MonoBehaviour
     public float maxRange = 30f;      // Maximum range before the bullet disappears
     public float targetSearchRadius = 10f; // Radius to find nearby enemies
 
-    private Vector3 startPosition;    // Starting position to calculate the range
-    private Transform target;         // The current target
+    private Vector3 startPosition;
+    private Transform target;
+    private Rigidbody2D rb;
 
-    void Start()
+    void OnEnable()
     {
-        // Save the bullet's starting position
         startPosition = transform.position;
+        target = null; // Reset the target when the bullet is activated
+        rb = GetComponent<Rigidbody2D>();  // Get the Rigidbody2D component
+        rb.velocity = Vector2.zero;       // Reset velocity to prevent previous state interference
     }
 
     void Update()
     {
-        // Continuously search for the nearest target
         FindNearestTarget();
 
-        // Move toward the target if it exists
         if (target != null)
         {
+            // Calculate direction towards the target
             Vector2 direction = (target.position - transform.position).normalized;
-            transform.position += (Vector3)direction * homingSpeed * Time.deltaTime;
+            // Apply velocity in the direction of the target
+            rb.velocity = direction * homingSpeed;
+        }
+        else
+        {
+            // If no target, just move in a straight line
+            rb.velocity = transform.up * homingSpeed;
         }
 
-        // Destroy the bullet if it exceeds the maximum range
+        // If the bullet exceeds its max range, deactivate it
         if (Vector3.Distance(startPosition, transform.position) > maxRange)
         {
-            Destroy(gameObject);
+            DeactivateBullet();
         }
     }
 
     void FindNearestTarget()
     {
-        // Find all GameObjects with the tag "Enemy"
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        float closestDistance = targetSearchRadius; // Start with the maximum search radius
+        float closestDistance = targetSearchRadius;
         GameObject nearestEnemy = null;
 
         foreach (GameObject enemy in enemies)
@@ -51,25 +58,53 @@ public class BulletHoming : MonoBehaviour
             }
         }
 
-        // Assign the closest enemy as the target if found
         if (nearestEnemy != null)
         {
             target = nearestEnemy.transform;
         }
         else
         {
-            target = null; // No enemy within range
+            target = null;
         }
     }
 
-    // Optional: Handle collision with the target
     private void OnTriggerEnter2D(Collider2D collision)
+{
+    // Check if the collision is with an enemy
+    if (collision.CompareTag("Enemy"))
     {
-        if (collision.transform == target)
+        Debug.Log("Bullet hit an enemy");
+
+        // Apply damage if the enemy has a health script attached
+        var enemy = collision.GetComponent<EnemyHealth>();
+        if (enemy != null)
         {
-            Debug.Log("Target hit!");
-            Destroy(collision.gameObject); // Destroy the target
-            Destroy(gameObject); // Destroy the bullet
+            Debug.Log("Enemy found, applying damage.");
+            enemy.TakeDamage(20f); // Adjust the damage value as needed
         }
+
+        // Deactivate the bullet after hitting an enemy
+        DeactivateBullet();
+    }
+    // Check if the collision is with a room
+    else if (collision.CompareTag("Room"))
+    {
+        Debug.Log("Bullet hit the room");
+
+        // Deactivate the bullet after hitting the room
+        DeactivateBullet();
+    }
+    else
+    {
+        // Handle any other collisions (optional, for debugging)
+        Debug.Log("Bullet hit something else: " + collision.gameObject.name);
+    }
+}
+
+
+
+    private void DeactivateBullet()
+    {
+        ObjectPool.instance.ReturnPooledObject(gameObject);
     }
 }
