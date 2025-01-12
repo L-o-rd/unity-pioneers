@@ -34,9 +34,6 @@ public class RoomManager : MonoBehaviour
     private Vector2Int WalkerPosition = new Vector2Int(0, 0);
     private Vector2Int CurrentRoom = new Vector2Int(0, 0);
     private readonly int WalkerSteps = 20;
-    [SerializeField]
-    private int seed = 0;
-    private System.Random rng;
 
     private int CurrentLevel = 0;
     private int LastLevel = 3;
@@ -64,19 +61,14 @@ public class RoomManager : MonoBehaviour
         }
     }
 
-    public void MakeRNG(int seed)
-    {
-        this.rng = new System.Random(seed);
-    }
-
     private GameObject GetRandomRoomPrefab()
     {
-        return roomPrefabs[rng.Next(0, roomPrefabs.Count)];
+        return roomPrefabs[RNGManager.Instance.rng.Next(0, roomPrefabs.Count)];
     }
 
     private GameObject GetRandomChallengeRoomPrefab()
     {
-        return challengeRoomPrefab[rng.Next(0, challengeRoomPrefab.Count)];
+        return challengeRoomPrefab[RNGManager.Instance.rng.Next(0, challengeRoomPrefab.Count)];
     }
 
     private void GenerateRooms()
@@ -88,9 +80,9 @@ public class RoomManager : MonoBehaviour
                 if (roomCount >= maxRooms)
                     goto Done;
 
-                WalkerStep(rng.Next(0, 4));
-                if (TryMakeRoom<TreasureRoom>(treasureRoomPrefab, WalkerPosition, "TreasureRoom", rng, TreasureCondition)) continue;
-                if (TryMakeRoom<ChallengeRoom>(GetRandomChallengeRoomPrefab(), WalkerPosition, "ChallengeRoom", rng, ChallengeCondition)) continue;
+                WalkerStep(RNGManager.Instance.rng.Next(0, 4));
+                if (TryMakeRoom<TreasureRoom>(treasureRoomPrefab, WalkerPosition, "TreasureRoom", RNGManager.Instance.rng, TreasureCondition)) continue;
+                if (TryMakeRoom<ChallengeRoom>(GetRandomChallengeRoomPrefab(), WalkerPosition, "ChallengeRoom", RNGManager.Instance.rng, ChallengeCondition)) continue;
                 TryMakeRoom<Room>(GetRandomRoomPrefab(), WalkerPosition, "Room", null, null);
                 // if (TryMakeRoom<Room>(GetRandomRoomPrefab(), WalkerPosition, "Room", null, null))
                 // {
@@ -108,9 +100,9 @@ public class RoomManager : MonoBehaviour
         }
 
     Done:;
-        while (!TryMakeRoom<BossRoom>(bossRoomPrefab, WalkerPosition, "BossRoom", rng, null))
+        while (!TryMakeRoom<BossRoom>(bossRoomPrefab, WalkerPosition, "BossRoom", RNGManager.Instance.rng, null))
         {
-            WalkerStep(rng.Next(0, 4));
+            WalkerStep(RNGManager.Instance.rng.Next(0, 4));
             // Debug.Log($"Boss: ({WalkerPosition.x}, {WalkerPosition.y})");
         }
     }
@@ -118,7 +110,7 @@ public class RoomManager : MonoBehaviour
 
     private void Start()
     {
-        MakeRNG(this.seed);
+        RNGManager.Instance.Make();
         GenerateRooms();
         SetBounds();
     }
@@ -234,6 +226,7 @@ public class RoomManager : MonoBehaviour
         if (++CurrentLevel >= LastLevel)
         {
             FinishRun();
+            return;
         }
 
         if (roomDict.Count > 0)

@@ -2,14 +2,15 @@ using UnityEngine;
 
 public class RicochetBullet : BaseBullet
 {
-    public int maxRicochets = 3; // Maximum number of ricochets allowed
+    public int maxRicochets = 2; // Maximum number of ricochets allowed
     private int ricochetCount = 0;
 
     private Rigidbody2D rb2d; // Bullet's Rigidbody2D component
     private Vector2 lastFrameVelocity;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         rb2d = GetComponent<Rigidbody2D>(); // Get the Rigidbody2D component
         ResetBulletState(); // Ensure the initial state is set only once
     }
@@ -17,18 +18,19 @@ public class RicochetBullet : BaseBullet
     protected override void Update()
     {
         lastFrameVelocity = rb2d.velocity; // Store the velocity from the previous frame
+        base.Update();
     }
 
     protected override void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            // If the bullet hits an enemy, deactivate the bullet
-            Debug.Log("Bullet hit an enemy. Returning to pool.");
-            collision.gameObject.SetActive(false); // Optionally deactivate the enemy
-            DeactivateBullet(); // Deactivate the bullet
-            return; // Exit the function, no more ricochets
-        }
+        //if (collision.gameObject.CompareTag("Enemy"))
+        //{
+        //    // If the bullet hits an enemy, deactivate the bullet
+        //    Debug.Log("Bullet hit an enemy. Returning to pool.");
+        //    collision.gameObject.SetActive(false); // Optionally deactivate the enemy
+        //    DeactivateBullet(); // Deactivate the bullet
+        //    return; // Exit the function, no more ricochets
+        //}
 
         if (ricochetCount < maxRicochets)
         {
@@ -54,27 +56,7 @@ public class RicochetBullet : BaseBullet
 
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
-        // Check if the collision is with an enemy
-        if (collision.CompareTag("Enemy"))
-        {
-            Debug.Log("Bullet hit an enemy");
-
-            // Apply damage if the enemy has a health script attached
-            var enemy = collision.GetComponent<EnemyHealth>();
-            if (enemy != null)
-            {
-                Debug.Log("Enemy found, applying damage.");
-                enemy.TakeDamage(20f); // Adjust the damage value as needed
-            }
-
-            // Deactivate the bullet after hitting an enemy
-            DeactivateBullet();
-        }
-        else
-        {
-            base.OnTriggerEnter2D(collision);
-            // Debug.Log("Bullet hit something else: " + collision.gameObject.name);
-        }
+        base.OnTriggerEnter2D(collision);
     }
 
     // Reset ricochet count and velocity when the bullet is deactivated

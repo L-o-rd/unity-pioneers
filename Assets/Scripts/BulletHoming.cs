@@ -8,6 +8,11 @@ public class BulletHoming : BaseBullet
     private Transform target;
     private Rigidbody2D rb;
 
+    protected override void Awake()
+    {
+        base.Awake();
+    }
+
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -34,7 +39,7 @@ public class BulletHoming : BaseBullet
         }
 
         // If the bullet exceeds its max range, deactivate it
-        if (Vector3.Distance(startPosition, transform.position) > maxRange)
+        if (Vector3.Distance(startPosition, transform.position) > MaxRange)
         {
             DeactivateBullet();
         }
@@ -68,26 +73,6 @@ public class BulletHoming : BaseBullet
 
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
-    // Check if the collision is with an enemy
-        if (collision.CompareTag("Enemy"))
-        {
-            Debug.Log("Bullet hit an enemy");
-
-            // Apply damage if the enemy has a health script attached
-            var enemy = collision.GetComponent<EnemyHealth>();
-            if (enemy != null)
-            {
-                Debug.Log("Enemy found, applying damage.");
-                enemy.TakeDamage(20f); // Adjust the damage value as needed
-            }
-
-            // Deactivate the bullet after hitting an enemy
-            DeactivateBullet();
-        }
-        else
-        {
-            base.OnTriggerEnter2D(collision);
-            // Debug.Log("Bullet hit something else: " + collision.gameObject.name);
-        }
+        base.OnTriggerEnter2D(collision);
     }
 }
