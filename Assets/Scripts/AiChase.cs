@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class AiChase : MonoBehaviour
 {
-	public GameObject Player;
 	public float Speed;
 	public float DistanceBetween;
 	public float AttackRange;
 
+	private GameObject player;
 	private float distance;
 	private bool isAttacking;
 	private bool isChasing;
@@ -20,13 +20,26 @@ public class AiChase : MonoBehaviour
 	void Start()
 	{
 		animator = GetComponent<Animator>();
-		playerStats = Player.GetComponent<PlayerStats>();
+
+		// Attempt to find the player in the scene by tag
+		player = GameObject.FindGameObjectWithTag("Player");
+
+		if (player != null)
+		{
+			playerStats = player.GetComponent<PlayerStats>();
+		}
+		else
+		{
+			Debug.LogWarning("Player not found! Make sure the Player has the 'Player' tag.");
+		}
 	}
 
 	void Update()
 	{
-		distance = Vector2.Distance(transform.position, Player.transform.position);
-		Vector2 direction = Player.transform.position - transform.position;
+		if (player == null) return;
+
+		distance = Vector2.Distance(transform.position, player.transform.position);
+		Vector2 direction = player.transform.position - transform.position;
 
 		direction.Normalize();
 
@@ -42,17 +55,18 @@ public class AiChase : MonoBehaviour
 
 		if (distance < DistanceBetween)
 		{
+			var scale = transform.localScale;
 			if (direction.x > 0)
 			{
-				transform.localScale = new Vector3(1, 1, 1);
+				transform.localScale = new Vector3(Mathf.Abs(scale.x), scale.y, scale.z);
 			}
 			else if (direction.x < 0)
 			{
-				transform.localScale = new Vector3(-1, 1, 1);
+				transform.localScale = new Vector3(-Mathf.Abs(scale.x), scale.y, scale.z);
 			}
 
 			// Move towards the player
-			transform.position = Vector2.MoveTowards(transform.position, Player.transform.position, Speed * Time.deltaTime);
+			transform.position = Vector2.MoveTowards(transform.position, player.transform.position, Speed * Time.deltaTime);
 			isChasing = true;
 		}
 		else
@@ -64,6 +78,7 @@ public class AiChase : MonoBehaviour
 		animator.SetBool("isChasing", isChasing);
 		animator.SetBool("isAttacking", isAttacking);
 	}
+
 
 	void AttackPlayer()
 	{
