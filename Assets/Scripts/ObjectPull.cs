@@ -60,11 +60,14 @@ public class ObjectPool : MonoBehaviour
     GameObject objectToSpawn = poolDictionary[tag].Dequeue();
 
     // Reset obiectul (starea specifică trebuie să fie restaurată)
-    RicochetBullet ricochetBullet = objectToSpawn.GetComponent<RicochetBullet>();
-    if (ricochetBullet != null)
-    {
-        ricochetBullet.ResetBullet(resetVelocity: true, resetRicochetCount: true); // Asigură-te că bullet-ul este complet resetat
-    }
+    if (objectToSpawn is not null)
+        {
+            RicochetBullet ricochetBullet = objectToSpawn.GetComponent<RicochetBullet>();
+            if (ricochetBullet is not null)
+            {
+                ricochetBullet.ResetBullet(resetVelocity: true, resetRicochetCount: true); // Asigură-te că bullet-ul este complet resetat
+            }
+        }
 
     // Reutilizare (activează și adaugă înapoi în coadă)
     objectToSpawn.SetActive(true);

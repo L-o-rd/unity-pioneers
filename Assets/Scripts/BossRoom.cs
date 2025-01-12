@@ -40,16 +40,54 @@ public class BossRoom : Room
         }
     }
 
+    bool finalActivated = false;
+
 
     void Start()
     {
         //no boss yet, just open the door instantly
-        ActivateFinalDoor();
+        // ActivateFinalDoor();
+        wasOpen = new bool[4];
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void FixedUpdate()
     {
-        
+        foreach (Transform t in transform)
+        {
+            if (t.CompareTag("Enemy"))
+            {
+                return;
+            }
+        }
+
+        if (!finalActivated)
+        {
+            OpenDoors();
+            ActivateFinalDoor();
+            finalActivated = true;
+        }
+    }
+
+    public override void CloseDoors()
+    {
+        if (finalActivated) return;
+        wasOpen[0] = topDoor.activeInHierarchy;
+        wasOpen[1] = bottomDoor.activeInHierarchy;
+        wasOpen[2] = leftDoor.activeInHierarchy;
+        wasOpen[3] = rightDoor.activeInHierarchy;
+
+        CloseDoor(Vector2Int.up);
+        CloseDoor(Vector2Int.down);
+        CloseDoor(Vector2Int.left);
+        CloseDoor(Vector2Int.right);
+    }
+
+    public override void OpenDoors()
+    {
+        if (wasOpen[0]) topDoor.SetActive(true);
+        if (wasOpen[1]) bottomDoor.SetActive(true);
+        if (wasOpen[2]) leftDoor.SetActive(true);
+        if (wasOpen[3]) rightDoor.SetActive(true);
     }
 }

@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,5 +29,25 @@ public class SoundManager : MonoBehaviour
     private void Start()
     {
         volumeSlider.onValueChanged.AddListener(delegate { volume = volumeSlider.value; });
+        volumeSlider.value = volume;
+    }
+
+    public void Save()
+    {
+        FileStream file = File.Create(Application.persistentDataPath + "/options.dat");
+        BinaryFormatter bf = new BinaryFormatter();
+        bf.Serialize(file, this.volume);
+        file.Close();
+    }
+
+    public void Load()
+    {
+        if (File.Exists(Application.persistentDataPath + "/options.dat"))
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(Application.persistentDataPath + "/options.dat", FileMode.Open);
+            this.volume = (float) bf.Deserialize(file);
+            file.Close();
+        }
     }
 }

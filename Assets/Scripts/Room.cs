@@ -88,7 +88,7 @@ public class Room : MonoBehaviour
             totalWeight += reward.weight;
         }
 
-        float randomWeight = Random.Range(0, totalWeight);
+        float randomWeight = (float) RNGManager.Instance.rng.NextDouble() * totalWeight;
         float cumulativeWeight = 0f;
 
         foreach (RewardWeight reward in rewardWeights)
@@ -106,6 +106,7 @@ public class Room : MonoBehaviour
     void Start()
     {
         SpawnReward();
+        wasOpen = new bool[4];
     }
 
     // Update is called once per frame
@@ -113,4 +114,34 @@ public class Room : MonoBehaviour
     {
         
     }
+
+    protected virtual void FixedUpdate()
+    {
+        bool found = false;
+        foreach (Transform t in transform)
+        {
+            if (t.CompareTag("EnemySpawn"))
+            {
+                foreach (Transform e in t)
+                {
+                    if (e.CompareTag("Enemy"))
+                    {
+                        found = true; break;
+                    }
+                }
+            } else if (t.CompareTag("Enemy"))
+            {
+                found = true; break;
+            }
+        }
+
+        if (!found)
+        {
+            OpenDoors();
+        }
+    }
+
+    public bool[] wasOpen;
+    public virtual void OpenDoors() { }
+    public virtual void CloseDoors() { }
 }

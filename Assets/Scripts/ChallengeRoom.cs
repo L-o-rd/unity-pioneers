@@ -12,6 +12,7 @@ public class ChallengeRoom : Room
     [SerializeField] GameObject reactionTestPrefab;
 
     [SerializeField] float delay=2f;
+    [SerializeField] GameObject enemyPrefab;
 
     GameObject challenge;
 
@@ -46,15 +47,59 @@ public class ChallengeRoom : Room
             SpawnChallenge();
         }
     }
+
+    int Enemies { get; set; } = 0;
  
     void Start()
     {
         SpawnChallenge();
+        GameObject[] points = GameObject.FindGameObjectsWithTag("EnemySpawn");
+        int elems = RNGManager.Instance.rng.Next(1, points.Length + 1);
+        int n = points.Length;
+        while (n > 1)
+        {
+            n--;
+            int k = RNGManager.Instance.rng.Next(n + 1);
+            GameObject value = points[k];
+            points[k] = points[n];
+            points[n] = value;
+        }
+
+        Enemies = elems;
+        for (int i = 0; i < elems; ++i)
+        {
+            Instantiate(enemyPrefab, points[i].transform);
+        }
+
+        wasOpen = new bool[4];
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void FixedUpdate()
     {
+        base.FixedUpdate();
+    }
 
+    public override void OpenDoors()
+    {
+        if (wasOpen[0]) topDoor.SetActive(true);
+        if (wasOpen[1]) bottomDoor.SetActive(true);
+        if (wasOpen[2]) leftDoor.SetActive(true);
+        if (wasOpen[3]) rightDoor.SetActive(true);
+    }
+
+    public override void CloseDoors() {
+        wasOpen[0] = topDoor.activeInHierarchy;
+        wasOpen[1] = bottomDoor.activeInHierarchy;
+        wasOpen[2] = leftDoor.activeInHierarchy;
+        wasOpen[3] = rightDoor.activeInHierarchy;
+
+        if (Enemies > 0)
+        {
+            CloseDoor(Vector2Int.up);
+            CloseDoor(Vector2Int.down);
+            CloseDoor(Vector2Int.left);
+            CloseDoor(Vector2Int.right);
+        }
     }
 }

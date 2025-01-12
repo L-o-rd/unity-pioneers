@@ -10,12 +10,14 @@ public class MainMenuScript : MonoBehaviour
 
     private void Start()
     {
+        SoundManager.Instance.Load();
         stats.LoadStats();
     }
 
     public void Quit()
     {
         stats.SaveStats();
+        SoundManager.Instance.Save();
         Application.Quit();
     }
 

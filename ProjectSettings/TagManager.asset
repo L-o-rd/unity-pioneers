@@ -16,6 +16,7 @@ TagManager:
   - Normal
   - Bounce
   - Obstacle
+  - EnemySpawn
   layers:
   - Default
   - TransparentFX

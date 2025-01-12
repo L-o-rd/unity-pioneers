@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RoomManager : MonoBehaviour
 {
@@ -36,6 +37,8 @@ public class RoomManager : MonoBehaviour
     private readonly int WalkerSteps = 20;
 
     private int CurrentLevel = 0;
+
+    [SerializeField]
     private int LastLevel = 3;
 
     private void WalkerStep(int choice)
@@ -110,6 +113,7 @@ public class RoomManager : MonoBehaviour
 
     private void Start()
     {
+        RNGManager.Instance.diamonds = 0;
         RNGManager.Instance.Make();
         GenerateRooms();
         SetBounds();
@@ -199,6 +203,7 @@ public class RoomManager : MonoBehaviour
     public void SetCurrentRoom(Vector2Int index)
     {
         this.CurrentRoom = index;
+        this.GetCurrentRoom().CloseDoors();
         this.SetBounds();
     }
 
@@ -219,10 +224,15 @@ public class RoomManager : MonoBehaviour
 
     private void FinishRun()
     {
-        Debug.Log("Run finished.");
+        var pstats = FindObjectOfType<PlayerStats>();
+        pstats.status.permanentCoins += CurrentLevel;
+        pstats.SaveStats();
+        SceneManager.LoadScene("FinishRun");
     }
 
-    public void CreateLevel(){
+    public void CreateLevel()
+    {
+        RNGManager.Instance.diamonds = CurrentLevel + 1;
         if (++CurrentLevel >= LastLevel)
         {
             FinishRun();
@@ -253,6 +263,6 @@ public class RoomManager : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 }

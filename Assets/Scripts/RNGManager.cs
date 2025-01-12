@@ -11,6 +11,7 @@ public class RNGManager : MonoBehaviour
     public int Seed { get; set; } = 0;
     private System.Random srng;
     public System.Random rng;
+    public int diamonds = 0;
 
     [SerializeField]
     private TMP_InputField input;

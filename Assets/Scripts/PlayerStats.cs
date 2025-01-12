@@ -139,8 +139,6 @@ public class PlayerStats : MonoBehaviour {
 	{
 		if (isDead)
 		{
-			SaveStats();
-			SceneManager.LoadScene("GameOver");
 			return;
 		}
 
@@ -155,7 +153,7 @@ public class PlayerStats : MonoBehaviour {
 		if (health <= 0)
 		{
 			isDead = true;
-			Die();
+            Die();
 		}
 	}
 
@@ -173,18 +171,15 @@ public class PlayerStats : MonoBehaviour {
 			rageMeter.AddRage(Mathf.Floor(amount / 4));
 		}
 		Debug.Log($"Health remaining: {health}");
-
-		if (health <= 0)
-		{
-			isDead = true;
-			Die();
-		}
 	}
 
 	private void Die()
 	{
 		Debug.Log("Player is dead!");
-	}
+		status.permanentCoins += RNGManager.Instance.diamonds;
+        SaveStats();
+        SceneManager.LoadScene("GameOver");
+    }
 
 	public void UpgradeMaxHealth()
 	{

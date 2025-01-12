@@ -1436,7 +1436,7 @@ MonoBehaviour:
   minRooms: 2
   difficultyMultiplier: 1
   difficultyMultiplierCap: 2
-  seed: 3
+  LastLevel: 3
 --- !u!4 &1345341146
 Transform:
   m_ObjectHideFlags: 0
