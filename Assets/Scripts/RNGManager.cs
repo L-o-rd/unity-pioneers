@@ -20,7 +20,7 @@ public class RNGManager : MonoBehaviour
     {
         if (Instance is not null && Instance != this)
         {
-            Destroy(this);
+            Destroy(gameObject);
         }
         else
         {
