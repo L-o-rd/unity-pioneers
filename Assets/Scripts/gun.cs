@@ -12,6 +12,7 @@ public class GunRotation : MonoBehaviour {
     }
 
     private void Update() {
+        if (PauseManager.Instance.isPaused) return;
         // Obține poziția mouse-ului în coordonatele lumii
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0; // Setează Z la 0 pentru a evita problemele 2D

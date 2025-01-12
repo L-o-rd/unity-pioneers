@@ -23,6 +23,8 @@ public class PlayerShooting : MonoBehaviour
 
     void Update()
     {
+
+        if (PauseManager.Instance.isPaused) return;
         HandleShooting();
         FlipGun();
     }
