@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2570126531319605497}
-  - component: {fileID: 9124414035486987292}
+  - component: {fileID: 5578448858828138609}
   m_Layer: 0
   m_Name: PauseManager
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 5899519604791735524}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9124414035486987292
+--- !u!114 &5578448858828138609
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,7 +42,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3247425343925955617}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 021e353c49e9caa4f8cc59cb6215f323, type: 3}
+  m_Script: {fileID: 11500000, guid: c6a17678f9ae4e74db8b598666870178, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6035660679651612970
@@ -370,10 +370,10 @@ PrefabInstance:
     - target: {fileID: 2665372823768532477, guid: 247dd6f67c6f7a24cb4d20374b5a59ed, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 9124414035486987292}
+      objectReference: {fileID: 5578448858828138609}
     - target: {fileID: 2665372823768532477, guid: 247dd6f67c6f7a24cb4d20374b5a59ed, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: HidePauseMenu
+      value: TogglePause
       objectReference: {fileID: 0}
     - target: {fileID: 2665372823768532477, guid: 247dd6f67c6f7a24cb4d20374b5a59ed, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -497,10 +497,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5899519604791735524}
     m_Modifications:
-    - target: {fileID: 2665372823768532477, guid: 247dd6f67c6f7a24cb4d20374b5a59ed, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 9124414035486987292}
     - target: {fileID: 2665372823768532477, guid: 247dd6f67c6f7a24cb4d20374b5a59ed, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SaveAndQuit

@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
 {
 
     public static SoundManager Instance { get; private set; }
     public float volume = .75f;
+    [SerializeField]
+    private Slider slider;
+    [SerializeField]
+    private AudioSource audioSource;
 
     private void Awake()
     {
@@ -25,6 +30,9 @@ public class SoundManager : MonoBehaviour
     private void Start()
     {
         Load();
+        slider.onValueChanged.AddListener(delegate { OnSliderChange(); });
+        slider.value = volume;
+        audioSource.volume = volume;
     }
 
     public void Save()
@@ -59,5 +67,11 @@ public class SoundManager : MonoBehaviour
         audioSource.volume = volume;
         audioSource.Play();
         Destroy(tempAudioSource, clip.length);
+    }
+
+    public void OnSliderChange()
+    {
+        volume = slider.value;
+        audioSource.volume = volume;
     }
 }
