@@ -33,11 +33,18 @@ public class RNGManager : MonoBehaviour
     {
         input.onEndEdit.AddListener(SetSeed);
         srng = new System.Random();
+        this.Seed = srng.Next();
     }
 
     public void Make()
     {
         this.rng = new System.Random(this.Seed);
+        Debug.Log($"Seed = {Seed}");
+    }
+
+    public void RandomSeed()
+    {
+        this.Seed = srng.Next();
     }
 
     public void SetSeed(string seed)
@@ -50,7 +57,5 @@ public class RNGManager : MonoBehaviour
         {
             Seed = srng.Next();
         }
-
-        Debug.Log($"Seed = {Seed}");
     }
 }

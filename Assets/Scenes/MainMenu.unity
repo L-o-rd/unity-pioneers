@@ -1206,6 +1206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 222984466}
+  volumeSlider: {fileID: 37373581}
 --- !u!1 &1011303660
 GameObject:
   m_ObjectHideFlags: 0
@@ -1564,7 +1565,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   volume: 0.75
-  volumeSlider: {fileID: 37373581}
 --- !u!4 &1335448361
 Transform:
   m_ObjectHideFlags: 0

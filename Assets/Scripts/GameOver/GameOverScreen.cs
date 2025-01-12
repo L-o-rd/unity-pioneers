@@ -31,11 +31,13 @@ public class GameOverScreen : MonoBehaviour
 
     public void Restart()
     {
+        RNGManager.Instance.RandomSeed();
         SceneManager.LoadScene("RoomPrefab");
     }
 
     public void Exit()
     {
+        RNGManager.Instance.RandomSeed();
         SceneManager.LoadScene("MainMenu");
     }
 }

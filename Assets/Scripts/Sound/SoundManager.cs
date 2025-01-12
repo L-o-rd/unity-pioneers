@@ -3,16 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
 {
 
     public static SoundManager Instance { get; private set; }
     public float volume = .75f;
-
-    [SerializeField]
-    private Slider volumeSlider;
 
     private void Awake()
     {
@@ -28,8 +24,7 @@ public class SoundManager : MonoBehaviour
 
     private void Start()
     {
-        volumeSlider.onValueChanged.AddListener(delegate { volume = volumeSlider.value; });
-        volumeSlider.value = volume;
+        Load();
     }
 
     public void Save()
@@ -50,6 +45,7 @@ public class SoundManager : MonoBehaviour
             file.Close();
         }
     }
+
     public void PlaySound(AudioClip clip)
     {
         if (clip == null)

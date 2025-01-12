@@ -25,6 +25,7 @@ public class FinishRun : MonoBehaviour
 
     public void GoBack()
     {
+        RNGManager.Instance.RandomSeed();
         SceneManager.LoadScene("MainMenu");
     }
 }

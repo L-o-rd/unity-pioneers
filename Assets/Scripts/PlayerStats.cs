@@ -165,8 +165,11 @@ public class PlayerStats : MonoBehaviour {
 		{
 			return;
 		}
+		
 		SoundManager.Instance.PlaySound(hurtSound);
-		health -= (amount - getDefence());
+		float reduced = getDefence() <= 0 ? 1.0f : (float) getDefence();
+		reduced = amount * (1.0f / reduced);
+		health -= reduced;
 		inGameTextUI.ShowWorldFeedback("-"+amount+"HP",Color.red);
 		if (rageMeter != null)
 		{
