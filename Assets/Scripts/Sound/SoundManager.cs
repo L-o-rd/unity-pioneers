@@ -11,9 +11,7 @@ public class SoundManager : MonoBehaviour
     public static SoundManager Instance { get; private set; }
     public float volume = .75f;
     [SerializeField]
-    private Slider slider;
-    [SerializeField]
-    private AudioSource audioSource;
+    public AudioSource audioSource;
 
     private void Awake()
     {
@@ -30,8 +28,6 @@ public class SoundManager : MonoBehaviour
     private void Start()
     {
         Load();
-        slider.onValueChanged.AddListener(delegate { OnSliderChange(); });
-        slider.value = volume;
         audioSource.volume = volume;
     }
 
@@ -67,11 +63,5 @@ public class SoundManager : MonoBehaviour
         audioSource.volume = volume;
         audioSource.Play();
         Destroy(tempAudioSource, clip.length);
-    }
-
-    public void OnSliderChange()
-    {
-        volume = slider.value;
-        audioSource.volume = volume;
     }
 }

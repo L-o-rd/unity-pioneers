@@ -20,7 +20,9 @@ public class MainMenuScript : MonoBehaviour
 
         volumeSlider.value = SoundManager.Instance.volume;
         volumeSlider.onValueChanged.AddListener(delegate { 
-            SoundManager.Instance.volume = volumeSlider.value; });
+            SoundManager.Instance.volume = volumeSlider.value;
+            SoundManager.Instance.audioSource.volume = volumeSlider.value;
+        });
     }
 
     public void Quit()
