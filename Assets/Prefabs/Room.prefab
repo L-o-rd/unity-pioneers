@@ -5527,6 +5527,7 @@ MonoBehaviour:
   - rewardPrefab: {fileID: 1959717353171362881, guid: 0d26339a415210e41ade699be0395522, type: 3}
     weight: 12
   RoomIndex: {x: 0, y: 0}
+  wasOpen: 
 --- !u!1 &6726619742593523545
 GameObject:
   m_ObjectHideFlags: 0

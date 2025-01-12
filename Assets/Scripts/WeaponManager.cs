@@ -9,6 +9,9 @@ public class WeaponManager : MonoBehaviour
     [SerializeField]
     private int currentWeaponIndex;
 
+    [SerializeField]
+    private AudioClip weaponSwitchSound;
+
     void Start()
     {
         // LoadWeaponSelection(); // Load the last saved weapon index
@@ -41,6 +44,7 @@ public class WeaponManager : MonoBehaviour
 
     public void SwitchWeapon()
     {
+        SoundManager.Instance.PlaySound(weaponSwitchSound);
         currentWeaponIndex = (currentWeaponIndex + 1) % availableWeapons.Count;
         EquipWeapon(currentWeaponIndex);
     }

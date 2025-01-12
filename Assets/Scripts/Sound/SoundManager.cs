@@ -50,4 +50,18 @@ public class SoundManager : MonoBehaviour
             file.Close();
         }
     }
+    public void PlaySound(AudioClip clip)
+    {
+        if (clip == null)
+        {
+            Debug.LogWarning("No audio clip provided to play.");
+            return;
+        }
+        GameObject tempAudioSource = new GameObject("TempAudio");
+        AudioSource audioSource = tempAudioSource.AddComponent<AudioSource>();
+        audioSource.clip = clip;
+        audioSource.volume = volume;
+        audioSource.Play();
+        Destroy(tempAudioSource, clip.length);
+    }
 }

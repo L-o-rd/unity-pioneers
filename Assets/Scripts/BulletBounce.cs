@@ -34,6 +34,7 @@ public class RicochetBullet : BaseBullet
 
         if (ricochetCount < maxRicochets)
         {
+            SoundManager.Instance.PlaySound(hitSound);
             ricochetCount++;
 
             // Get the speed and direction of the last frame's velocity

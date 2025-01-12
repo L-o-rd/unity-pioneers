@@ -99,6 +99,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemDescription: Less annoying! (Trap immunity active)
+  isPurchasable: 0
+  powerUpSound: {fileID: 8300000, guid: ea53f808003e52f4093ba9f6249eb570, type: 3}
+  healthSound: {fileID: 0}
 --- !u!61 &4440593768725374263
 BoxCollider2D:
   m_ObjectHideFlags: 0

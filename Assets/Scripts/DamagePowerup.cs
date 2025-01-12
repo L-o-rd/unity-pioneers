@@ -10,13 +10,10 @@ public class DamagePowerup : PowerupManager
     {
         if (playerStats != null)
         {
+            SoundManager.Instance.PlaySound(powerUpSound);
             playerStats.setPlayerDamage(playerStats.getPlayerDamage() + damageBoost);
             FindObjectOfType<InGameTextUI>().ShowFeedback(itemDescription);
             Destroy(gameObject);
-        }
-        else
-        {
-            Debug.LogError("Bullet prefab not assigned to DamagePowerup script!");
         }
     }
 

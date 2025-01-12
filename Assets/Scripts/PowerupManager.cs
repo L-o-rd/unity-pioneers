@@ -17,6 +17,12 @@ public abstract class PowerupManager : MonoBehaviour
     private TextMeshProUGUI priceText;
     private GameObject canvas;
 
+    [SerializeField]
+    protected AudioClip powerUpSound;
+
+    [SerializeField]
+    protected AudioClip healthSound;
+
 
     void TryBuyPowerUp()
     {

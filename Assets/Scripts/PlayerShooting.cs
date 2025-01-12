@@ -13,6 +13,9 @@ public class PlayerShooting : MonoBehaviour
     private float nextFireTime = 0f;    // Time until the next shot is allowed
     private float fireRateMultiplier = 1f; // Multiplier for fire rate
 
+    [SerializeField]
+    private AudioClip shootSound;       // Sound to play when shooting
+
     void Start()
     {
         gunSpriteRenderer = gun.GetComponent<SpriteRenderer>();
@@ -59,6 +62,7 @@ public class PlayerShooting : MonoBehaviour
         GameObject bullet = ObjectPool.instance.GetPooledObject(equippedWeapon.bulletType);
         if (bullet != null)
         {
+            SoundManager.Instance.PlaySound(shootSound);
             bullet.transform.position = firePoint.position;
 
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -73,6 +77,7 @@ public class PlayerShooting : MonoBehaviour
                 rb.velocity = Vector2.zero;
                 rb.AddForce(direction * equippedWeapon.bulletForce, ForceMode2D.Impulse);
             }
+
         }
         else
         {

@@ -99,6 +99,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaa9dd70a0aecd54ba08ea0e102848ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  explosionSound: {fileID: 8300000, guid: 5d44f5291faa7df41b16c374b4a9e52b, type: 3}
+  poisonSound: {fileID: 0}
   explosionEffectPrefab: {fileID: 3001214254631861224, guid: 56136d93ba586e14da66980b030639d6, type: 3}
   explosionDamage: 30
   explosionRange: 3

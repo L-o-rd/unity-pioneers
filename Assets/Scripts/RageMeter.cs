@@ -11,6 +11,11 @@ public class RageMeter : MonoBehaviour
     [SerializeField] private float currentRage = 0f;
     [SerializeField] private float shakeMagnitude = 4f; // Magnitude of the shake effect
     [SerializeField] private RectTransform rageMeterTransform; // The RageMeter UI's RectTransform
+
+    [SerializeField] private AudioClip rageFullSound;
+    [SerializeField] private AudioClip rageActivateSound;
+    [SerializeField] private AudioClip rageStopSound;
+
     private PlayerStats playerStats;
     private bool isRageActive = false;
     private Vector3 originalPosition; // Original position for shaking effect
@@ -42,9 +47,17 @@ public class RageMeter : MonoBehaviour
 
     public void AddRage(float amount)
     {
+        if (currentRage==maxRage){
+            return;
+        }
         if (!isRageActive)
         {
             currentRage = Mathf.Clamp(currentRage + amount, 0f, maxRage);
+            if (currentRage == maxRage)
+            {
+                SoundManager.Instance.PlaySound(rageFullSound);
+                Debug.Log("Rage is full!");
+            }
             Debug.Log("Rage: " + currentRage);
         }
     }
@@ -53,6 +66,7 @@ public class RageMeter : MonoBehaviour
     {
         Debug.Log("In enumerator!");
         isRageActive = true;
+        SoundManager.Instance.PlaySound(rageActivateSound);
         StartCoroutine(ShakeMeter());
         if (playerStats != null)
         {
@@ -75,6 +89,7 @@ public class RageMeter : MonoBehaviour
         }
 
         isRageActive = false;
+        SoundManager.Instance.PlaySound(rageStopSound);
         currentRage = 0f;
     }
 

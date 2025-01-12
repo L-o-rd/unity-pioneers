@@ -11,6 +11,7 @@ public class FireRatePowerup : PowerupManager
     private float fireRateBonus = 1.15f;
     protected override void ActivatePowerUp(){
         if (playerShooting != null){
+            SoundManager.Instance.PlaySound(powerUpSound);
             float currentFireRate = playerShooting.getFireRateMultiplier();
             playerShooting.setFireRateMultiplier(Math.Max(currentFireRate*fireRateBonus, 2f));
             FindObjectOfType<InGameTextUI>().ShowFeedback(itemDescription);

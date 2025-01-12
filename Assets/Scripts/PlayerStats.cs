@@ -24,7 +24,6 @@ public class PlayerStats : MonoBehaviour {
 
     [SerializeField]
     private float totalCoins = 0;
-	
 	private InGameTextUI inGameTextUI;
 	private RageMeter rageMeter;
 
@@ -32,6 +31,9 @@ public class PlayerStats : MonoBehaviour {
     private float maxHealth;
 	private float movementSpeed;
 	private int playerDamage;
+
+	[SerializeField]
+	private AudioClip hurtSound;
 
     public float getTotalCoins(){
         return totalCoins;
@@ -163,7 +165,7 @@ public class PlayerStats : MonoBehaviour {
 		{
 			return;
 		}
-
+		SoundManager.Instance.PlaySound(hurtSound);
 		health -= (amount - getDefence());
 		inGameTextUI.ShowWorldFeedback("-"+amount+"HP",Color.red);
 		if (rageMeter != null)

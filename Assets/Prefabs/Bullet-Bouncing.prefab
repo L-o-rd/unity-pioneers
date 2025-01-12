@@ -171,5 +171,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf033780a2eb39443b03e3bad3366d6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxRange: 30
+  MaxRange: 30
+  BaseDamage: 20
+  Damage: 0
+  hitSound: {fileID: 8300000, guid: 92b2674d935b273468bf8b9d44d9de56, type: 3}
   maxRicochets: 3

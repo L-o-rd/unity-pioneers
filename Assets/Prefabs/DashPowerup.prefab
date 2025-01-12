@@ -144,3 +144,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemDescription: Reflexes,reflexes! (Double-tap movement key to dash)
+  isPurchasable: 0
+  powerUpSound: {fileID: 8300000, guid: ea53f808003e52f4093ba9f6249eb570, type: 3}
+  healthSound: {fileID: 0}

@@ -11,6 +11,7 @@ public class SpeedBoost : PowerupManager
     private float speedIncrease = 0.9f;
     protected override void ActivatePowerUp(){
         if (playerMovement != null){
+            SoundManager.Instance.PlaySound(powerUpSound);
             playerMovement.SpeedUpPlayerBy(speedIncrease);
             UnityEngine.Debug.Log("Speeding up Player");
             FindObjectOfType<InGameTextUI>().ShowFeedback(itemDescription);

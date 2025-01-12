@@ -35,6 +35,8 @@ public class ExplosiveCrate : Crate
             Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
         }
 
+        SoundManager.Instance.PlaySound(explosionSound);
+
         // Damage nearby objects
         Collider2D[] objectsInRange = Physics2D.OverlapCircleAll(transform.position, explosionRange);
         foreach (Collider2D obj in objectsInRange)
