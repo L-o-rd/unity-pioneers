@@ -22,11 +22,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4406826959388877541, guid: 072d947d666026e4e83629828347cc72, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.08
+      value: 3.77
       objectReference: {fileID: 0}
     - target: {fileID: 4406826959388877541, guid: 072d947d666026e4e83629828347cc72, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.34
+      value: 0.54
       objectReference: {fileID: 0}
     - target: {fileID: 4406826959388877541, guid: 072d947d666026e4e83629828347cc72, type: 3}
       propertyPath: m_LocalPosition.z
@@ -63,6 +63,10 @@ PrefabInstance:
     - target: {fileID: 4898346167724333483, guid: 072d947d666026e4e83629828347cc72, type: 3}
       propertyPath: MaxHealth
       value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 7688302335744650116, guid: 072d947d666026e4e83629828347cc72, type: 3}
+      propertyPath: Speed
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7688302335744650116, guid: 072d947d666026e4e83629828347cc72, type: 3}
       propertyPath: DistanceBetween

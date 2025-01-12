@@ -8,6 +8,9 @@ public class EnemyHealth : MonoBehaviour
 	private Animator animator;
 	private bool isDead;
 
+	[SerializeField]
+	private AudioClip enemyDeathSound;
+
 	void Start()
 	{
 		currentHealth = MaxHealth;
@@ -20,7 +23,6 @@ public class EnemyHealth : MonoBehaviour
 		{
 			return; // Avoid taking damage after death
 		}
-
 		currentHealth -= damageAmount;
 		Debug.Log($"Enemy took {damageAmount} damage. Remaining health: {currentHealth}");
 
@@ -48,6 +50,8 @@ public class EnemyHealth : MonoBehaviour
 		{
 			animator.SetTrigger("Die");
 		}
+
+		SoundManager.Instance.PlaySound(enemyDeathSound);
 
 		GetComponent<AiChase>().enabled = false;
 

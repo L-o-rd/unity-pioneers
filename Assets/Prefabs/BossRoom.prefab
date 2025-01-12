@@ -5815,7 +5815,7 @@ Transform:
   m_GameObject: {fileID: 4015781965785374011}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.03, y: -0.79, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5847,7 +5847,17 @@ MonoBehaviour:
   maxSouth: {fileID: 5902260774005106390}
   maxWest: {fileID: 1354533572995473167}
   maxEast: {fileID: 789502479623545023}
-  rewardWeights: []
+  rewardWeights:
+  - rewardPrefab: {fileID: 9209656792178838127, guid: d2eae6bfef4bbe64ebce1366e1d84fad, type: 3}
+    weight: 4
+  - rewardPrefab: {fileID: 4559712607841094007, guid: dea1561ce5965c141975a6d892e812e3, type: 3}
+    weight: 10
+  - rewardPrefab: {fileID: 1348100166636745767, guid: 22406914b663c654d862338e4dd74e16, type: 3}
+    weight: 1
+  - rewardPrefab: {fileID: 2984619610456011452, guid: 87a12ae4bdbb6ce4cb3c57f1a627db13, type: 3}
+    weight: 3
+  - rewardPrefab: {fileID: 2137276297077425716, guid: e7178d4e950aa994599e3844f7ad8dcf, type: 3}
+    weight: 5
   RoomIndex: {x: 0, y: 0}
   wasOpen: 
 --- !u!1 &4249009871185552840
@@ -6684,11 +6694,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4406826959388877541, guid: 072d947d666026e4e83629828347cc72, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -4.52
       objectReference: {fileID: 0}
     - target: {fileID: 4406826959388877541, guid: 072d947d666026e4e83629828347cc72, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.08
       objectReference: {fileID: 0}
     - target: {fileID: 4406826959388877541, guid: 072d947d666026e4e83629828347cc72, type: 3}
       propertyPath: m_LocalPosition.z

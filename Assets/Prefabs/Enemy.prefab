@@ -117,6 +117,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHealth: 100
+  hitSound: {fileID: 8300000, guid: 20e061b09adedbe49b4978a48cb82a2f, type: 3}
+  enemyDeathSound: {fileID: 8300000, guid: bd31c925fd04b8c4eb799f22914ee1da, type: 3}
 --- !u!95 &7665520654407590184
 Animator:
   serializedVersion: 5

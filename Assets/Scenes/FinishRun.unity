@@ -430,6 +430,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 739010557}
+  finishRunSound: {fileID: 8300000, guid: e56ee9ba9183fb34daa74217a5efaea7, type: 3}
 --- !u!1 &739010555
 GameObject:
   m_ObjectHideFlags: 0

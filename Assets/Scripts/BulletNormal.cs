@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class BaseBullet : MonoBehaviour
 {
@@ -7,6 +8,10 @@ public class BaseBullet : MonoBehaviour
     public float BaseDamage = 20f; // Damage dealt by the bullet
     protected Vector2 startPosition;
     public float Damage;
+    private static readonly HashSet<string> excludedTags = new HashSet<string> { "Reward", "Player", "Trap" };
+
+    [SerializeField]
+    protected AudioClip hitSound;
 
     protected virtual void Awake()
     {
@@ -15,7 +20,7 @@ public class BaseBullet : MonoBehaviour
 
     private void SetDamage()
     {
-        Damage = BaseDamage + playerStats.getBonusDamage();
+        Damage = BaseDamage + playerStats.getPlayerDamage() + playerStats.getBonusDamage();
     }
 
     protected virtual void OnEnable()
@@ -36,7 +41,11 @@ public class BaseBullet : MonoBehaviour
 
     protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
-        DeactivateBullet(); // Default behavior: deactivate on collision
+        if (collision.gameObject.tag!="Player"){
+            SoundManager.Instance.PlaySound(hitSound);
+            DeactivateBullet();
+        }
+        // Default behavior: deactivate on collision
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
@@ -52,15 +61,19 @@ public class BaseBullet : MonoBehaviour
             }
 
             enemy.TakeDamage(Damage);
+            SoundManager.Instance.PlaySound(hitSound);
+            DeactivateBullet();
         }
 
         var crate = collision.GetComponent<Crate>();
         if (crate != null)
         {
             crate.InteractWithCrate();
+            SoundManager.Instance.PlaySound(hitSound);
+            DeactivateBullet();
         }
 
-        DeactivateBullet();
+        
     }
 
     public void DeactivateBullet()

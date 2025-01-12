@@ -144,6 +144,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95617f41c2899ac47a12a2078d6888a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  explosionSound: {fileID: 0}
+  poisonSound: {fileID: 8300000, guid: 9310eb77fc375414fb4b62cd1a312b68, type: 3}
   poisonEffectPrefab: {fileID: 4164917401672800906, guid: 82cfd2d248c130543aafb057db358051, type: 3}
   poisonDamage: 10
   poisonDuration: 5

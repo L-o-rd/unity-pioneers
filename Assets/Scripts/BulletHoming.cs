@@ -19,6 +19,7 @@ public class BulletHoming : BaseBullet
         target = null; // Reset the target when the bullet is activated
         rb = GetComponent<Rigidbody2D>();  // Get the Rigidbody2D component
         rb.velocity = Vector2.zero;       // Reset velocity to prevent previous state interference
+        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous; // Ensure accurate collision detection
     }
 
     protected override void Update()
@@ -74,5 +75,9 @@ public class BulletHoming : BaseBullet
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
         base.OnTriggerEnter2D(collision);
+    }
+    protected override void OnCollisionEnter2D(Collision2D collision)
+    {
+        base.OnCollisionEnter2D(collision); 
     }
 }

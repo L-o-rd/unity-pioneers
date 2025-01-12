@@ -461,12 +461,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 312c7f67353a1604f99ee696cc8d339e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  status:
+    permanentCoins: 0
+    defenceLevel: 0
+    maxHealthLevel: 0
+    movementSpeedLevel: 0
+    bonusDamageLevel: 0
   totalCoins: 0
-  permanentCoins: 0
-  defenceLevel: 0
-  maxHealthLevel: 0
-  movementSpeedLevel: 0
-  bonusDamageLevel: 0
+  hurtSound: {fileID: 8300000, guid: 20e061b09adedbe49b4978a48cb82a2f, type: 3}
 --- !u!114 &6372701817571382071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -483,6 +485,7 @@ MonoBehaviour:
   gun: {fileID: 1202894661746670718}
   body: {fileID: 2335959265545339833}
   equippedWeapon: {fileID: 0}
+  shootSound: {fileID: 8300000, guid: c47a742c8266ea04d95d21250dbb7db2, type: 3}
 --- !u!114 &5012531858453026479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -500,6 +503,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4bbfb03a16d37d940a3159c4b8dbe70f, type: 2}
   playerShooting: {fileID: 6372701817571382071}
   currentWeaponIndex: 0
+  weaponSwitchSound: {fileID: 8300000, guid: 68c3fa71707804440a5c47c433ea7689, type: 3}
 --- !u!114 &3122267784625944055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -553,6 +557,9 @@ MonoBehaviour:
   currentRage: 0
   shakeMagnitude: 4
   rageMeterTransform: {fileID: 0}
+  rageFullSound: {fileID: 8300000, guid: 849e60fd00ec8b346ba70854fbd9e36b, type: 3}
+  rageActivateSound: {fileID: 8300000, guid: c38b0882414e81e438c2ba1e82e0e92f, type: 3}
+  rageStopSound: {fileID: 8300000, guid: 70be30c869d0a634abb8985112a4a5bf, type: 3}
 --- !u!1 &8958051088796094090
 GameObject:
   m_ObjectHideFlags: 0

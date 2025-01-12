@@ -659,6 +659,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 1331549083}
+  playerDeath: {fileID: 8300000, guid: f6a343378d671b24da919ac7a5733b61, type: 3}
+  gameOverSound: {fileID: 8300000, guid: b1bdf6f0ae417f543bd4c0382f1fed32, type: 3}
 --- !u!1 &1331549081
 GameObject:
   m_ObjectHideFlags: 0

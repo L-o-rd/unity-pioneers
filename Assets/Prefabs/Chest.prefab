@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1799f7d84c4487b409cf259f1c55c7bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chestOpenSound: {fileID: 8300000, guid: ea53f808003e52f4093ba9f6249eb570, type: 3}
 --- !u!212 &4378773640376397543
 SpriteRenderer:
   m_ObjectHideFlags: 0

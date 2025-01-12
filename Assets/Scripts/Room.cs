@@ -33,6 +33,8 @@ public class Room : MonoBehaviour
     private List<RewardWeight> rewardWeights;
     public Vector2Int RoomIndex;
 
+    private bool rewardSpawned = false;
+
     public void OpenDoor(Vector2Int direction)
     {
         if (direction==Vector2Int.up){
@@ -105,7 +107,6 @@ public class Room : MonoBehaviour
     
     void Start()
     {
-        SpawnReward();
         wasOpen = new bool[4];
     }
 
@@ -137,7 +138,12 @@ public class Room : MonoBehaviour
 
         if (!found)
         {
-            OpenDoors();
+            if (!rewardSpawned)
+            {
+                OpenDoors();
+                SpawnReward();
+                rewardSpawned = true;
+            }
         }
     }
 

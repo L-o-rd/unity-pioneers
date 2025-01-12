@@ -145,5 +145,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemDescription: Sharpen the bullets!(Damage increased)
   isPurchasable: 0
+  powerUpSound: {fileID: 8300000, guid: ea53f808003e52f4093ba9f6249eb570, type: 3}
+  healthSound: {fileID: 0}
   damageBoost: 5
-  bulletPrefab: {fileID: 5408906426170735165, guid: a7986df82a07a91489ad3ee04945fa18, type: 3}

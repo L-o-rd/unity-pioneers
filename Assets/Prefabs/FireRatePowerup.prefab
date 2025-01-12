@@ -100,6 +100,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemDescription: Your hands react quicker! (Fire rate increased)
   isPurchasable: 0
+  powerUpSound: {fileID: 8300000, guid: ea53f808003e52f4093ba9f6249eb570, type: 3}
+  healthSound: {fileID: 0}
   fireRateBonus: 1.15
 --- !u!61 &2371061542449707302
 BoxCollider2D:

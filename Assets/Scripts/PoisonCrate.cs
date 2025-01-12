@@ -17,6 +17,7 @@ public class PoisonCrate : Crate
         if (poisonEffectPrefab != null)
         {
             GameObject poisonEffect = Instantiate(poisonEffectPrefab, transform.position, Quaternion.identity);
+            SoundManager.Instance.PlaySound(poisonSound);
             poisonEffect.AddComponent<PoisonEffect>().Initialize(poisonDamage, poisonRadius, poisonDuration);
             Destroy(gameObject);
             Destroy(poisonEffect, poisonDuration);

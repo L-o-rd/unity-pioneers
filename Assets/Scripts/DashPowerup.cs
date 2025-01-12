@@ -8,6 +8,7 @@ public class DashPowerup : PowerupManager
     {
         if (playerMovement!=null)
         {
+            SoundManager.Instance.PlaySound(powerUpSound);
             playerMovement.ActivateDashPower();
             FindObjectOfType<InGameTextUI>().ShowFeedback(itemDescription);
             Destroy(gameObject);
