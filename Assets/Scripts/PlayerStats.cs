@@ -103,21 +103,29 @@ public class PlayerStats : MonoBehaviour {
 	public void SaveStats()
 	{
 		Debug.Log(Application.persistentDataPath);
-        FileStream file = File.Create(Application.persistentDataPath + "/playerStats.dat");
-        BinaryFormatter bf = new BinaryFormatter();
-		bf.Serialize(file, this.status);
-        file.Close();
+		// FileStream file = File.Create(Application.persistentDataPath + "/playerStats.dat");
+		// BinaryFormatter bf = new BinaryFormatter();
+		// bf.Serialize(file, this.status);
+		// file.Close();
+
+		File.WriteAllText(Application.persistentDataPath + "/playerStats.json", JsonUtility.ToJson(this.status));
     }
 
 	public void LoadStats()
 	{
-        if (File.Exists(Application.persistentDataPath + "/playerStats.dat"))
-        {
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Open(Application.persistentDataPath + "/playerStats.dat", FileMode.Open);
-			this.status = (Status) bf.Deserialize(file);
-            file.Close();
-        }
+		// if (File.Exists(Application.persistentDataPath + "/playerStats.dat"))
+		// {
+		//     BinaryFormatter bf = new BinaryFormatter();
+		//     FileStream file = File.Open(Application.persistentDataPath + "/playerStats.dat", FileMode.Open);
+		// 	this.status = (Status) bf.Deserialize(file);
+		//     file.Close();
+		// }
+
+		var path = Application.persistentDataPath + "/playerStats.json";
+        if (File.Exists(path))
+		{
+			JsonUtility.FromJsonOverwrite(File.ReadAllText(path), this.status);
+		}
     }
 
     private void Start()
@@ -149,7 +157,7 @@ public class PlayerStats : MonoBehaviour {
 		// Debug: reduce health with the Space key
 		if (Input.GetKey(KeyCode.Space))
 		{
-			TakeDamage(1);
+			// TakeDamage(1);
 		}
 
 		if (health <= 0)
@@ -170,7 +178,7 @@ public class PlayerStats : MonoBehaviour {
 		float reduced = getDefence() <= 0 ? 1.0f : (float) getDefence();
 		reduced = amount * (1.0f / reduced);
 		health -= reduced;
-		inGameTextUI.ShowWorldFeedback("-"+amount+"HP",Color.red);
+		inGameTextUI.ShowWorldFeedback("-" + reduced.ToString("0.00") + "HP", Color.red);
 		if (rageMeter != null)
 		{
 			rageMeter.AddRage(Mathf.Floor(amount / 4));

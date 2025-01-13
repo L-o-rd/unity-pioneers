@@ -57,5 +57,7 @@ public class RNGManager : MonoBehaviour
         {
             Seed = srng.Next();
         }
+
+        Debug.Log($"Seed = {Seed}");
     }
 }
