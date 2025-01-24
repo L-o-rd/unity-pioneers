@@ -9,14 +9,30 @@ public class SpeedBoost : PowerupManager
 
     [SerializeField]
     private float speedIncrease = 0.9f;
-    protected override void ActivatePowerUp(){
-        if (playerMovement != null){
+
+    public bool testMode;
+    public MockPlayerMovement mockPlayerMovement;
+    public MockInGameTextUI mockInGameTextUI;
+    public override void ActivatePowerUp(){
+        if (testMode)
+        {
             SoundManager.Instance.PlaySound(powerUpSound);
-            playerMovement.SpeedUpPlayerBy(speedIncrease);
-            UnityEngine.Debug.Log("Speeding up Player");
-            FindObjectOfType<InGameTextUI>().ShowFeedback(itemDescription);
-            gameObject.SetActive(false);
+            mockPlayerMovement.SpeedUpPlayerBy(0.9f);
+            mockInGameTextUI.ShowFeedback(itemDescription);
+            DestroyImmediate(gameObject);
         }
+        else
+        {
+            if (playerMovement != null)
+            {
+                SoundManager.Instance.PlaySound(powerUpSound);
+                playerMovement.SpeedUpPlayerBy(speedIncrease);
+                UnityEngine.Debug.Log("Speeding up Player");
+                FindObjectOfType<InGameTextUI>().ShowFeedback(itemDescription);
+                Destroy(gameObject);
+            }
+        }
+            
     }
 
 }

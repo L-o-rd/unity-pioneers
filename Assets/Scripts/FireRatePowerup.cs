@@ -9,14 +9,31 @@ public class FireRatePowerup : PowerupManager
 
     [SerializeField]
     private float fireRateBonus = 1.15f;
-    protected override void ActivatePowerUp(){
-        if (playerShooting != null){
+
+    public bool testMode = false;
+    public MockInGameTextUI mockInGameTextUI;
+    public MockPlayerShooting mockPlayerShooting;
+    public override void ActivatePowerUp(){
+        if (testMode)
+        {
             SoundManager.Instance.PlaySound(powerUpSound);
-            float currentFireRate = playerShooting.getFireRateMultiplier();
-            playerShooting.setFireRateMultiplier(Math.Max(currentFireRate*fireRateBonus, 2f));
-            FindObjectOfType<InGameTextUI>().ShowFeedback(itemDescription);
-            Destroy(gameObject);
+            float currentFireRate = mockPlayerShooting.fireRateMultiplier;
+            mockPlayerShooting.setFireRateMultiplier(Math.Min(currentFireRate*fireRateBonus, 2.0f));
+            FindObjectOfType<MockInGameTextUI>().ShowFeedback(itemDescription);
+            DestroyImmediate(gameObject);
         }
+        else
+        {
+            if (playerShooting != null)
+            {
+                SoundManager.Instance.PlaySound(powerUpSound);
+                float currentFireRate = playerShooting.getFireRateMultiplier();
+                playerShooting.setFireRateMultiplier(Math.Min(currentFireRate*fireRateBonus, 2.0f));
+                FindObjectOfType<InGameTextUI>().ShowFeedback(itemDescription);
+                Destroy(gameObject);
+            }
+        }
+            
     }
 
 }

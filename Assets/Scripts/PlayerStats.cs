@@ -72,6 +72,10 @@ public class PlayerStats : MonoBehaviour {
 		return 100 + status.maxHealthLevel * 10;
     }
 
+	public float getHealth(){
+		return health;
+	}
+
 	public int getDefence()
 	{
 		return status.defenceLevel * 2;

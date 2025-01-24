@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class SoundManager : MonoBehaviour
 {
 
-    public static SoundManager Instance { get; private set; }
+    public static SoundManager Instance { get; set; }
     public float volume = .75f;
     [SerializeField]
     public AudioSource audioSource;
@@ -50,7 +50,7 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    public void PlaySound(AudioClip clip)
+    virtual public void PlaySound(AudioClip clip)
     {
         if (clip == null)
         {

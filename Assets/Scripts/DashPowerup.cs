@@ -4,15 +4,30 @@ using UnityEngine;
 
 public class DashPowerup : PowerupManager
 {
-    protected override void ActivatePowerUp()
+    public MockPlayerMovement mockPlayerMovement; // For testing
+    public MockInGameTextUI mockInGameTextUI;     // For testing
+    public bool testMode = false;
+    public override void ActivatePowerUp()
     {
-        if (playerMovement!=null)
+        if (testMode)
         {
+            Debug.Log("Test mode");
             SoundManager.Instance.PlaySound(powerUpSound);
-            playerMovement.ActivateDashPower();
-            FindObjectOfType<InGameTextUI>().ShowFeedback(itemDescription);
-            Destroy(gameObject);
+            mockPlayerMovement?.ActivateDashPower();
+            mockInGameTextUI?.ShowFeedback(itemDescription);
+            DestroyImmediate(gameObject);
+        }
+
+        else
+        {
+            Debug.Log("Play mode");
+            if (playerMovement!=null)
+            {
+                SoundManager.Instance.PlaySound(powerUpSound);
+                playerMovement.ActivateDashPower();
+                FindObjectOfType<InGameTextUI>().ShowFeedback(itemDescription);
+                Destroy(gameObject);
+            }
         }
     }
-
 }

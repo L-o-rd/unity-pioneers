@@ -6,10 +6,10 @@ using TMPro;
 public abstract class PowerupManager : MonoBehaviour
 {
     [SerializeField] 
-    protected string itemDescription;
+    public string itemDescription;
     protected bool isPlayerNearby = false;
     protected PlayerMovement playerMovement;
-    protected PlayerStats playerStats;
+    public PlayerStats playerStats;
     protected PlayerShooting playerShooting;
     public bool isPurchasable = false;
     private float price;
@@ -137,5 +137,7 @@ public abstract class PowerupManager : MonoBehaviour
         }
     }
 
-    protected abstract void ActivatePowerUp();
+    public abstract void ActivatePowerUp();
+
+
 }
