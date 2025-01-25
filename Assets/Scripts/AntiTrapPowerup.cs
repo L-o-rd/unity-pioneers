@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class AntiTrapPowerup : PowerupManager
 {
-
-    public bool testMode = false;
     public MockPlayerStats mockPlayerStats;
     public MockInGameTextUI mockInGameTextUI;
     public override void ActivatePowerUp(){

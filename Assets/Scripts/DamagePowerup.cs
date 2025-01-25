@@ -7,7 +7,6 @@ public class DamagePowerup : PowerupManager
     [SerializeField] private int damageBoost = 3;
     public MockPlayerStats mockPlayerStats; // For testing
     public MockInGameTextUI mockInGameTextUI; // For testing
-    public bool testMode;
     public override void ActivatePowerUp()
     {
         if (testMode)

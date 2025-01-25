@@ -9,8 +9,6 @@ public class SpeedBoost : PowerupManager
 
     [SerializeField]
     private float speedIncrease = 0.9f;
-
-    public bool testMode;
     public MockPlayerMovement mockPlayerMovement;
     public MockInGameTextUI mockInGameTextUI;
     public override void ActivatePowerUp(){

@@ -10,7 +10,6 @@ public class FireRatePowerup : PowerupManager
     [SerializeField]
     private float fireRateBonus = 1.15f;
 
-    public bool testMode = false;
     public MockInGameTextUI mockInGameTextUI;
     public MockPlayerShooting mockPlayerShooting;
     public override void ActivatePowerUp(){

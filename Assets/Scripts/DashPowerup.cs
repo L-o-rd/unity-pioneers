@@ -6,7 +6,6 @@ public class DashPowerup : PowerupManager
 {
     public MockPlayerMovement mockPlayerMovement; // For testing
     public MockInGameTextUI mockInGameTextUI;     // For testing
-    public bool testMode = false;
     public override void ActivatePowerUp()
     {
         if (testMode)
