@@ -6,7 +6,8 @@
         "UnityEditor.TestRunner",
         "Scripts",
         "MoqAssemblyDefinition",
-        "Sound"
+        "Sound",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

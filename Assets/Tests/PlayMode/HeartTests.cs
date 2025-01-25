@@ -32,7 +32,7 @@ public class HeartTests : MonoBehaviour
         heart.mockPlayerStats=playerStatsMock;
         heart.mockInGameTextUI = inGameTextUI;
         heart.roomManagerMock = roomManagerMock;
-        heart.Initialize();
+        heart.TestStart();
 
         soundManagerMock = new MockSoundManager();
         SoundManager.Instance = soundManagerMock;

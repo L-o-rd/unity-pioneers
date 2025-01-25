@@ -17,12 +17,27 @@ public class RageMeter : MonoBehaviour
     [SerializeField] private AudioClip rageStopSound;
 
     private PlayerStats playerStats;
-    private bool isRageActive = false;
+    public bool isRageActive {get; private set;} = false;
+    public bool testMode = false;
+    public bool manualStop = false;
     private Vector3 originalPosition; // Original position for shaking effect
 
-
+    public void TestStart()
+    {
+        if (rageSlider != null)
+        {
+            rageSlider.maxValue = maxRage;
+            rageSlider.value = currentRage;
+        }
+        originalPosition = rageMeterTransform.localPosition;
+    }
     void Start()
     {
+        if (testMode)
+        {
+            TestStart();
+            return;
+        }
         if (rageSlider != null)
         {
             rageSlider.maxValue = maxRage;
@@ -31,7 +46,10 @@ public class RageMeter : MonoBehaviour
         }
         originalPosition = rageMeterTransform.localPosition;
     }
-
+    public void TestUpdate()
+    {
+        Update();
+    }   
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.B) && currentRage >= maxRage && !isRageActive)
@@ -45,6 +63,15 @@ public class RageMeter : MonoBehaviour
         }
     }
 
+    public float getCurrentRage(){
+        return currentRage;
+    }
+
+    public void setCurrentRage(float rage){
+        currentRage = rage;
+    }
+
+
     public void AddRage(float amount)
     {
         if (currentRage==maxRage){
@@ -53,7 +80,7 @@ public class RageMeter : MonoBehaviour
         if (!isRageActive)
         {
             currentRage = Mathf.Clamp(currentRage + amount, 0f, maxRage);
-            if (currentRage == maxRage)
+            if (currentRage == maxRage && !testMode) // Tested the Sound Manager playing sounds in Powerup Tests
             {
                 SoundManager.Instance.PlaySound(rageFullSound);
                 Debug.Log("Rage is full!");
@@ -62,12 +89,19 @@ public class RageMeter : MonoBehaviour
         }
     }
 
-    private IEnumerator ActivateRage()
+    public IEnumerator ActivateRage()
     {
         Debug.Log("In enumerator!");
         isRageActive = true;
-        SoundManager.Instance.PlaySound(rageActivateSound);
-        StartCoroutine(ShakeMeter());
+        if (!testMode)
+        {
+            SoundManager.Instance.PlaySound(rageActivateSound);
+            StartCoroutine(ShakeMeter());
+        }
+
+        if (testMode){
+            FindObjectOfType<MockPlayerStats>().setPlayerDamage(FindObjectOfType<MockPlayerStats>().Damage+ damageBoost);
+        }
         if (playerStats != null)
         {
             playerStats.setPlayerDamage(playerStats.getPlayerDamage()+ damageBoost); // Add the damage boost
@@ -79,21 +113,30 @@ public class RageMeter : MonoBehaviour
         while (elapsed < rageDuration)
         {
             elapsed += Time.deltaTime;
+
+            if (testMode && elapsed >= 0.1f && manualStop)
+            {
+                yield break;
+            }
             currentRage -= rageDecayRate * Time.deltaTime;
             yield return null;
         }
-
+        if (testMode)
+        {
+            FindObjectOfType<MockPlayerStats>().setPlayerDamage(FindObjectOfType<MockPlayerStats>().Damage - damageBoost);
+        }
         if (playerStats != null)
         {
             playerStats.setPlayerDamage(playerStats.getPlayerDamage() - damageBoost); // Remove the damage boost
         }
 
         isRageActive = false;
-        SoundManager.Instance.PlaySound(rageStopSound);
+        if (!testMode)
+            SoundManager.Instance.PlaySound(rageStopSound);
         currentRage = 0f;
     }
 
-    private IEnumerator ShakeMeter()
+    public IEnumerator ShakeMeter()
     {
         float shakeDuration = maxRage/rageDecayRate; // Duration of the shake
         float elapsed = 0f;

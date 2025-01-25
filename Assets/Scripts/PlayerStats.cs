@@ -101,6 +101,7 @@ public class PlayerStats : MonoBehaviour {
 		{
 			rageMeter.AddRage(Mathf.Floor(-heal / 5));
 		}
+		Debug.Log("Player was healed for "+heal+" health");
         Debug.Log(string.Format("Health remaining: {0}.", health));
     }
 

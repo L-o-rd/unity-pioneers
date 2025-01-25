@@ -13,8 +13,8 @@ public abstract class PowerupManager : MonoBehaviour
     protected PlayerShooting playerShooting;
     public bool isPurchasable = false;
     private float price;
-
-    private TextMeshProUGUI priceText;
+    public bool testMode = false;
+    public TextMeshProUGUI priceText {get;private set;}
     private GameObject canvas;
 
     [SerializeField]
@@ -23,9 +23,27 @@ public abstract class PowerupManager : MonoBehaviour
     [SerializeField]
     protected AudioClip healthSound;
 
-
-    void TryBuyPowerUp()
+    public void setPrice(float price)
     {
+        this.price = price;
+    }
+
+    public float getPrice()
+    {
+        return price;
+    }
+    public void TryBuyPowerUp()
+    {
+        if (testMode){
+            var mockPlayerStats = GameObject.Find("MockPlayerStats").GetComponent<MockPlayerStats>();
+            if (mockPlayerStats.CoinsAdded >= price)
+            {
+                Debug.Log("Purchased:"+mockPlayerStats.CoinsAdded +price+ " coins");
+                mockPlayerStats.addCoins(-price);
+                ActivatePowerUp();
+            }
+            return;
+        }
         if (playerStats.getTotalCoins() >= price)
         {
             playerStats.addCoins(-price);
@@ -43,7 +61,14 @@ public abstract class PowerupManager : MonoBehaviour
 
     private void CreatePriceText()
     {
-
+        if (testMode){
+            GameObject obj = new GameObject();
+            TextMeshProUGUI priceTextTest = obj.AddComponent<TextMeshProUGUI>();
+            priceTextTest.text = "Price: " + price.ToString("F0");
+            obj.SetActive(false);
+            priceText=priceTextTest;
+            return;
+        }
         canvas = new GameObject("PowerUpCanvas");
         Canvas canvasComponent = canvas.AddComponent<Canvas>();
         canvasComponent.renderMode = RenderMode.WorldSpace;
@@ -86,7 +111,21 @@ public abstract class PowerupManager : MonoBehaviour
         priceText = priceTextTMP;
     }
 
-
+    public void Initialize() // Test Mode Function
+    {
+        if (isPurchasable)
+        {
+            if (testMode)
+            {
+                price = 50;
+                CreatePriceText();
+                return;
+            }
+            // If used for non-testing purposes
+            price = Random.Range(50, 70) * GameObject.Find("RoomManager").GetComponent<RoomManager>().GetDifficulty();
+            CreatePriceText();
+        }
+    }
     void Start()
     {
         if (isPurchasable)
@@ -104,7 +143,7 @@ public abstract class PowerupManager : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    public void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
@@ -124,7 +163,7 @@ public abstract class PowerupManager : MonoBehaviour
         }
     }
 
-    void OnTriggerExit2D(Collider2D other)
+    public void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
