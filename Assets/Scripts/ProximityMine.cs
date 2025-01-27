@@ -13,13 +13,19 @@ public class ProximityMine : MonoBehaviour
     [SerializeField] private Color alternateColor2 = Color.yellow; // Color 2 for alternation
     [SerializeField] private float colorChangeInterval = 0.5f; // Time between color changes
 
-    private bool isTriggered = false;
+    public bool isTriggered {get;private set;} = false;
     private float countdown = 0f;
     private float colorChangeTimer = 0f;
     private bool useFirstColor = true;
     private SpriteRenderer spriteRenderer;
+    public bool testMode = false;
 
-    private void CheckProximity()
+    public float getExplosionDamage()
+    {
+        return explosionDamage;
+    }
+
+    public void CheckProximity()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
@@ -33,9 +39,9 @@ public class ProximityMine : MonoBehaviour
         }
     }
 
-    private void Explode()
+    public void Explode()
     {
-
+        Debug.Log("Exploding");
         if (explosionEffectPrefab != null)
         {
             Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
@@ -56,6 +62,8 @@ public class ProximityMine : MonoBehaviour
 
             if (obj.CompareTag("Player"))
             {
+                if (testMode)
+                    FindObjectOfType<MockPlayerStats>().TakeDamage(explosionDamage);
                 PlayerStats playerStats = obj.GetComponent<PlayerStats>();
                 if (playerStats != null && !playerStats.isTrapImmune())
                 {

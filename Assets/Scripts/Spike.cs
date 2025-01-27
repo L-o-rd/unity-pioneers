@@ -8,13 +8,31 @@ public class Spike : MonoBehaviour
     [SerializeField] private float damage = 10f;
 
     private bool isActive = false;
+
+    public bool testMode = false;
     private SpriteRenderer spriteRenderer;
     private float timer;
+    public float getDamage()
+    {
+        return damage;
+    }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void setActive(bool active) //Test purposes
+    {
+        isActive = active;
+    }
+    public void OnTriggerEnter2D(Collider2D collision)
     {
         if (isActive && collision.CompareTag("Player"))
         {
+            if (testMode)
+            {
+                MockPlayerStats mockPlayerStats = collision.GetComponent<MockPlayerStats>();
+                if (mockPlayerStats != null)
+                {
+                    mockPlayerStats.TakeDamage(damage);
+                }
+            }
             PlayerStats playerStats = collision.GetComponent<PlayerStats>();
             if (playerStats != null && !playerStats.isTrapImmune())
             {

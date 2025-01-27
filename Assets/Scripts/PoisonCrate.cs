@@ -11,14 +11,25 @@ public class PoisonCrate : Crate
 
     private bool hasPoisoned = false;
 
+    public float getTotalPoisonDamage()
+    {
+        return poisonDamage * poisonDuration;
+    }
+
+    public void setTestPrefab(GameObject prefab){
+        poisonEffectPrefab = prefab;
+    }
 
     public void Poison()
     {
         if (poisonEffectPrefab != null)
         {
-            GameObject poisonEffect = Instantiate(poisonEffectPrefab, transform.position, Quaternion.identity);
+            GameObject poisonEffectObj = Instantiate(poisonEffectPrefab, transform.position, Quaternion.identity);
+
             SoundManager.Instance.PlaySound(poisonSound);
-            poisonEffect.AddComponent<PoisonEffect>().Initialize(poisonDamage, poisonRadius, poisonDuration);
+            var poisonEffect = poisonEffectObj.AddComponent<PoisonEffect>();
+            poisonEffect.testMode = testMode;
+            poisonEffect.Initialize(poisonDamage, poisonRadius, poisonDuration);
             Destroy(gameObject);
             Destroy(poisonEffect, poisonDuration);
         }

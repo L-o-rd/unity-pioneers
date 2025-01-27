@@ -8,9 +8,13 @@ public class PoisonEffect : MonoBehaviour
     private float poisonRadius;
     private float poisonDuration;
 
+    public bool testMode = false;
     public void Initialize(float damage, float radius, float duration)
     {
-        poisonDamage = damage*GameObject.Find("RoomManager").GetComponent<RoomManager>().GetDifficulty();
+        if (testMode)
+            poisonDamage = damage;
+        else
+            poisonDamage = damage*GameObject.Find("RoomManager").GetComponent<RoomManager>().GetDifficulty();
         poisonRadius = radius;
         poisonDuration = duration;
 
@@ -29,6 +33,14 @@ public class PoisonEffect : MonoBehaviour
             {
                 if (obj.CompareTag("Player"))
                 {
+                    if (testMode)
+                    {
+                        MockPlayerStats mockPlayerStats = obj.GetComponent<MockPlayerStats>();
+                        if (mockPlayerStats != null)
+                        {
+                            mockPlayerStats.TakeDamage(poisonDamage);
+                        }
+                    }
                     PlayerStats playerStats = obj.GetComponent<PlayerStats>();
                     if (playerStats != null && !playerStats.isTrapImmune())
                     {
@@ -37,6 +49,14 @@ public class PoisonEffect : MonoBehaviour
                 }
                 if (obj.CompareTag("Enemy"))
                 {
+                    if (testMode)
+                    {
+                        MockEnemyHealth mockEnemyHealth = obj.GetComponent<MockEnemyHealth>();
+                        if (mockEnemyHealth != null)
+                        {
+                            mockEnemyHealth.TakeDamage(poisonDamage);
+                        }
+                    }
                     EnemyHealth enemy = obj.GetComponent<EnemyHealth>();
                     if (enemy != null)
                     {

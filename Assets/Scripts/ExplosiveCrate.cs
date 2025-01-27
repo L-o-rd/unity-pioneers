@@ -10,6 +10,14 @@ public class ExplosiveCrate : Crate
 
     private bool hasExploded = false;
 
+    public float getExplosionRange()
+    {
+        return explosionRange;
+    }
+    public float getExplosionDamage()
+    {
+        return explosionDamage;
+    }
     public bool hasTrapExploded()
     {
         return hasExploded;
@@ -26,6 +34,7 @@ public class ExplosiveCrate : Crate
 
     private IEnumerator ExplosionDelay()
     {
+        Debug.Log("In enumerator");
         // Wait for 0.5 seconds
         yield return new WaitForSeconds(0.5f);
 
@@ -41,6 +50,7 @@ public class ExplosiveCrate : Crate
         Collider2D[] objectsInRange = Physics2D.OverlapCircleAll(transform.position, explosionRange);
         foreach (Collider2D obj in objectsInRange)
         {
+            Debug.Log(obj);
             // Trigger explosions in other crates
             if (obj.CompareTag("Trap"))
             {
@@ -54,6 +64,17 @@ public class ExplosiveCrate : Crate
             // Damage the player
             if (obj.CompareTag("Player"))
             {
+                Debug.Log(testMode);
+                if (testMode)
+                {
+                    MockPlayerStats mockPlayerStats = obj.GetComponent<MockPlayerStats>();
+                    Debug.Log(mockPlayerStats);
+                    if (mockPlayerStats != null)
+                    {
+                        mockPlayerStats.TakeDamage(explosionDamage);
+                    }
+                }
+                
                 PlayerStats playerStats = obj.GetComponent<PlayerStats>();
                 if (playerStats != null && !playerStats.isTrapImmune())
                 {
@@ -63,6 +84,15 @@ public class ExplosiveCrate : Crate
 
             if (obj.CompareTag("Enemy"))
             {
+                if (testMode)
+                {
+                    MockEnemyHealth mockEnemyHealth = obj.GetComponent<MockEnemyHealth>();
+                    if (mockEnemyHealth != null)
+                    {
+                        mockEnemyHealth.TakeDamage(explosionDamage);
+                    }
+                }
+
                 EnemyHealth enemy = obj.GetComponent<EnemyHealth>();
                 if (enemy != null)
                 {
@@ -88,7 +118,8 @@ public class ExplosiveCrate : Crate
 
     private void Start()
     {
-        explosionDamage = explosionDamage * GameObject.Find("RoomManager").GetComponent<RoomManager>().GetDifficulty();
+        if (!testMode)
+            explosionDamage = explosionDamage * GameObject.Find("RoomManager").GetComponent<RoomManager>().GetDifficulty();
     }
 
 }

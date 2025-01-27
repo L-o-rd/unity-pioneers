@@ -5,7 +5,7 @@ using UnityEngine;
 public class MockPlayerMovement : MonoBehaviour
 {
     public bool speedIncreased {get; private set;}
-
+    public bool speedDecreased {get; set;}
     public bool dashActive {get;private set;}
     public float maxSpeed {get;set;}
 
